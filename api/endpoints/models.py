@@ -16,7 +16,7 @@ class Project (models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class expense (models.Model):
+class Expense (models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     dossier = models.CharField(max_length=100)
