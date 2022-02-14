@@ -2,10 +2,10 @@
   <h1>
     Welcome!
   </h1>
-  <button (click)="getData()">Fetch Data</button>
-  <!-- <div *ngFor="let user of users">
-    <h3>
-      {{ user }}
-    </h3>
-  </div> -->
+  <!-- <button (click)="getData()">Fetch Data</button> -->
+  <div *ngFor="let user of users">
+    <h3> User {{user.id}}: {{ user.username }} </h3>
+    <div> Name: {{user.name}}</div>
+    <div> Surname: {{user.surname}}</div>
+  </div>
 </div>
