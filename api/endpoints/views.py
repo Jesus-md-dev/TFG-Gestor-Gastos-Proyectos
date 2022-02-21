@@ -1,9 +1,6 @@
-from atexit import register
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponse
 from endpoints.models import User, Project, Expense, ip_project
 from django.core.serializers import serialize
-from django.urls import path
 import datetime
 
 def create_user(request, username, password, name, surname, email):
@@ -112,6 +109,8 @@ def get_project_expenses(request, project_id):
         return HttpResponse(serialize('json', [expense]))
     except Project.DoesNotExist:
         return HttpResponse("Project Does Not Exist")
+    except Expense.DoesNotExist:
+        return HttpResponse("Expense Does Not Exist")
     except Expense.MultipleObjectsReturned:
         expenses = Expense.objects.filter(project=project)
         return HttpResponse(serialize('json', expenses))

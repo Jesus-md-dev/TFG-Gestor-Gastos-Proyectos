@@ -7,7 +7,7 @@ class User (models.Model):
     password = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=100)
-    email = models.EmailField(max_length=70)
+    email = models.EmailField(max_length=70, unique=True)
 
 
 class Project (models.Model):
@@ -30,5 +30,3 @@ class Expense (models.Model):
 class ip_project (models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-

@@ -1,0 +1,15 @@
+<h1>User Profile</h1>
+
+<div>
+    <h2>{{ user.username }}</h2>
+    <div>Name: {{ user.name }}</div>
+    <div>Surname: {{ user.surname }}</div>
+    <div>Password: {{ user.password }}</div>
+    <div>Email: {{ user.email }}</div>
+</div>
+
+<div *ngFor="let project of projects">
+    <h2>{{ project.name }}</h2>
+    <div>Category: {{ project.category }}</div>
+    <button type="button" [routerLink]="['/projects', project.id]"> Show </button>
+</div>

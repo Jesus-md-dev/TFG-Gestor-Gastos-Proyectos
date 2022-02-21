@@ -1,4 +1,3 @@
-from unicodedata import name
 from django.urls import path, register_converter
 from . import converters, views
 
