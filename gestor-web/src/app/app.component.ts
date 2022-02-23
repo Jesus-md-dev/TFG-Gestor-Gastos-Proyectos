@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -9,26 +9,34 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class AppComponent {
   title = 'gestor-web';
-  cur_lang: string;
+  langs: String[] = ["es", "en"];
 
   constructor(public translate: TranslateService) {
     {
       translate.addLangs(['en', 'es']);
       translate.setDefaultLang('en');
-      this.cur_lang = 'en'
     }
+  }
+
+  myFunc(){
+    console.log("function called");
+  }
+
+  public test() {
+    console.log(this.translate.langs)
   }
 
   switchLang(lang: string) {
     this.translate.use(lang);
   }
 
-  test() {
-    console.log(this.cur_lang)
-    if(this.cur_lang === 'es')
-      this.cur_lang = 'en'
-    else
-      this.cur_lang = 'es'
-    this.translate.use(this.cur_lang);
+  share() {
+    window.alert('The product has been shared!');
   }
+
+  onNotify() {
+    window.alert('You will be notified when the product goes on sale');
+  }
+
+
 }

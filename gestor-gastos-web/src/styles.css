@@ -16,7 +16,35 @@ mat-drawer-container {
   height: 100%;
   width: 100%;
   padding: 10px;
-  background-color: #3ac96f;
+  padding: 0;
+  text-align: center;
+}
+
+mat-drawer h1{
+ padding: 0;
+ margin: 0;
+}
+
+mat-drawer a{
+ text-decoration: none;
+}
+
+mat-drawer button {
+  width: 100%;
+}
+
+mat-toolbar {
+  background-color: #03772d;
+  margin: 0;
+}
+
+mat-toolbar a {
+  color: white;
+  text-decoration: none;
+}
+
+.lang-form {
+  width: 12vw
 }
 
 .main-content {

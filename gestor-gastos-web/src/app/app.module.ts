@@ -18,7 +18,7 @@ import { TestComponent } from './test/test.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectExpensesComponent } from './project-expenses/project-expenses.component';
-// import { UserListComponent } from './user-list/user-list.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,6 @@ import { ProjectExpensesComponent } from './project-expenses/project-expenses.co
     UserListComponent,
     UserProfileComponent,
     ProjectExpensesComponent,
-    // UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +39,7 @@ import { ProjectExpensesComponent } from './project-expenses/project-expenses.co
     MatToolbarModule,
     MatSidenavModule,
     MatDividerModule,
+    MatSelectModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
