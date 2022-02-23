@@ -1,0 +1,23 @@
+<div>
+  <h1>
+    {{'Users List' | translate}}
+  </h1>
+  <div>
+    <mat-divider></mat-divider>
+    <div *ngFor="let user of users">
+      <div>
+        <h3>
+          {{'User' | translate}} {{user.id}}: {{ user.username }}
+        </h3>
+        <div> {{'Name' | translate}}: {{user.name}}</div>
+        <div> {{'Surname' | translate}}: {{user.surname}}</div>
+        <div> {{'Password' | translate}}: {{user.password}}</div>
+        <div> {{'Email' | translate}}: {{user.email}}</div>
+        <button type="button" [routerLink]="['/users',user.username]">
+          {{'Profile' | translate}}
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</div>
