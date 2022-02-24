@@ -1,7 +1,13 @@
+html * {
+  font-size: 1.02em;
+  color: #000;
+}
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+
 }
 
 body {
@@ -10,6 +16,29 @@ body {
   height: 100vh;
   width: 100vw;
   background-color: #BDBDBD;
+}
+
+.main-content {
+  text-align: center;
+  margin-top: 3vw;
+}
+
+.spacer {
+  width: 100%;
+}
+
+.button-row-spacer button,
+.button-row-spacer a {
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.drawer-col button,
+.drawer-col a {
+  margin: 0%;
+  padding: 0%;
+  text-align: center;
+  font-size: large;
 }
 
 mat-drawer-container {
@@ -41,12 +70,4 @@ mat-toolbar {
 mat-toolbar a {
   color: white;
   text-decoration: none;
-}
-
-.lang-form {
-  width: 12vw
-}
-
-.main-content {
-  text-align: center;
 }

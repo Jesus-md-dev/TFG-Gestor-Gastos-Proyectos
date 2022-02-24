@@ -19,12 +19,7 @@ export class AppComponent {
     }
   }
 
-  switchLang(lang: string) {
-    this.translate.use(lang);
-  }
-
-  test() {
-    console.log(this.cur_lang)
+  switchLang() {
     if(this.cur_lang === 'es')
       this.cur_lang = 'en'
     else

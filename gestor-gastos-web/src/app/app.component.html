@@ -5,18 +5,38 @@
         <h1>Expenses Manager</h1>
       </a>
     </mat-toolbar>
-    <button mat-flat-button [routerLink]="['/users']"><mat-icon>account_circle</mat-icon>Users</button>
-    <button mat-flat-button [routerLink]="['/test']"><mat-icon>build</mat-icon>Test</button>
+    <div class="drawer-col">
+      <button mat-menu-item [routerLink]="['/users']">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{'Users' | translate}}</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/test']">
+        <mat-icon>build</mat-icon>
+        <span>{{'Test' | translate}}</span>
+      </button>
+    </div>
   </mat-drawer>
 
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" class="button-row-spacer">
     <button mat-icon-button aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
     <button mat-icon-button [routerLink]="['/']">
       <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
     </button>
-    <button mat-stroked-button (click)="test()">{{cur_lang}}</button>
+    <span class="spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <span>Log in</span>
+      </button>
+      <button mat-menu-item>
+        <span>Register</span>
+      </button>
+    </mat-menu>
+    <button mat-stroked-button (click)="switchLang()">{{cur_lang}}</button>
   </mat-toolbar>
 
   <div class="main-content">
