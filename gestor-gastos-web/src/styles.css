@@ -18,9 +18,14 @@ body {
   background-color: #BDBDBD;
 }
 
+.test-class {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 .main-content {
   text-align: center;
-  margin-top: 3vw;
 }
 
 .spacer {
@@ -44,6 +49,16 @@ body {
 .card-grid {
   margin-left: auto;
   margin-right: auto;
+}
+
+.card {
+  margin: 3%;
+}
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 mat-drawer-container {

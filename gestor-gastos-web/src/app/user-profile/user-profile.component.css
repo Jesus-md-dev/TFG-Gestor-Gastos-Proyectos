@@ -1,7 +1,14 @@
-.grid-top-spacer {
-  margin-top: 2%;
+.profile-body
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
 }
 
-mat-card {
-  margin-left: 2%;
+.profile-card {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  width: 70%;
 }
