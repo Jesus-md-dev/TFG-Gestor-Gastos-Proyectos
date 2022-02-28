@@ -41,6 +41,11 @@ body {
   font-size: large;
 }
 
+.card-grid {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 mat-drawer-container {
   height: 100%;
   width: 100%;

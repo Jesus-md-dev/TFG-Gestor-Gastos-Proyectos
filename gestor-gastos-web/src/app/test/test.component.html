@@ -1,38 +1,22 @@
-<!-- <mat-card class="example-card">
-  <mat-card-header>
-    <img mat-card-avatar src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card> -->
-
 <div class="content">
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of [1,2,3,4,5,6,7]">
-      <mat-card class="mat-elevation-z4">
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let num of [1,2,3,4,5,6,7]">
+      <mat-card class="example-card">
         <mat-card-header>
-          <mat-card-title>Mountains {{num}}</mat-card-title>
+          <img mat-card-avatar src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
+          <mat-card-title>Shiba Inu</mat-card-title>
+          <mat-card-subtitle>Dog Breed</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image src="./../assets/images/mountains.jpg">
         <mat-card-content>
           <p>
-            The Himalayas is a mountain range in Asia.
+            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+            bred for hunting.
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
+          <button mat-button>{{"Profile" | translate}}</button>
+          <button mat-button>{{"Expenses" | translate}}</button>
         </mat-card-actions>
       </mat-card>
     </div>

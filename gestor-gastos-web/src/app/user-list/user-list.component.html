@@ -1,24 +1,24 @@
+<h1>
+  {{'Users List' | translate}}
+</h1>
+
 <div>
-  <h1>
-    {{'Users List' | translate}}
-  </h1>
-  <div>
-    <mat-divider></mat-divider>
-    <div *ngFor="let user of users">
-      <div>
-        <h3>
-          <b>{{'User' | translate}} {{user.id}}:</b> {{ user.username }}
-        </h3>
-        <div> <b>{{'Name' | translate}}:</b> {{user.name}}</div>
-        <div> <b>{{'Surname' | translate}}:</b> {{user.surname}}</div>
-        <div> <b>{{'Password' | translate}}:</b> {{user.password}}</div>
-        <div> <b>{{'Email' | translate}}:</b> {{user.email}}</div>
-        <button mat-raised-button color="primary" type="button"
-          [routerLink]="['/users',user.username]">
-          {{'Profile' | translate}}
-        </button>
-      </div>
-      <mat-divider></mat-divider>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let user of users" class="card-grid">
+      <mat-card>
+        <mat-card-header>
+          <img mat-card-avatar src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
+          <mat-card-title>{{user.surname}}, {{user.name}}</mat-card-title>
+          <mat-card-subtitle>{{ user.username }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div> <b>{{'Email' | translate}}:</b> {{user.email}}</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button [routerLink]="['/users',user.username]">{{"Profile" | translate}}</button>
+          <button mat-button>{{"Expenses" | translate}}</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </div>
 </div>
