@@ -7,5 +7,21 @@
 			"path": "gestor-gastos-web"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"sqltools.connections": [
+			{
+				"mysqlOptions": {
+					"authProtocol": "default"
+				},
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 3306,
+				"driver": "MySQL",
+				"name": "TFG",
+				"database": "projectmanager",
+				"username": "djangouser",
+				"password": "contrasenadjangouser"
+			}
+		]
+	}
 }
