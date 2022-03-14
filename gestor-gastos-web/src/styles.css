@@ -18,6 +18,42 @@ body {
   background-color: #BDBDBD;
 }
 
+mat-drawer-container {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  padding: 0;
+  text-align: center;
+}
+
+mat-drawer h1{
+ padding: 0;
+ margin: 0;
+}
+
+mat-drawer a{
+ text-decoration: none;
+}
+
+mat-drawer button {
+  width: 100%;
+}
+
+mat-toolbar {
+  background-color: #03772d;
+  margin: 0;
+}
+
+mat-toolbar a {
+  color: white;
+  text-decoration: none;
+}
+
+
+table {
+text-align: left;
+}
+
 .test-class {
   margin: 0;
   padding: 0;
@@ -61,33 +97,8 @@ body {
   width: 100%;
 }
 
-mat-drawer-container {
-  height: 100%;
-  width: 100%;
-  padding: 10px;
-  padding: 0;
-  text-align: center;
-}
-
-mat-drawer h1{
- padding: 0;
- margin: 0;
-}
-
-mat-drawer a{
- text-decoration: none;
-}
-
-mat-drawer button {
-  width: 100%;
-}
-
-mat-toolbar {
-  background-color: #03772d;
-  margin: 0;
-}
-
-mat-toolbar a {
-  color: white;
-  text-decoration: none;
+.div-table {
+  margin: auto;
+  width: 80%;
+  margin-bottom: 5%;
 }
