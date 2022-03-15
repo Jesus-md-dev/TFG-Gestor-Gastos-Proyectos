@@ -36,7 +36,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class UserListComponent implements OnInit {
   users: any = []
   usersDataSource = new MatTableDataSource<User>([]);
-  displayedColumns: string[] = ['image', 'username', 'surname', 'name', 'email'];
+  displayedColumns: string[] = ['image', 'username', 'surname', 'name', 'email',
+    'expenses'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

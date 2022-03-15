@@ -1,13 +1,8 @@
 table {
-  /* text-align: left;
-  margin: auto;
-  margin-bottom: 5%; */
   width: 100%;
+  overflow-x: scroll;
 }
 
-img { width: 30px; height: 30px; }
+.profile-img { width: 30px; height: 30px; }
 
-
-.mat-column-image {
-  color: black;
-}
+.mat-column-image { color: black; }
