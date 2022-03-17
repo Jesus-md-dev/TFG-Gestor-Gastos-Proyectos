@@ -26,6 +26,10 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {FormsModule} from '@angular/forms';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import {LayoutModule} from '@angular/cdk/layout';
+
 
 @NgModule({
   declarations: [
@@ -50,11 +54,15 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     MatMenuModule,
     MatCardModule,
     FlexLayoutModule,
+    LayoutModule,
     MatFormFieldModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     ScrollingModule,
+    FormsModule,
+    MatNativeDateModule,
+    MatRippleModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

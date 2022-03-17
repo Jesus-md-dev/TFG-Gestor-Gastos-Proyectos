@@ -1,7 +1,6 @@
-import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -9,44 +8,45 @@ import {MatTableDataSource} from '@angular/material/table';
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css']
 })
+
 export class TestComponent implements AfterViewInit {
+  destroyed = new Subject<void>();
+  currentScreenSize: string | undefined;
+
+  // Create a map to display breakpoint names for demonstration purposes.
+  displayNameMap = new Map([
+    [Breakpoints.XSmall, 'XSmall'],
+    [Breakpoints.Small, 'Small'],
+    [Breakpoints.Medium, 'Medium'],
+    [Breakpoints.Large, 'Large'],
+    [Breakpoints.XLarge, 'XLarge'],
+  ]);
+
+  constructor(breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(result => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
+          }
+        }
+      });
+  }
   ngAfterViewInit(): void {
     throw new Error('Method not implemented.');
   }
-    elements: any = [
-    {
-      id: 1, heading1: 'Cell',
-      heading2: 'Cell',
-      heading3: 'Cell',
-      heading4: 'Cell',
-      heading5: 'Cell',
-      heading6: 'Cell',
-      heading7: 'Cell',
-      heading8: 'Cell',
-      heading9: 'Cell'
-    },
-    {
-      id: 2, heading1: 'Cell',
-      heading2: 'Cell',
-      heading3: 'Cell',
-      heading4: 'Cell',
-      heading5: 'Cell',
-      heading6: 'Cell',
-      heading7: 'Cell',
-      heading8: 'Cell',
-      heading9: 'Cell'
-    },
-    {
-      id: 3, heading1: 'Cell',
-      heading2: 'Cell',
-      heading3: 'Cell',
-      heading4: 'Cell',
-      heading5: 'Cell',
-      heading6: 'Cell',
-      heading7: 'Cell',
-      heading8: 'Cell',
-      heading9: 'Cell'
-    },
-  ];
-  headElements = ['ID', 'Heading', 'Heading', 'Heading', 'Heading', 'Heading', 'Heading', 'Heading', 'Heading', 'Heading'];
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
 }
