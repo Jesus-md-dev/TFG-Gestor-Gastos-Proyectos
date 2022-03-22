@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '../project';
 import { User } from '../user';
+import UsersList from '../userlist.json';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,8 +11,9 @@ import { User } from '../user';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  user: User
+  user = new User();
   projects: any = []
+  users: any = []
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.user = new User();
@@ -26,6 +28,8 @@ export class UserProfileComponent implements OnInit {
     this.http.get('http://127.0.0.1:8000/get_user_projects/' + username).subscribe((res) => {
       this.projects = Project.jsontoList(res);
     })
+    this.user = User.jsontoList(UsersList)[0];
+    this.users = User.jsontoList(UsersList);
   }
 
 }

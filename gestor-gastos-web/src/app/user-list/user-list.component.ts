@@ -5,7 +5,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { takeUntil } from 'rxjs';
 import { User } from '../user';
 import UsersList from '../userlist.json';
 
@@ -28,22 +27,28 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private http: HttpClient, private _liveAnnouncer: LiveAnnouncer,
     breakpointObserver: BreakpointObserver){
-    breakpointObserver.observe([Breakpoints.Small]).subscribe(result => {
-      this.usersDataSource.paginator = this.paginator;
-      this.usersDataSource.sort = this.sort;
-      for(const query of Object.keys(result.breakpoints)) {
-        if (result.breakpoints[query] && query === Breakpoints.Small) {
-          this.currentScreenSize = "Is Small";
-          this.isSmall = true;
-          console.log("Is Small")
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .subscribe(result => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            if(query === Breakpoints.Small || query === Breakpoints.XSmall) {
+              this.currentScreenSize = "Is Small " + query;
+              this.isSmall = true;
+            }
+            else {
+              this.currentScreenSize = "Not Small " + query;
+              this.isSmall = false;
+            }
+          }
         }
-        else {
-          this.currentScreenSize = "Not Small";
-          this.isSmall = false;
-          console.log("Not Small")
-        }
-      }
-    })
+      });
   }
 
   ngOnInit(): void {

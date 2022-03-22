@@ -72,7 +72,7 @@ import {LayoutModule} from '@angular/cdk/layout';
     }),
     RouterModule.forRoot([
       { path: 'users', component: UserListComponent },
-      { path: 'users/:username', component: UserProfileComponent },
+      { path: 'user/:username', component: UserProfileComponent },
       { path: 'projects/:projectId', component: ProjectExpensesComponent },
       { path: 'test', component: TestComponent },
     ]),

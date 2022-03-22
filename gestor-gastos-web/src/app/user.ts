@@ -1,18 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 
 export class User {
-    id: number | undefined;
-    username: string | undefined;
-    password: string | undefined;
-    name: string | undefined;
-    surname: string | undefined;
-    email: string | undefined;
+    id: number | null;
+    username: string;
+    password: string | null;
+    name: string | null;
+    surname: string | null;
+    email: string | null;
 
-    constructor()
-    constructor(id: number, username: string, password: string, name: string, 
-        surname: string, email: string)
-    constructor(id?: number, username?: string, password?: string, name?: string,
-        surname?: string, email?: string) {
+    constructor(id = null, username = "", password = null, name = null,
+        surname = null, email = null) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -20,9 +17,9 @@ export class User {
         this.surname = surname;
         this.email = email;
     }
-    
+
     static jsontoList(json: any) {
-        let users: any = [];
+        let users: User[] = [];
         json.forEach((user: any) => {
             users.push(new User(
                 user["pk"],
@@ -33,7 +30,7 @@ export class User {
                 user["fields"]["email"],
             ));
         });
-        return users;
+        return users.sort((a, b) => (a.username < b.username) ? -1 : 1);
     }
 
     static jsontoObject(json: any) { return this.jsontoList(json)[0]; }

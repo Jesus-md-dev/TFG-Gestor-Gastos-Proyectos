@@ -6,9 +6,17 @@
       </a>
     </mat-toolbar>
     <div class="drawer-col">
+      <button mat-menu-item [routerLink]="['/user/' + user.username]">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{'Profile' | translate}}</span>
+      </button>
       <button mat-menu-item [routerLink]="['/users']">
         <mat-icon>account_circle</mat-icon>
-        <span>{{'Users' | translate}}</span>
+        <span>{{'Projects' | translate}}</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/users']">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{'Expenses' | translate}}</span>
       </button>
       <button mat-menu-item [routerLink]="['/test']">
         <mat-icon>build</mat-icon>

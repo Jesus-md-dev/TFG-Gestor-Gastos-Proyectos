@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from './user';
+import UsersList from './userlist.json';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   title = 'gestor-web';
   cur_lang: string;
+  user = new User();
 
   constructor(public translate: TranslateService) {
     {
@@ -25,5 +28,9 @@ export class AppComponent {
     else
       this.cur_lang = 'es'
     this.translate.use(this.cur_lang);
+  }
+
+  ngOnInit(): void {
+    this.user = User.jsontoList(UsersList)[0];
   }
 }

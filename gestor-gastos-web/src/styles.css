@@ -7,7 +7,6 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-
 }
 
 body {
@@ -15,7 +14,6 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   height: 100vh;
   width: 100vw;
-  background-color: #BDBDBD;
 }
 
 mat-drawer-container {
@@ -62,6 +60,7 @@ text-align: left;
 
 .main-content {
   text-align: center;
+  background-color: #e9f1ed;
 }
 
 .spacer {
@@ -89,6 +88,7 @@ text-align: left;
 
 .card {
   margin: 3%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .toolbar {
@@ -97,11 +97,60 @@ text-align: left;
   width: 100%;
 }
 
+table {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.profile-img {
+  width: 2em;
+  height: 2em;
+}
+
+.mat-column-image {
+  color: black;
+}
+
+table {
+  width: 100%;
+}
+
+td.mat-column-star {
+  width: 20px;
+  padding-right: 8px !important;
+}
+
+td span {
+  font-weight: bold;
+}
+
 .div-table {
   margin: auto;
-  width: 80%;
+  width: 90%;
   margin-bottom: 5%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.img-project {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  width: 100%;
+  height: 10em;
+  object-fit: cover;
+  position: relative;
+  text-align: center;
+  margin-bottom: 2%;
+}
+
+.project-name {
+  font-size: 2em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000,
+    1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
 
 .div-content {
@@ -110,29 +159,64 @@ text-align: left;
   width: 90%;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius:15px;
+  border-radius: 15px;
   padding-bottom: 1%;
 }
 
-.img-project {
-  border-top-left-radius:15px;
-  border-top-right-radius:15px;
-  width: 100%;
-  height: 10em;
-  object-fit: cover;
-  position: relative;
-  text-align: center;
-  margin-bottom: 2%;
-  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+@media screen and (max-width: 960px) {
+
+  table {
+    weight: 50%;
+  }
+
+  .mat-table .mat-row {
+    display: block;
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 20%;
+    margin-right: -90%;
+    overflow: hidden;
+    height: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 3px;
+  }
+
+  .mat-table .mat-row+.mat-row {
+    margin-top: 24px;
+  }
+
+  .mat-table .mat-cell {
+    display: block;
+    padding: 0 1em;
+    margin: 1em 0;
+    border: 0 none;
+  }
+
+  .profile-img {
+    width: 3em;
+    height: 3em;
+  }
+
+  .div-table {
+    width: 100%;
+  }
+
+  .div-content {
+    width: 95%;
+  }
 }
 
-.project-name {
-  font-size: 2.2em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000,
-    1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+@media screen and (max-width: 730px) {
+  .mat-header-row {
+    display: none;
+  }
+
+  .mat-table .mat-row {
+    margin: 0;
+  }
+
+  .project-name {
+    font-size: 1.2em;
+  }
 }
