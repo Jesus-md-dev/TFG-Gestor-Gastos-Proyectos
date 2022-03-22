@@ -2,7 +2,7 @@
   <mat-drawer #drawer mode="side">
     <mat-toolbar color="primary">
       <a [routerLink]="['/']">
-        <h1>Expenses Manager</h1>
+        <h1>P.E.M</h1>
       </a>
     </mat-toolbar>
     <div class="drawer-col">
@@ -39,10 +39,10 @@
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
-          <span>Log in</span>
+          <span>{{'Log in' | translate}}</span>
         </button>
         <button mat-menu-item>
-          <span>Register</span>
+          <span>{{'Register' | translate}}</span>
         </button>
       </mat-menu>
       <button mat-stroked-button (click)="switchLang()">{{cur_lang}}</button>
