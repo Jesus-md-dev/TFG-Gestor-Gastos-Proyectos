@@ -40,6 +40,11 @@ mat-drawer-container {
   text-align: center;
 }
 
+mat-drawer {
+  width: auto;
+
+}
+
 mat-drawer h1{
  padding: 0;
  margin: 0;
@@ -54,13 +59,19 @@ mat-drawer button {
 }
 
 mat-toolbar {
-  background-color: #03772d;
+  background-color: #4CAF50;
   margin: 0;
 }
 
 mat-toolbar a {
-  color: white;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
   text-decoration: none;
+}
+
+.mat-drawer-inner-container {
+  background-color: #dbe7e1;
 }
 
 .test-class {
@@ -71,6 +82,10 @@ mat-toolbar a {
 
 .main-content {
   text-align: center;
+  height: 100%;
+}
+
+.mat-drawer-content {
   background-color: #e9f1ed;
 }
 
@@ -78,18 +93,14 @@ mat-toolbar a {
   width: 100%;
 }
 
-.button-row-spacer button,
-.button-row-spacer a {
-  margin-right: 2px;
-  margin-left: 2px;
-}
-
 .drawer-col button,
 .drawer-col a {
   margin: 0%;
   padding: 0%;
-  text-align: center;
+  text-align: left;
   font-size: large;
+  padding-right: 1em;
+  padding-left: 1em;
 }
 
 .card-grid {

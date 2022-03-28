@@ -1,14 +1,16 @@
 export class Project {
-    id: number | undefined;
-    name: string | undefined;
-    category: string | undefined;
-    admin: number | undefined;
+    id: number | null;
+    name: string | null;
+    category: string | null;
+    admin: number | null;
+    img: string | null;
 
-    constructor(id: number, name: string, category: string, admin: number) {
+    constructor(id = null, name = null, category = null, admin = null, img = null) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.admin = admin;
+        this.img = img;
     }
 
     static jsontoList(json: any) {
@@ -19,6 +21,7 @@ export class Project {
                 project["fields"]["name"],
                 project["fields"]["category"],
                 project["fields"]["admin"],
+                project["fields"]["img"],
             ));
         });
         return projects;

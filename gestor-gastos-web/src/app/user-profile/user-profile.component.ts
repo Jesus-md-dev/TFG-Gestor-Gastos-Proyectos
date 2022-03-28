@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Project } from '../project';
 import { User } from '../user';
 import UsersList from '../userlist.json';
+import ProjectList from '../projectlist.json';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,6 +31,7 @@ export class UserProfileComponent implements OnInit {
     })
     this.user = User.jsontoList(UsersList)[0];
     this.users = User.jsontoList(UsersList);
+    this.projects = Project.jsontoList(ProjectList);
   }
 
 }

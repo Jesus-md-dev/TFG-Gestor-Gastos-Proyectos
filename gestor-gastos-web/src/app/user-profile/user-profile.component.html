@@ -30,42 +30,17 @@
   </div>
 
   <div class="grid-top-spacer">
-    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxLayout="row wrap" fxLayoutGap="1em grid">
       <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of projects" class="card-grid">
         <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{ project.name }}</mat-card-title>
-            <mat-card-subtitle>{{'Category' | translate}}: {{ project.category }}</mat-card-subtitle>
-          </mat-card-header>
+          <img class="project-img-card" alt="" matCardImage src={{project.img}}>
+          <div class="project-name-card">{{project.name}}</div>
           <mat-card-content>
-            <div> <b>{{'Email' | translate}}:</b> {{user.email}}</div>
+            <h2>{{project.category}}</h2>
+            <button mat-raised-button [routerLink]="['/project/' + project.id]" color="accent">{{"Show" | translate}}</button>
           </mat-card-content>
-          <mat-card-actions>
-            <button mat-button [routerLink]="['/projects', project.id]">
-              {{"Show" | translate}}
-            </button>
-          </mat-card-actions>
         </mat-card>
       </div>
     </div>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="45%" *ngFor="let user of users" class="card-grid">
-    <mat-card class="card">
-      <mat-card-header>
-        <img alt="" mat-card-avatar src="https://interlineales.com/wp-content/uploads/2016/10/dummy-user-img.png">
-        <mat-card-title>{{user.surname}}, {{user.name}}</mat-card-title>
-        <mat-card-subtitle>{{ user.username }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div> <b>{{'Email' | translate}}:</b> {{user.email}}</div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button [routerLink]="['/users',user.username]">{{"Profile" | translate}}</button>
-        <button mat-button>{{"Expenses" | translate}}</button>
-      </mat-card-actions>
-    </mat-card>
   </div>
 </div>

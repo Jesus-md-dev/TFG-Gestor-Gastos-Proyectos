@@ -16,7 +16,6 @@ import {RouterModule} from '@angular/router';
 import {TestComponent} from './test/test.component';
 import {UserListComponent} from './user-list/user-list.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
-import {ProjectExpensesComponent} from './project-expenses/project-expenses.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
@@ -29,6 +28,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {FormsModule} from '@angular/forms';
 import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {LayoutModule} from '@angular/cdk/layout';
+import { ProjectDescriptionComponent } from './project-description/project-description.component';
 
 
 @NgModule({
@@ -37,7 +37,7 @@ import {LayoutModule} from '@angular/cdk/layout';
     TestComponent,
     UserListComponent,
     UserProfileComponent,
-    ProjectExpensesComponent,
+    ProjectDescriptionComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +73,7 @@ import {LayoutModule} from '@angular/cdk/layout';
     RouterModule.forRoot([
       { path: 'users', component: UserListComponent },
       { path: 'user/:username', component: UserProfileComponent },
-      { path: 'projects/:projectId', component: ProjectExpensesComponent },
+      { path: 'project/:projectId', component: ProjectDescriptionComponent },
       { path: 'test', component: TestComponent },
     ]),
   ],
