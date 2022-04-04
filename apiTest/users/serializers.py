@@ -1,3 +1,4 @@
+from wsgiref import validate
 from django.contrib.auth.models import User
 from rest_framework import serializers, validators
 
@@ -25,7 +26,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         email = validated_data.get('email')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
-        
+
         user = User.objects.create_user(
             username = username,
             password = password,
