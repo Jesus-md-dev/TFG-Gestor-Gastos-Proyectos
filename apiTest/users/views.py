@@ -5,9 +5,19 @@ from rest_framework.response import Response
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.auth import AuthToken
 from .serializers import RegisterSerializer
-from users.models import Project, Expense, ip_project
+from users.models import Project, Expense, ProjectMember
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
+
+@api_view(['GET'])
+def is_token_available(request):
+    user = request.user
+    if user.is_authenticated:
+        return Response({'message': 'available'})
+    else: 
+        return Response({'error': 'not authenticated'}, status=404)
+
+
 
 #MUST DELETE ENDPOINTS
 @api_view(['GET'])
@@ -170,6 +180,7 @@ def update_user(request):
 
 @api_view(['POST'])
 def login_api(request):
+    print("LOGIN")
     try:
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -430,8 +441,8 @@ def update_expense(request):
             return Response({'error': 'not authenticated'}, status=404)
     except Expense.DoesNotExist:
         return Response({'error': 'expense does not exist'}, status=404)
-    # except:
-    #     return Response({'error': 'not found'}, status=404)
+    except:
+        return Response({'error': 'not found'}, status=404)
 
 
 @api_view(['DELETE'])
@@ -450,6 +461,7 @@ def delete_expense(request):
             return Response({'error': 'expense does not exist'}, status=400)
     else:
         return Response({'error': 'not authenticated'}, status=400)
+
 
 # def get_project_expenses(request, project_id):
 #     try:

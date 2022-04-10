@@ -7,6 +7,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #e9f1ed;
 }
 
 body {
@@ -165,6 +166,12 @@ mat-toolbar a {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 15px;
   padding-bottom: 1%;
+}
+
+.login-card {
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-bottom: 25%;
 }
 
 @media screen and (max-width: 960px) {

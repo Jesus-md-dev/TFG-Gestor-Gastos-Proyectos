@@ -1,10 +1,13 @@
 {
 	"folders": [
 		{
-			"path": "api"
+			"path": "gestor-gastos-web"
 		},
 		{
-			"path": "gestor-gastos-web"
+			"path": "apiTest"
+		},
+		{
+			"path": "."
 		}
 	],
 	"settings": {

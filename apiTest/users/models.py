@@ -28,13 +28,9 @@ class Expense (models.Model):
 
     def as_json(self):
         return dict(id=self.id, project=self.project.name, user=self.user.username, 
-            dossier=self.dossier, date=str(self.date), concept=self.concept, amount=self.amount, 
-            vatpercentage=self.vatpercentage, final_amount=self.final_amount)
-
-
-class ip_project (models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+            dossier=self.dossier, date=str(self.date), concept=self.concept, 
+            amount=self.amount, vatpercentage=self.vatpercentage, 
+            final_amount=self.final_amount)
 
 
 class Profile(models.Model):
@@ -49,3 +45,9 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+
+class ProjectMember (models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_ip = models.BooleanField()

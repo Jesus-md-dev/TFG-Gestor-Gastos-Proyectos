@@ -4,6 +4,7 @@ from knox import views as knox_views
 
 urlpatterns = [
     path('clear_users/', views.clear_users),
+    path('tokenavailable/', views.is_token_available),
 
     path('login/', views.login_api),
     path('logout/', knox_views.LogoutView.as_view()),
