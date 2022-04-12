@@ -20,10 +20,10 @@
 				"server": "localhost",
 				"port": 3306,
 				"driver": "MySQL",
-				"name": "TFG",
+				"name": "projectmanager",
 				"database": "projectmanager",
-				"username": "djangouser",
-				"password": "contrasenadjangouser"
+				"username": "root",
+				"password": ""
 			}
 		]
 	}

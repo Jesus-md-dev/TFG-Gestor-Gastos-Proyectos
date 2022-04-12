@@ -1,3 +1,7 @@
+import axios from "axios";
+import { GlobalComponent } from "./global-component";
+import { LocalStorageService } from "./local-storage.service";
+
 export class Project {
     id: number | null;
     name: string | null;
@@ -17,11 +21,11 @@ export class Project {
         let projects: any = [];
         json.forEach((project: any) => {
             projects.push(new Project(
-                project["pk"],
-                project["fields"]["name"],
-                project["fields"]["category"],
-                project["fields"]["admin"],
-                project["fields"]["img"],
+                project["id"],
+                project["name"],
+                project["category"],
+                project["admin"],
+                project["img"],
             ));
         });
         return projects;

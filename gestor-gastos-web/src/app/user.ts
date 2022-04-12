@@ -1,3 +1,7 @@
+import axios from "axios";
+import { GlobalComponent } from "./global-component";
+import { LocalStorageService } from "./local-storage.service";
+
 export class User {
   id: number | null;
   username: string;
@@ -7,19 +11,51 @@ export class User {
   img: string | null;
 
   constructor(
-    id = null,
     username = '',
+    id = null,
     first_name = null,
-    last_first_name = null,
+    last_name = null,
     email = null,
     img = null
   ) {
-    this.id = id;
     this.username = username;
+    this.id = id;
     this.first_name = first_name;
-    this.last_name = last_first_name;
+    this.last_name = last_name;
     this.email = email;
     this.img = img;
+    if (
+      id == null &&
+      first_name == null &&
+      last_name == null &&
+      email == null &&
+      img == null
+    ) {
+      let data = [];
+      let localStorageService = new LocalStorageService();
+      axios
+        .get(
+          GlobalComponent.apiUrl +
+            '/api/user/' +
+            localStorageService.get('username'),
+          {
+            headers: {
+              Authorization: 'Token ' + localStorageService.get('token'),
+            },
+          }
+        )
+        .then(
+          (response) => {
+            data = response['data']['user_info'];
+            this.id = data['id'];
+            this.first_name = data['first_name'];
+            this.last_name = data['last_name'];
+            this.email = data['email'];
+            this.img = data['img'];
+          },
+          (error) => {}
+        );
+    }
   }
 
   static jsontoList(json: any) {

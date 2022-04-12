@@ -15,7 +15,8 @@ export class AppComponent implements OnInit {
   cur_lang: string;
   username!: string | null;
   password!: string | null;
-  isLogged = false;
+  isLogged = true;
+  apiIsAlive = true;
   localStorageService = new LocalStorageService();
 
   constructor(public translate: TranslateService, private http: HttpClient) {
@@ -33,9 +34,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.localStorageService.get('token') != null) this.isTokenAvailable();
-    else this.isLogged = false;
-    this.test()
+    this.isApiAlive();
+    if (this.apiIsAlive)
+      if (this.localStorageService.get('token') != null) this.isTokenAvailable();
+      else this.isLogged = false;
   }
 
   login() {
@@ -46,14 +48,12 @@ export class AppComponent implements OnInit {
       })
       .then(
         (response) => {
-          console.log(response);
           this.localStorageService.set('token', response['data']['token']);
           this.localStorageService.set('username',
             response['data']['user_info']['username']);
           this.ngOnInit();
         },
         (error) => {
-          console.log(error);
         }
       );
   }
@@ -67,11 +67,9 @@ export class AppComponent implements OnInit {
       }})
       .then(
         (response) => {
-          console.log(response)
           this.ngOnInit();
         },
         (error) => {
-          console.log(error);
         }
       );
   }
@@ -88,18 +86,22 @@ export class AppComponent implements OnInit {
       )
       .then(
         (response) => {
-          console.log(response);
           this.isLogged = true;
         },
         (error) => {
-          console.log(error);
           this.isLogged = false;
         }
       );
   }
 
-  test() {
-    console.log(this.localStorageService.get('token') + " " +
-      this.localStorageService.get('username'));
+  isApiAlive() {
+    axios
+      .get(GlobalComponent.apiUrl + '/api/isalive/')
+      .then(
+        (response) => { this.apiIsAlive = true; },
+        (error) => {
+          this.apiIsAlive = false;
+        }
+      );
   }
 }

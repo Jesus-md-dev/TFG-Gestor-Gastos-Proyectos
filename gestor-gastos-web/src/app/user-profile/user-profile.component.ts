@@ -15,45 +15,30 @@ import axios from 'axios';
 export class UserProfileComponent implements OnInit {
   user = new User();
   projects: any = [];
-  users: any = [];
   localStorageService = new LocalStorageService()
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {
-    this.user = new User();
-  }
+  constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // this.http
-    //   .get(GlobalComponent.apiUrl + '/api/user/' + username)
-    //   .subscribe((res) => {
-    //     this.user = User.jsontoObject(res);
-    //   });
-    // this.http
-    //   .get('http://127.0.0.1:8000/get_user_projects/' + username)
-    //   .subscribe((res) => {
-    //     this.projects = Project.jsontoList(res);
-    //   });
-
-    axios
-      .get(
-        GlobalComponent.apiUrl +
-          '/api/user/' +
-          this.localStorageService.get('username'),
-        {
-          headers: {
-            Authorization: 'Token ' + this.localStorageService.get('token'),
-          },
-        }
-      )
-      .then(
-        (response) => {
-          console.log(response);
-          this.user = User.jsontoObject(response['data']['user_info']);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    //TODO rellenar projects
+    let username = this.localStorageService.get('username') ?? undefined;
+    if (this.localStorageService.get('username') != undefined)
+    {
+      this.user = new User(username);
+      axios
+        .get(
+          GlobalComponent.apiUrl +
+            '/api/projects/' +
+            this.localStorageService.get('username'),
+          {
+            headers: {
+              Authorization: 'Token ' + this.localStorageService.get('token'),
+            },
+          }
+        )
+        .then(
+          (response) => { this.projects = Project.jsontoList(response['data']); },
+          (error) => {}
+        );
+    }
   }
 }

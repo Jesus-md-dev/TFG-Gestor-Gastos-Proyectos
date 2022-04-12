@@ -9,15 +9,6 @@ from users.models import Project, Expense, ProjectMember
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
 
-@api_view(['GET'])
-def is_token_available(request):
-    user = request.user
-    if user.is_authenticated:
-        return Response({'message': 'available'})
-    else: 
-        return Response({'error': 'not authenticated'}, status=404)
-
-
 
 #MUST DELETE ENDPOINTS
 @api_view(['GET'])
@@ -30,6 +21,20 @@ def clear_users(request):
 
 #https://changsin.medium.com/how-to-serialize-a-class-object-to-json-in-python-849697a0cd3
 #ADMIN ENDPOINTS
+@api_view(['GET'])
+def is_token_available(request):
+    user = request.user
+    if user.is_authenticated:
+        return Response({'message': 'token available'})
+    else: 
+        return Response({'error': 'not authenticated'}, status=404)
+
+        
+@api_view(['GET'])
+def is_alive(request):
+    return Response({'message': 'available'})
+
+
 @api_view(['GET'])
 def get_all_users(request):
     try:
@@ -220,6 +225,26 @@ def delete_user(request):
         return Response({'error': 'user does not exist'}, status=404)
     except:
         return Response({'error': 'not found'}, status=404)
+
+
+@api_view(['GET'])
+def read_user_projects(request, username):
+    try:
+        user = request.user
+        user_requested = User.objects.get(username=username)
+        user_projects = Project.objects.filter(admin=user_requested)
+        if user.is_authenticated:
+            if user.is_superuser or user.id == user_requested.id:
+                projects = [project.as_json() for project in user_projects]
+                return HttpResponse(json.dumps(projects))
+            else:
+                return Response({'error': 'not allowed'}, status=405)
+        else: 
+            return Response({'error': 'not authenticated'}, status=404)
+    except User.DoesNotExist:
+        return Response({'error': 'user does not exist'}, status=404)
+    except:
+        return Response({'error': 'not found'}, status=404)  
 
 
 #PROJECT ENDPOINTS
