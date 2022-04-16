@@ -10,28 +10,35 @@ export class Project {
     img: string | null;
 
     constructor(id = null, name = null, category = null, admin = null, img = null) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.admin = admin;
-        this.img = img;
+      this.id = id;
+      this.name = name;
+      this.category = category;
+      this.admin = admin;
+      this.img = img;
     }
 
     static jsontoList(json: any) {
-        let projects: any = [];
-        json.forEach((project: any) => {
-            projects.push(new Project(
-                project["id"],
-                project["name"],
-                project["category"],
-                project["admin"],
-                project["img"],
-            ));
-        });
-        return projects;
+      console.log(json)
+      let projects: any = [];
+      json.forEach((project: any) => {
+          projects.push(new Project(
+              project["id"],
+              project["name"],
+              project["category"],
+              project["admin"],
+              project["img"],
+          ));
+      });
+      return projects;
     }
 
-    static jsontoObject(json: any) {
-        return this.jsontoList(json)[0];
+    static jsontoObject(project: any) {
+      return new Project(
+        project['id'],
+        project['name'],
+        project['category'],
+        project['admin'],
+        project['img'],
+      );
     }
 }

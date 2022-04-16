@@ -19,7 +19,6 @@ def clear_users(request):
             user.delete()
     return Response({'message': 'clear'})
 
-#https://changsin.medium.com/how-to-serialize-a-class-object-to-json-in-python-849697a0cd3
 #ADMIN ENDPOINTS
 @api_view(['GET'])
 def is_token_available(request):
@@ -350,7 +349,6 @@ def delete_project(request):
         return Response({'error': 'not authenticated'}, status=400)
 
 
-#TODO
 #EXPENSE ENDPOINTS
 @api_view(['POST'])
 def create_expense(request):
@@ -488,15 +486,138 @@ def delete_expense(request):
         return Response({'error': 'not authenticated'}, status=400)
 
 
-# def get_project_expenses(request, project_id):
-#     try:
-#         project = Project.objects.get(pk=project_id)
-#         expense = Expense.objects.get(project=project)
-#         return HttpResponse(serialize('json', [expense]))
-#     except Project.DoesNotExist:
-#         return HttpResponse("Project Does Not Exist")
-#     except Expense.DoesNotExist:
-#         return HttpResponse("Expense Does Not Exist")
-#     except Expense.MultipleObjectsReturned:
-#         expenses = Expense.objects.filter(project=project)
-#         return HttpResponse(serialize('json', expenses))
+#PROJECTMEMBER ENDPOINTS
+@api_view(['POST'])
+def add_project_member(request):
+    user = request.user
+    if user.is_authenticated:
+        project_requested = Project.objects.get(id = request.data.get('project_id'))
+        user_requested = User.objects.get(username = request.data.get('username'))
+        #TODO usuario administra projecto y usuario enviado pertenece projecto
+        if (project_requested.admin == user and True) or user.is_superuser:
+            amount = float(request.data.get('amount'))
+            vatpercentage = float(request.data.get('vatpercentage'))
+            try:
+                expense = Expense(project=project_requested, 
+                    user=user_requested,
+                    dossier=request.data.get('dossier'),
+                    date=request.data.get('date'),
+                    concept=request.data.get('concept'),
+                    amount=round(amount, 2),
+                    vatpercentage=round(vatpercentage, 2),
+                    final_amount=round(amount + (amount * vatpercentage / 100), 2))
+                expense.save()
+                return Response({
+                    'project_info': {
+                        'id': expense.id,
+                        'dossier': expense.dossier,
+                        'date': expense.date,
+                        'concept': expense.concept,
+                        'amount': expense.amount,
+                        'vatpercetange': expense.vatpercentage,
+                        'final_amount': expense.final_amount,
+                        'project': expense.project.name,
+                        'admin': expense.user.username,
+                    },
+                })
+            except:
+                return Response({'error': 'error in expense parameters'})
+        else: 
+            return Response({'error': 'not authorized'}, status=401)
+    else:
+        return Response({'error': 'not authenticated'}, status=400)
+
+
+@api_view(['GET'])
+def read_expense(request, id):
+    try:
+        user = request.user
+        expense_requested = Expense.objects.get(id=id)
+        if user.is_authenticated:
+            if user.is_superuser or user == expense_requested.user or user == expense_requested.project.admin:
+                return Response({
+                    'project_info': {
+                        'id': expense_requested.id,
+                        'dossier': expense_requested.dossier,
+                        'date': expense_requested.date,
+                        'concept': expense_requested.concept,
+                        'amount': expense_requested.amount,
+                        'vatpercetange': expense_requested.vatpercentage,
+                        'final_amount': expense_requested.final_amount,
+                        'project': expense_requested.project.name,
+                        'admin': expense_requested.user.username,
+                    },
+                })
+            else:
+                return Response({'error': 'not allowed'}, status=405)
+        else: 
+            return Response({'error': 'not authenticated'}, status=404)
+    except Expense.DoesNotExist:
+        return Response({'error': 'expense does not exist'}, status=404)
+    except:
+        return Response({'error': 'not found'}, status=404)
+
+
+@api_view(['PUT'])
+def update_expense(request):
+    try:
+        if 'id' not in request.data:
+            return Response({'error': 'project id required'}, status=400)
+        expense_requested = Expense.objects.get(id=request.data['id'])
+        user = request.user
+        if user.is_authenticated:
+            #TODO usuario administra projecto y usuario enviado pertenece projecto
+            if user.is_superuser or (expense_requested.projet.admin == user and True):
+                if 'dossier' in request.data:
+                    expense_requested.dossier = request.data['dossier']
+                if 'date' in request.data:
+                    expense_requested.date = request.data['date']
+                if 'concept' in request.data:
+                    expense_requested.concept =  request.data['concept']
+                if 'amount' in request.data:
+                    expense_requested.amount = round(float(request.data['amount']), 2)
+                if 'vatpercentage' in request.data:
+                    expense_requested.vatpercentage = round(float(request.data['vatpercentage']), 2)
+                
+                expense_requested.final_amount=round(expense_requested.amount + 
+                    (expense_requested.amount * expense_requested.vatpercentage / 100), 2)
+                expense_requested.save()
+                return Response({
+                    'project_info': {
+                        'id': expense_requested.id,
+                        'dossier': expense_requested.dossier,
+                        'date': expense_requested.date,
+                        'concept': expense_requested.concept,
+                        'amount': expense_requested.amount,
+                        'vatpercetange': expense_requested.vatpercentage,
+                        'final_amount': expense_requested.final_amount,
+                        'project': expense_requested.project.name,
+                        'admin': expense_requested.user.username,
+                    },
+                })
+            else:
+                return Response({'error': 'not authorized'}, status=401)
+        else: 
+            return Response({'error': 'not authenticated'}, status=404)
+    except Expense.DoesNotExist:
+        return Response({'error': 'expense does not exist'}, status=404)
+    except:
+        return Response({'error': 'not found'}, status=404)
+
+
+@api_view(['DELETE'])
+def delete_expense(request):
+    user = request.user
+    if user.is_authenticated:
+        try:
+            expense = Expense.objects.get(pk=request.data.get('id'))
+            if user == expense.project.admin or user.is_superuser:
+                id = expense.id
+                expense.delete()
+                return Response({"expense_info": "expense " + str(id) + " deleted"})
+            else:
+                return Response({'error': 'not authorized'}, status=401)
+        except Project.DoesNotExist:
+            return Response({'error': 'expense does not exist'}, status=400)
+    else:
+        return Response({'error': 'not authenticated'}, status=400)
