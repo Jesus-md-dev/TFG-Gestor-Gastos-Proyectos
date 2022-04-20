@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import axios from 'axios';
 import { GlobalComponent } from './global-component';
@@ -11,6 +12,8 @@ import { LocalStorageService } from './local-storage.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  usernameFormControl = new FormControl('', [Validators.required]);
+  passwordFormControl = new FormControl('', [Validators.required]);
   title = 'gestor-web';
   cur_lang: string;
   username!: string | null;
@@ -36,7 +39,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.isApiAlive();
     if (this.apiIsAlive)
-      if (this.localStorageService.get('token') != null) this.isTokenAvailable();
+      if (this.localStorageService.get('token') != null)
+        this.isTokenAvailable();
       else this.isLogged = false;
   }
 
@@ -49,41 +53,45 @@ export class AppComponent implements OnInit {
       .then(
         (response) => {
           this.localStorageService.set('token', response['data']['token']);
-          this.localStorageService.set('username',
-            response['data']['user_info']['username']);
+          this.localStorageService.set(
+            'username',
+            response['data']['user_info']['username']
+          );
           this.ngOnInit();
         },
-        (error) => {
-        }
+        (error) => {}
       );
   }
 
   logout() {
     axios
-      .post(GlobalComponent.apiUrl + '/api/logout/',
-      {},
-      { headers:{
-        'Authorization': 'Token ' + this.localStorageService.get('token')
-      }})
-      .then(
-        (response) => {
-          this.ngOnInit();
-        },
-        (error) => {
-        }
-      );
-  }
-
-  isTokenAvailable() {
-    axios
-      .get(
-        GlobalComponent.apiUrl + '/api/tokenavailable/',
+      .post(
+        GlobalComponent.apiUrl + '/api/logout/',
+        {},
         {
           headers: {
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }
       )
+      .then(
+        (response) => {
+          this.ngOnInit();
+        },
+        (error) => {}
+      );
+
+      this.localStorageService.remove('token');
+      this.localStorageService.remove('username');
+  }
+
+  isTokenAvailable() {
+    axios
+      .get(GlobalComponent.apiUrl + '/api/tokenavailable/', {
+        headers: {
+          Authorization: 'Token ' + this.localStorageService.get('token'),
+        },
+      })
       .then(
         (response) => {
           this.isLogged = true;
@@ -95,13 +103,13 @@ export class AppComponent implements OnInit {
   }
 
   isApiAlive() {
-    axios
-      .get(GlobalComponent.apiUrl + '/api/isalive/')
-      .then(
-        (response) => { this.apiIsAlive = true; },
-        (error) => {
-          this.apiIsAlive = false;
-        }
-      );
+    axios.get(GlobalComponent.apiUrl + '/api/isalive/').then(
+      (response) => {
+        this.apiIsAlive = true;
+      },
+      (error) => {
+        this.apiIsAlive = false;
+      }
+    );
   }
 }

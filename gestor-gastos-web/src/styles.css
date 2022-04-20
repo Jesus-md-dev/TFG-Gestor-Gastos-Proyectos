@@ -172,6 +172,11 @@ mat-toolbar a {
   margin-left: 25%;
   margin-right: 25%;
   margin-bottom: 25%;
+  text-align: center;
+}
+
+.login-card {
+  text-align: center;
 }
 
 .server-down {
@@ -183,6 +188,15 @@ mat-toolbar a {
 
 .server-down h1 {
   font-size: 3em;
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+}
+
+.button-container-space-between {
+  align-content: space-between;
 }
 
 @media screen and (max-width: 960px) {
