@@ -168,14 +168,27 @@ mat-toolbar a {
   padding-bottom: 1%;
 }
 
-.login-card {
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-bottom: 25%;
-  text-align: center;
+.login {
+  margin-top: 10%;
+}
+
+.login mat-form-field {
+  width: 100%;
+
+}
+
+.login .button-container-space-between {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-card {
+  margin-left: auto;
+  margin-right: auto;
+  width: 25em;
   text-align: center;
 }
 
@@ -193,10 +206,6 @@ mat-toolbar a {
 .title {
   width: 100%;
   text-align: center;
-}
-
-.button-container-space-between {
-  align-content: space-between;
 }
 
 @media screen and (max-width: 960px) {

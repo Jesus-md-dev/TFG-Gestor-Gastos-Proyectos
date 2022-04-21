@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import axios from 'axios';
 import { GlobalComponent } from './global-component';
@@ -12,17 +13,19 @@ import { LocalStorageService } from './local-storage.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  usernameFormControl = new FormControl('', [Validators.required]);
-  passwordFormControl = new FormControl('', [Validators.required]);
   title = 'gestor-web';
   cur_lang: string;
-  username!: string | null;
-  password!: string | null;
+  username: string | any;
+  password: string | any;
   isLogged = true;
   apiIsAlive = true;
   localStorageService = new LocalStorageService();
 
-  constructor(public translate: TranslateService, private http: HttpClient) {
+  constructor(
+    public translate: TranslateService,
+    private http: HttpClient,
+    private router: Router
+  ) {
     {
       translate.addLangs(['en', 'es']);
       translate.setDefaultLang('en');
@@ -41,26 +44,10 @@ export class AppComponent implements OnInit {
     if (this.apiIsAlive)
       if (this.localStorageService.get('token') != null)
         this.isTokenAvailable();
-      else this.isLogged = false;
-  }
-
-  login() {
-    axios
-      .post(GlobalComponent.apiUrl + '/api/login/', {
-        username: this.username,
-        password: this.password,
-      })
-      .then(
-        (response) => {
-          this.localStorageService.set('token', response['data']['token']);
-          this.localStorageService.set(
-            'username',
-            response['data']['user_info']['username']
-          );
-          this.ngOnInit();
-        },
-        (error) => {}
-      );
+      else {
+        this.isLogged = false;
+        this.router.navigate(['/login']);
+      }
   }
 
   logout() {
@@ -81,8 +68,8 @@ export class AppComponent implements OnInit {
         (error) => {}
       );
 
-      this.localStorageService.remove('token');
-      this.localStorageService.remove('username');
+    this.localStorageService.remove('token');
+    this.localStorageService.remove('username');
   }
 
   isTokenAvailable() {

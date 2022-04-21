@@ -30,6 +30,7 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
 import { MatInputModule } from '@angular/material/input';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatInputModule } from '@angular/material/input';
     UserListComponent,
     UserProfileComponent,
     ProjectDescriptionComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +79,7 @@ import { MatInputModule } from '@angular/material/input';
       { path: 'user/:username', component: UserProfileComponent },
       { path: 'project/:projectId', component: ProjectDescriptionComponent },
       { path: 'test', component: TestComponent },
+      { path: 'login', component: LoginComponent }
     ]),
   ],
   providers: [],

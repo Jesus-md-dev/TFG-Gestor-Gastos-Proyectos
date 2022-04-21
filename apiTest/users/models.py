@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import User
@@ -9,7 +8,7 @@ class Project (models.Model):
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
-    img = models.URLField(default=NULL)
+    img = models.URLField(default="")
 
     def as_json(self):
         return dict(id=self.id, name=self.name, category=self.category, 
