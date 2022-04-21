@@ -1,7 +1,3 @@
-import axios from "axios";
-import { GlobalComponent } from "./global-component";
-import { LocalStorageService } from "./local-storage.service";
-
 export class Project {
     id: number | null;
     name: string | null;
@@ -18,7 +14,6 @@ export class Project {
     }
 
     static jsontoList(json: any) {
-      console.log(json)
       let projects: any = [];
       json.forEach((project: any) => {
           projects.push(new Project(

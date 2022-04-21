@@ -1,6 +1,4 @@
-import axios from "axios";
-import { GlobalComponent } from "./global-component";
-import { LocalStorageService } from "./local-storage.service";
+import { UserService } from "./user.service";
 
 export class User {
   id: number | null;
@@ -24,6 +22,21 @@ export class User {
     this.last_name = last_name;
     this.email = email;
     this.img = img;
+    if (
+      id == null ||
+      first_name == null ||
+      last_name == null ||
+      email == null ||
+      img == null
+    ) {
+      UserService.getUserData(username).then((response) => {
+        this.id = response['id'];
+        this.first_name = response['first_name'];
+        this.last_name = response['last_name'];
+        this.email = response['email'];
+        this.img = response['img'];
+      });
+    }
   }
 
   static jsontoList(json: any) {
@@ -53,4 +66,6 @@ export class User {
       user['img']
     );
   }
+
+  async getProjects() { return await UserService.getUserProjects(this.username); }
 }

@@ -1,19 +1,14 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Project } from '../project';
 import { User } from '../user';
-import UsersList from '../userlist.json';
-import ProjectList from '../projectlist.json';
-import axios from 'axios';
-import { GlobalComponent } from '../global-component';
 import { LocalStorageService } from '../local-storage.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../project.service';
 
 
 @Component({
@@ -23,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProjectDescriptionComponent implements OnInit {
   users: User[] = [];
-  project: Project = new Project();
+  project: any = new Project();
   usersDataSource = new MatTableDataSource<User>([]);
   displayedColumns: string[] = [
     'image',
@@ -43,8 +38,6 @@ export class ProjectDescriptionComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
-    private http: HttpClient,
-    private _liveAnnouncer: LiveAnnouncer,
     breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute
   ) {
@@ -76,33 +69,16 @@ export class ProjectDescriptionComponent implements OnInit {
       this.routeSub = this.route.params.subscribe((params) => {
         this.projectId = params['projectId'];
       });
-      axios
-        .get(GlobalComponent.apiUrl + '/api/users', {
-          headers: {
-            Authorization: 'Token ' + this.localStorageService.get('token'),
-          },
-        })
-        .then(
-          (response) => {
-            this.users = User.jsontoList(response['data']);
-            this.usersDataSource = new MatTableDataSource<User>(this.users);
-          },
-        );
-      axios
-        .get(
-          GlobalComponent.apiUrl +
-            '/api/project/' + this.projectId,
-          {
-            headers: {
-              Authorization: 'Token ' + this.localStorageService.get('token'),
-            },
-          }
-        )
-        .then(
-          (response) => {
-            this.project = Project.jsontoObject(response['data']['project_info']);
-          },
-        );
+
+      ProjectService.getProjectMembers(this.projectId).then((response) => {
+        this.users = response;
+        this.usersDataSource = new MatTableDataSource<User>(this.users);
+      });
+
+      ProjectService.loadProjectData(this.projectId).then((response) => {
+        console.log(response);
+        this.project = response;
+      });
     } catch (error) {}
   }
 

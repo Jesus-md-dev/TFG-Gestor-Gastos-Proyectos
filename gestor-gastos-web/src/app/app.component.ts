@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import axios from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
+import { User } from './user';
 
 @Component({
   selector: 'app-root',
@@ -44,10 +44,11 @@ export class AppComponent implements OnInit {
     if (this.apiIsAlive)
       if (this.localStorageService.get('token') != null)
         this.isTokenAvailable();
-      else {
-        this.isLogged = false;
-        this.router.navigate(['/login']);
-      }
+      else this.isLogged = false;
+    if (!this.isLogged) this.router.navigate(['/login']);
+    else {
+      let user = new User('admin');
+    }
   }
 
   logout() {

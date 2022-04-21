@@ -14,7 +14,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TestComponent } from './test/test.component';
-import { UserListComponent } from './user-list/user-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
@@ -36,7 +35,6 @@ import { LoginComponent } from './login/login.component';
   declarations: [
     AppComponent,
     TestComponent,
-    UserListComponent,
     UserProfileComponent,
     ProjectDescriptionComponent,
     LoginComponent,
@@ -75,7 +73,6 @@ import { LoginComponent } from './login/login.component';
       },
     }),
     RouterModule.forRoot([
-      { path: 'users', component: UserListComponent },
       { path: 'user/:username', component: UserProfileComponent },
       { path: 'project/:projectId', component: ProjectDescriptionComponent },
       { path: 'test', component: TestComponent },

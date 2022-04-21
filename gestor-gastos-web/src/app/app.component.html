@@ -26,7 +26,6 @@
         </button>
       </div>
     </mat-drawer>
-
     <div class="main-content">
       <mat-toolbar color="primary" class="toolbar, button-row-spacer">
         <button mat-icon-button aria-label="Example icon-button with menu icon"
@@ -52,36 +51,6 @@
   </mat-drawer-container>
   <ng-template #elseNotLogged>
     <router-outlet></router-outlet>
-    <!-- <div class="login">
-      <h1 class="title">Project Expenses Manager</h1>
-      <mat-card class="login-card">
-        <mat-card-title>Login</mat-card-title>
-        <form class="custom-form" method="post">
-          <mat-card-content>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Username</mat-label>
-              <input type="username" matInput [formControl]="usernameFormControl" [(ngModel)]="username" />
-              <mat-error *ngIf="usernameFormControl.hasError('required')">
-                Username is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </mat-card-content>
-          <mat-card-content>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Password</mat-label>
-              <input type="password" matInput [formControl]="passwordFormControl" [(ngModel)]="password">
-              <mat-error *ngIf="passwordFormControl.hasError('required')">
-                Password is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </mat-card-content>
-          <mat-card-content class="button-container-space-between">
-            <button mat-raised-button (click)="login()" color="primary">{{'Login' | translate}}</button>
-            <button mat-raised-button color="secondary">{{'Register' | translate}}</button>
-          </mat-card-content>
-        </form>
-      </mat-card>
-    </div> -->
   </ng-template>
 </ng-container>
 <ng-template #elseApiNotAlive>
@@ -89,5 +58,3 @@
     <h1>SERVER IS DOWN :'(</h1>
   </div>
 </ng-template>
-
-<!--  -->
