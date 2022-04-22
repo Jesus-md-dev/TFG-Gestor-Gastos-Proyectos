@@ -1,67 +1,63 @@
-<div class="login">
-  <h1 class="title">Project Expenses Manager</h1>
-  <mat-card class="login-card">
-    <mat-card-title>Register</mat-card-title>
-    <form class="custom-form" (ngSubmit)="register()" [formGroup]="formGroup">
+<mat-card-title>Register</mat-card-title>
+<form class="custom-form" (ngSubmit)="register()" [formGroup]="formGroup">
 
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Username</mat-label>
-          <input type="username" matInput formControlName="username" />
-          <mat-error>
-            Username is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Username</mat-label>
+      <input type="username" matInput formControlName="username" />
+      <mat-error>
+        Username is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>First Name</mat-label>
-          <input type="first_name" matInput formControlName="first_name">
-          <mat-error *ngIf="formGroup.controls['first_name'].hasError('required')">
-            First Name is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>First Name</mat-label>
+      <input type="first_name" matInput formControlName="first_name">
+      <mat-error *ngIf="formGroup.controls['first_name'].hasError('required')">
+        First Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Last Name</mat-label>
-          <input type="last_name" matInput formControlName="last_name">
-          <mat-error *ngIf="formGroup.controls['last_name'].hasError('required')">
-            Last Name is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Last Name</mat-label>
+      <input type="last_name" matInput formControlName="last_name">
+      <mat-error *ngIf="formGroup.controls['last_name'].hasError('required')">
+        Last Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Email</mat-label>
-          <input type="email" matInput formControlName="email">
-          <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
-          <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
-            This is not a valid email
-          </mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email">
+      <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
+        This is not a valid email
+      </mat-error>
+    </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Password</mat-label>
-          <input type="password" matInput formControlName="password">
-          <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="password">
+      <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Repeat Password</mat-label>
-          <input type="passwordRepeat" matInput formControlName="passwordRepeat">
-          <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
-            Repeat Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Repeat Password</mat-label>
+      <input type="passwordRepeat" matInput formControlName="passwordRepeat">
+      <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
+        Repeat Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-      <mat-card-content class="button-container-space-between">
-        <button [disabled]="formGroup.invalid" mat-raised-button  color="primary">
-          {{'Register' | translate}}</button>
-        <a [routerLink]="['/login']" mat-raised-button color="secondary">
-          {{'Back to Login' | translate}}
-        </a>
-      </mat-card-content>
-    </form>
-  </mat-card>
-</div>
+  <mat-card-content class="button-container-space-between">
+    <button [disabled]="formGroup.invalid" mat-raised-button  color="primary">
+      {{'Register' | translate}}</button>
+    <a [routerLink]="['/login']" mat-raised-button color="secondary">
+      {{'Back to Login' | translate}}
+    </a>
+  </mat-card-content>
+</form>
+

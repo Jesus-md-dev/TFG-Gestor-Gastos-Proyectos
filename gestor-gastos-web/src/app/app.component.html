@@ -50,7 +50,12 @@
     </div>
   </mat-drawer-container>
   <ng-template #elseNotLogged>
-    <router-outlet></router-outlet>
+    <div class="login">
+      <h1 class="title"><strong>Project Expenses Manager</strong></h1>
+      <mat-card class="login-card">
+        <router-outlet></router-outlet>
+      </mat-card>
+    </div>
   </ng-template>
 </ng-container>
 <ng-template #elseApiNotAlive>
