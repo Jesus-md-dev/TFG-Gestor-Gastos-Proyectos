@@ -87,7 +87,6 @@ export class AppComponent {
 
   notLogged() {
     this.isLogged = false;
-    console.log(this.router.url);
     if (this.router.url !== '/login' && this.router.url !== '/register')
       this.router.navigate(['/login']);
   }

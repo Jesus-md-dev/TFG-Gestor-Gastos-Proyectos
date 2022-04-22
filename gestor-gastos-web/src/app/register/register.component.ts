@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -7,10 +7,31 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  usernameFormControl = new FormControl('', [Validators.required]);
-  passwordFormControl = new FormControl('', [Validators.required]);
 
-  constructor() {}
+  formGroup!: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(private formBuilder: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.formGroup = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      first_name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      passwordRepeat: ['', [Validators.required]],
+    });
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    return formGroup.controls['password'].value ===
+      formGroup.controls['passwordRepeat'].value;
+
+  }
+
+  register() {
+    if (this.formGroup.valid) {
+
+    }
+  }
 }

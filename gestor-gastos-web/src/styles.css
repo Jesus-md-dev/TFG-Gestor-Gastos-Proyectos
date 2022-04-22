@@ -183,6 +183,7 @@ mat-toolbar a {
   justify-content: space-between;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 1em;
 }
 
 .login-card {
@@ -190,6 +191,10 @@ mat-toolbar a {
   margin-right: auto;
   width: 25em;
   text-align: center;
+}
+
+.login strong {
+  color: darkred;
 }
 
 .server-down {
