@@ -3,6 +3,7 @@ import axios from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
 import { Project } from './project';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class UserService {
 
   constructor() {}
 
-  static async getUserData(username: string) {
+  static async loadUser(username: string) {
     try {
       const response = await axios.get(
         GlobalComponent.apiUrl + '/api/user/' + username,
@@ -22,7 +23,7 @@ export class UserService {
           },
         }
       );
-      return response['data']['user_info'];
+      return User.jsontoObject(response['data']['user_info']);
     } catch (error) {
       console.log(error);
     }

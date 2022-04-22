@@ -30,6 +30,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
 import { MatInputModule } from '@angular/material/input';
 import { LoginComponent } from './login/login.component';
+import { MainComponent } from './main/main.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { LoginComponent } from './login/login.component';
     UserProfileComponent,
     ProjectDescriptionComponent,
     LoginComponent,
+    MainComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,9 @@ import { LoginComponent } from './login/login.component';
       { path: 'user/:username', component: UserProfileComponent },
       { path: 'project/:projectId', component: ProjectDescriptionComponent },
       { path: 'test', component: TestComponent },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: '', component: MainComponent },
     ]),
   ],
   providers: [],

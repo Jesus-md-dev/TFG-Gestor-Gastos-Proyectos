@@ -48,5 +48,6 @@ export class ProjectService {
     } catch (error) {
       console.log(error)
     }
+    return []
   }
 }

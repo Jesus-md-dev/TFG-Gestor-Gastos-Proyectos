@@ -16,14 +16,15 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     let username = this.localStorageService.get('username') ?? undefined;
-    if (this.localStorageService.get('username') != undefined)
-    {
-      this.user = new User(username);
-      this.projects = this.user.getProjects().then((response: any) => {
-        this.projects = response;
-      });
+    if (username != undefined) {
+      User.loadUser(username).then((response) => {
+        this.user = response;
+      })
+      // this.projects = this.user.getProjects().then((response: any) => {
+      //   this.projects = response;
+      // });
     }
   }
 }
