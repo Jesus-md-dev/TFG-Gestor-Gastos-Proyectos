@@ -96,27 +96,25 @@ def get_all_expenses(request):
 #USER ENDPOINTS
 @api_view(['POST'])
 def create_user(request):
-    try: 
-        serializer = RegisterSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        user.profile.img = request.data.get('img')
-        user.save()
-        _, token = AuthToken.objects.create(user)
+    serializer = RegisterSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.save()
+    user.profile.img = request.data.get('img') if request.data.get('img') else ""
+    user.save()
+    _, token = AuthToken.objects.create(user)
 
-        return Response({
-            'user_info': {
-                'id':user.id,
-                'username': user.username,
-                'email': user.email,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'img': user.profile.img
-            },
-            'token': token,
-        })
-    except:
-        return Response({'error': 'not found'}, status=404)
+    return Response({
+        'user_info': {
+            'id':user.id,
+            'username': user.username,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'img': user.profile.img
+        },
+        'token': token,
+    })
+
 
 
 @api_view(['GET'])
@@ -184,7 +182,6 @@ def update_user(request):
 
 @api_view(['POST'])
 def login_api(request):
-    print("LOGIN")
     try:
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
