@@ -10,7 +10,7 @@ import { LocalStorageService } from '../local-storage.service';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  user: any;
+  user: any = new User();
   projects: any = [];
   localStorageService = new LocalStorageService()
 
@@ -21,10 +21,10 @@ export class UserProfileComponent implements OnInit {
     if (username != undefined) {
       User.loadUser(username).then((response) => {
         this.user = response;
+        this.user.getProjects().then((response: any) => {
+          this.projects = response;
+        });
       })
-      // this.projects = this.user.getProjects().then((response: any) => {
-      //   this.projects = response;
-      // });
     }
   }
 }

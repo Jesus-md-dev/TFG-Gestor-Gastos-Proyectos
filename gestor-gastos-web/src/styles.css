@@ -213,6 +213,11 @@ mat-toolbar a {
   text-align: center;
 }
 
+.mat-snack-bar-container {
+  background-color: white;
+  font-weight: normal;
+}
+
 @media screen and (max-width: 960px) {
 
   .mat-table .mat-row {

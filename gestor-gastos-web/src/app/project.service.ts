@@ -38,12 +38,13 @@ export class ProjectService {
           },
         }
       );
+      console.log(response)
       return new Project(
-        response['data']['id'],
-        response['data']['name'],
-        response['data']['category'],
-        response['data']['admin'],
-        response['data']['img']
+        response.data['project_info']['id'],
+        response.data['project_info']['name'],
+        response.data['project_info']['category'],
+        response.data['project_info']['admin'],
+        response.data['project_info']['img']
       );
     } catch (error) {
       console.log(error)

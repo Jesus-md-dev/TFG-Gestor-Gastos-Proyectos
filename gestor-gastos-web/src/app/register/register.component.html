@@ -46,9 +46,12 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Repeat Password</mat-label>
-      <input type="passwordRepeat" matInput formControlName="passwordRepeat">
+      <input type="password" matInput formControlName="passwordRepeat">
       <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
-        Repeat Password is <strong>required</strong>
+        Password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('confirmedValidator')">
+        Passwords are not equal
       </mat-error>
     </mat-form-field>
 

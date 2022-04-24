@@ -29,8 +29,8 @@ export class User {
     json.forEach((user: any) => {
       users.push(
         new User(
-          user['id'],
           user['username'],
+          user['id'],
           user['first_name'],
           user['last_name'],
           user['email'],
@@ -43,8 +43,8 @@ export class User {
 
   static jsontoObject(user: any) {
     return new User(
-      user['id'],
       user['username'],
+      user['id'],
       user['first_name'],
       user['last_name'],
       user['email'],
@@ -56,5 +56,12 @@ export class User {
     return await UserService.loadUser(username);
   }
 
-  async getProjects() { return await UserService.getUserProjects(this.username); }
+  static create(username: string, first_name: string, last_name: string, email: string,
+    password: string) {
+    return UserService.save(username, first_name, last_name, email, password, null);
+  }
+
+  async getProjects() {
+    return await UserService.getUserProjects(this.username);
+  }
 }

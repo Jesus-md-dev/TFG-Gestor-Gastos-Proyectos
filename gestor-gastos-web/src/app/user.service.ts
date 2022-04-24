@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
 import { Project } from './project';
@@ -40,10 +40,31 @@ export class UserService {
           },
         }
       );
+      console.log(response['data']);
       return Project.jsontoList(response['data']);
     } catch (error) {
       console.log(error);
     }
     return [];
+  }
+
+  static async save(username: string, first_name: string, last_name: string, email: string,
+    password: string, id: number | null) {
+      try {
+        const response = await axios.post(
+          GlobalComponent.apiUrl + '/api/register/',
+          {
+            username: username,
+            password: password,
+            first_name: first_name,
+            last_name: last_name,
+            email: email,
+          },
+        );
+        return response.data;
+      } catch (error) {
+        const e = error as AxiosError
+        return e.response?.data;
+      }
   }
 }

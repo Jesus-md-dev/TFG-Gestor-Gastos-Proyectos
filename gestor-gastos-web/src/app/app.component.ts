@@ -57,9 +57,7 @@ export class AppComponent {
           );
         else this.notLogged();
       },
-      (error) => {
-        this.apiIsAlive = false;
-      }
+      (error) => { this.apiIsAlive = false; }
     );
   }
 

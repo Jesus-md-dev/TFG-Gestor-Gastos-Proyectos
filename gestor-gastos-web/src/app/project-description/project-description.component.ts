@@ -19,7 +19,7 @@ import { ProjectService } from '../project.service';
 export class ProjectDescriptionComponent implements OnInit {
   users: User[] = [];
   project: any = new Project();
-  usersDataSource = new MatTableDataSource<User>([]);
+  usersDataSource = new MatTableDataSource<User>();
   displayedColumns: string[] = [
     'image',
     'username',
@@ -72,7 +72,8 @@ export class ProjectDescriptionComponent implements OnInit {
 
       ProjectService.getProjectMembers(this.projectId).then((response) => {
         this.users = response;
-        this.usersDataSource = new MatTableDataSource<User>(this.users);
+        this.usersDataSource.data = this.users;
+        this.usersDataSource.sort = this.sort;
       });
 
       ProjectService.loadProjectData(this.projectId).then((response) => {
@@ -84,16 +85,12 @@ export class ProjectDescriptionComponent implements OnInit {
 
   ngAfterViewInit() {
     this.usersDataSource.paginator = this.paginator;
-    this.usersDataSource.sort = this.sort;
-  }
-
-  ngOnDestroy(): void {
-
   }
 
   getPageSizeOptions(): number[] {
-    return [5, 10, 15, 20, this.usersDataSource.data.length].filter(
-      (n) => n <= this.usersDataSource.data.length
-    );
+    // return [5, 10, 15, 20, this.usersDataSource.data.length].filter(
+    //   (n) => n <= this.usersDataSource.data.length
+    // );
+    return [5, 10, 15, 20]
   }
 }
