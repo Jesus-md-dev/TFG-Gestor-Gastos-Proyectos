@@ -9,25 +9,26 @@ import { User } from '../user';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   durationInSeconds = 3;
   formGroup!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar,
-    private router: Router) {}
-
-  ngOnInit(): void {
-    this.formGroup = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      first_name: ['', [Validators.required]],
-      last_name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      passwordRepeat: ['', [Validators.required]],
-    }, {
-      validator: this.ConfirmedValidator('password', 'passwordRepeat')
-    });
-  }
+    private router: Router) {
+      this.formGroup = this.formBuilder.group(
+        {
+          username: ['', [Validators.required]],
+          first_name: ['', [Validators.required]],
+          last_name: ['', [Validators.required]],
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', [Validators.required]],
+          passwordRepeat: ['', [Validators.required]],
+        },
+        {
+          validator: this.ConfirmedValidator('password', 'passwordRepeat'),
+        }
+      );
+    }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
@@ -46,16 +47,15 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (this.formGroup.valid) {
-      let user = User.create(
+      User.create(
         this.formGroup.controls['username'].value,
         this.formGroup.controls['first_name'].value,
         this.formGroup.controls['last_name'].value,
         this.formGroup.controls['email'].value,
-        this.formGroup.controls['username'].value
+        this.formGroup.controls['password'].value
       ).then( (response) => {
           if (response.hasOwnProperty('user_info')) this.router.navigate(['/login']);
           else{
-            let errors = []
             if (response.hasOwnProperty('email'))
               this.snackBar.open('Email is already used', 'x', {
                 duration: this.durationInSeconds * 1000

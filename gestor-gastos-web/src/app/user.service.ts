@@ -25,9 +25,9 @@ export class UserService {
       );
       return User.jsontoObject(response['data']['user_info']);
     } catch (error) {
-      console.log(error);
+      const e = error as AxiosError;
+      return e.response?.data;
     }
-    return [];
   }
 
   static async getUserProjects(username: string) {
@@ -43,9 +43,9 @@ export class UserService {
       console.log(response['data']);
       return Project.jsontoList(response['data']);
     } catch (error) {
-      console.log(error);
+      const e = error as AxiosError;
+      return e.response?.data;
     }
-    return [];
   }
 
   static async save(username: string, first_name: string, last_name: string, email: string,
@@ -66,5 +66,21 @@ export class UserService {
         const e = error as AxiosError
         return e.response?.data;
       }
+  }
+
+  static async userLogin(username: string, password:string) {
+    try {
+      const response = await axios.post(
+        GlobalComponent.apiUrl + '/api/login/', {
+          username: username,
+          password: password,
+        }
+      );
+      console.log("response");
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
   }
 }

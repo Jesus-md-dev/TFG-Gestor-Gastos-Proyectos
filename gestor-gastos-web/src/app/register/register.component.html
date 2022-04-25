@@ -3,7 +3,7 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Username</mat-label>
-      <input type="username" matInput formControlName="username" />
+      <input type="text" matInput formControlName="username" />
       <mat-error>
         Username is <strong>required</strong>
       </mat-error>
@@ -11,7 +11,7 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>First Name</mat-label>
-      <input type="first_name" matInput formControlName="first_name">
+      <input type="text" matInput formControlName="first_name">
       <mat-error *ngIf="formGroup.controls['first_name'].hasError('required')">
         First Name is <strong>required</strong>
       </mat-error>
@@ -19,7 +19,7 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Last Name</mat-label>
-      <input type="last_name" matInput formControlName="last_name">
+      <input type="text" matInput formControlName="last_name">
       <mat-error *ngIf="formGroup.controls['last_name'].hasError('required')">
         Last Name is <strong>required</strong>
       </mat-error>

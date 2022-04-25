@@ -196,8 +196,6 @@ def login_api(request):
             },
             'token': token,
         })
-    except User.DoesNotExist:
-        return Response({'error': 'user does not exist'}, status=404)
     except:
         return Response({'error': 'not found'}, status=404)
 

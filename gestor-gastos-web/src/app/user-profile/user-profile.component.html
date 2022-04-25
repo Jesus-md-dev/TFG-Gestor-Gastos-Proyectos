@@ -1,29 +1,56 @@
 <div class="profile-body">
-  <div class="profile-card">
-    <mat-card>
-      <img  alt="" matCardImage src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
-      <mat-card-content>
-        <h2>
-          <b>{{'Name' | translate}}:</b> {{ user.first_name }}
-          <button mat-icon-button>
-            <mat-icon>edit</mat-icon>
-          </button>
-        </h2>
-        <h2>
-          <b>{{'Surname' | translate}}:</b> {{ user.last_name }}
-          <button mat-icon-button>
-            <mat-icon>edit</mat-icon>
-          </button>
-        </h2>
-        <h2>
-          <b>{{'Email' | translate}}:</b> {{ user.email }}
-          <button mat-icon-button>
-            <mat-icon>edit</mat-icon>
-          </button>
-        </h2>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <ng-container *ngIf="!editView;else editCard">
+    <div class="profile-card">
+      <mat-card>
+        <img alt="" matCardImage src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
+        <mat-card-content>
+          <h2>
+            {{ user.first_name }}
+          </h2>
+          <h2>
+            {{ user.last_name }}
+          </h2>
+          <h2>
+            {{ user.email }}
+          </h2>
+        </mat-card-content>
+        <button mat-raised-button (click)="changeView()">Edit</button>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #editCard>
+    <div class="profile-card">
+      <mat-card>
+        <img alt="" matCardImage src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
+        <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
+          <mat-card-content>
+            <!-- <input  type="file" name="" id=""> -->
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput formControlName="first_name">
+              <mat-error>
+                First Name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput formControlName="last_name">
+              <mat-error>
+                Last Name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <h2>
+              {{ user.email }}
+            </h2>
+          </mat-card-content>
+          <button mat-raised-button type="submit">Save</button>
+          <button mat-raised-button (click)="changeView()">Cancel</button>
+        </form>
+      </mat-card>
+    </div>
+  </ng-template>
 
   <div class="grid-top-spacer">
     <div fxLayout="row wrap" fxLayoutGap="1em grid">

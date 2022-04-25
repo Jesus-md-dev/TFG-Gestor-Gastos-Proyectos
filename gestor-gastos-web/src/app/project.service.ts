@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
 import { Project } from './project';
@@ -23,9 +23,9 @@ export class ProjectService {
       });
       return User.jsontoList(response['data']);
     } catch (error) {
-      console.log(error);
+      const e = error as AxiosError;
+      return e.response?.data;
     }
-    return [];
   }
 
   static async loadProjectData(projectId: number) {
@@ -47,8 +47,8 @@ export class ProjectService {
         response.data['project_info']['img']
       );
     } catch (error) {
-      console.log(error)
+      const e = error as AxiosError;
+      return e.response?.data;
     }
-    return []
   }
 }
