@@ -147,6 +147,7 @@ def read_user(request, username):
 @api_view(['PUT'])
 def update_user(request):
     try:
+        print(request.data)
         if 'username' not in request.data:
             return Response({'error': 'username required'}, status=400)
         user_requested = User.objects.get(username=request.data['username'])
