@@ -12,11 +12,12 @@
           <mat-icon>account_circle</mat-icon>
           <span>{{'Profile' | translate}}</span>
         </button>
-        <button mat-menu-item [routerLink]="['/users']">
+        <button mat-menu-item [routerLink]="['/projects/' +
+          this.localStorageService.get('username')]">
           <mat-icon>account_circle</mat-icon>
           <span>{{'Projects' | translate}}</span>
         </button>
-        <button mat-menu-item [routerLink]="['/users']">
+        <button mat-menu-item [routerLink]="['']">
           <mat-icon>account_circle</mat-icon>
           <span>{{'Expenses' | translate}}</span>
         </button>

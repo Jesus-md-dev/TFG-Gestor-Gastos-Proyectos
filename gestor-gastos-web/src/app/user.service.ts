@@ -23,7 +23,7 @@ export class UserService {
           },
         }
       );
-      return User.jsontoObject(response['data']['user_info']);
+      return User.jsontoObject(response.data['user_info']);
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;
@@ -40,16 +40,15 @@ export class UserService {
           },
         }
       );
-      console.log(response['data']);
-      return Project.jsontoList(response['data']);
+      return Project.jsontoList(response.data);
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;
     }
   }
 
-  static async save(username: string, first_name: string, last_name: string, email: string,
-    password: string, id: number | null) {
+  static async create(username: string, first_name: string, last_name: string,
+    email: string, password: string) {
       try {
         const response = await axios.post(
           GlobalComponent.apiUrl + '/api/register/',
@@ -59,7 +58,37 @@ export class UserService {
             first_name: first_name,
             last_name: last_name,
             email: email,
+          }
+        );
+        return response.data;
+      } catch (error) {
+        const e = error as AxiosError
+        return e.response?.data;
+      }
+  }
+
+  static async save(username: string, first_name: string | null,
+    last_name: string | null, img: string | null) {
+      let data = {
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
+        img: img,
+      };
+      try {
+        const response = await axios.put(
+          GlobalComponent.apiUrl + '/api/update_user/',
+          {
+            username: username,
+            first_name: first_name,
+            last_name: last_name,
+            img: img,
           },
+          {
+            headers: {
+              Authorization: 'Token ' + this.localStorageService.get('token'),
+            },
+          }
         );
         return response.data;
       } catch (error) {
@@ -71,12 +100,12 @@ export class UserService {
   static async userLogin(username: string, password:string) {
     try {
       const response = await axios.post(
-        GlobalComponent.apiUrl + '/api/login/', {
+        GlobalComponent.apiUrl + '/api/login/',
+        {
           username: username,
           password: password,
         }
       );
-      console.log("response");
       return response.data;
     } catch (error) {
       const e = error as AxiosError;

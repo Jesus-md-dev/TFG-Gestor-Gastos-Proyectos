@@ -34,6 +34,8 @@ import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './register/register.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ProjectListComponent } from './project-list/project-list.component';
+import { ProjectManagementComponent } from './project-management/project-management.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     LoginComponent,
     MainComponent,
     RegisterComponent,
+    ProjectListComponent,
+    ProjectManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +86,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     }),
     RouterModule.forRoot([
       { path: 'user/:username', component: UserProfileComponent },
+      { path: 'projects/:username', component: ProjectManagementComponent },
       { path: 'project/:projectId', component: ProjectDescriptionComponent },
       { path: 'test', component: TestComponent },
       { path: 'login', component: LoginComponent },

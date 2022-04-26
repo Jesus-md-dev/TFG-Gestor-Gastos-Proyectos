@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import axios from 'axios';
-import { GlobalComponent } from '../global-component';
 import { LocalStorageService } from '../local-storage.service';
 import { UserService } from '../user.service';
 
@@ -44,7 +42,7 @@ export class LoginComponent {
         window.location.reload();
       } else {
         if (response.hasOwnProperty('error'))
-          this.snackBar.open('Username or Password are incorrect', 'x', {
+          this.snackBar.open('Username or Password are incorrect', 'Close', {
             duration: this.durationInSeconds * 1000,
           });
       }

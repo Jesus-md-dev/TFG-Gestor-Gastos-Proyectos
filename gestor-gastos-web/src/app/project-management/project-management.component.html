@@ -1,0 +1,18 @@
+<div class="main-content">
+  <div class="project-form">
+    <button class="show-form-button" mat-raised-button color="accent">
+      Create Project
+    </button>
+    <mat-card>
+      <img class="project-img-card" alt="" matCardImage>
+      <div class="project-name-card"></div>
+      <mat-card-content>
+        <h2></h2>
+        <button mat-raised-button color="accent">{{"Create" | translate}}</button>
+        <button mat-raised-button color="secondary">{{"close" | translate}}</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <app-project-list [projects]="projects"></app-project-list>
+</div>
+

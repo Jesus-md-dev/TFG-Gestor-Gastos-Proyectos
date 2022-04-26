@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from '../user';
@@ -57,11 +57,11 @@ export class RegisterComponent {
           if (response.hasOwnProperty('user_info')) this.router.navigate(['/login']);
           else{
             if (response.hasOwnProperty('email'))
-              this.snackBar.open('Email is already used', 'x', {
+              this.snackBar.open('Email is already used', 'Close', {
                 duration: this.durationInSeconds * 1000
               });
             if (response.hasOwnProperty('username'))
-              this.snackBar.open('Username is already used', 'x', {
+              this.snackBar.open('Username is already used', 'Close', {
                 duration: this.durationInSeconds * 1000,
               });
           }

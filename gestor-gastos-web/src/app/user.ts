@@ -1,3 +1,4 @@
+import { GlobalComponent } from "./global-component";
 import { UserService } from "./user.service";
 
 export class User {
@@ -6,7 +7,7 @@ export class User {
   first_name: string | null;
   last_name: string | null;
   email: string | null;
-  img: string | null;
+  private _img: string | null;
 
   constructor(
     username = '',
@@ -21,8 +22,14 @@ export class User {
     this.first_name = first_name;
     this.last_name = last_name;
     this.email = email;
-    this.img = img;
+    this._img = img;
   }
+
+  public get img(): string | null {
+    return this._img != '' ? this._img : GlobalComponent.blankUserImgPath;
+  }
+
+  public set img(value: string | null) { this._img = value; }
 
   static jsontoList(json: any) {
     let users: User[] = [];
@@ -56,12 +63,26 @@ export class User {
     return await UserService.loadUser(username);
   }
 
-  static create(username: string, first_name: string, last_name: string, email: string,
-    password: string) {
-    return UserService.save(username, first_name, last_name, email, password, null);
+  static create(
+    username: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    password: string
+  ) {
+    return UserService.create(username, first_name, last_name, email, password);
   }
 
   async getProjects() {
     return await UserService.getUserProjects(this.username);
+  }
+
+  async save() {
+    return await UserService.save(
+      this.username,
+      this.first_name,
+      this.last_name,
+      this._img
+    );
   }
 }
