@@ -63,7 +63,7 @@ export class User {
     return await UserService.loadUser(username);
   }
 
-  static create(
+  static async create(
     username: string,
     first_name: string,
     last_name: string,

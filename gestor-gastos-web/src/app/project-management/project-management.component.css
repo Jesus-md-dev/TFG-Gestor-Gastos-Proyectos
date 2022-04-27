@@ -3,10 +3,24 @@
   margin: 1em 0 1em 0;
 }
 
-.project-form mat-card {
+.project-form mat-expansion-panel {
+  width: 30em;
   text-align: center;
-  width: 10em;
   margin: 0 auto 0 auto;
+}
+
+.project-form mat-form-field {
+  margin: 0.5em 0 0.5em 0;
+}
+
+.project-form form {
+  margin: 0 auto 0 auto;
+  width: 15em;
+}
+
+.test {
+  display: flex;
+  justify-content: space-between;
 }
 
 .main-content {

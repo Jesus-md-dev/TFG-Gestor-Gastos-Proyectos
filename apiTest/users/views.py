@@ -246,16 +246,21 @@ def read_user_projects(request, username):
 @api_view(['POST'])
 def create_project(request):
     user = request.user
+    print(request.data)
+    print(user)
     if user.is_authenticated:
         try:
             project = Project(name=request.data.get('name'), 
-                category=request.data.get('category'), admin=user, img=request.data.get('img'))
+                category=request.data.get('category'), admin=user, 
+                img=request.data.get('img') if request.data.get('img') else "")
+            print("a")
             project.save()
             return Response({
                 'project_info': {
                     'id': project.id,
                     'name': project.name,
                     'category': project.category,
+                    'img': project.img,
                     'admin': project.admin.username
                 },
             })
@@ -327,11 +332,10 @@ def update_project(request):
 
 
 @api_view(['DELETE'])
-def delete_project(request):
+def delete_project(request, id):
     user = request.user
     if user.is_authenticated:
         try:
-            id = request.data.get('project_id')
             project = Project.objects.get(pk=id)
             if user == project.admin:
                 name = project.name

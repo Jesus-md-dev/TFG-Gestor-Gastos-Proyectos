@@ -1,4 +1,5 @@
 import { GlobalComponent } from "./global-component";
+import { ProjectService } from "./project.service";
 
 export class Project {
   id: number | null;
@@ -27,6 +28,10 @@ export class Project {
 
   public set img(value: string | null) { this._img = value; }
 
+  static async create(name: string, category: string) {
+    return ProjectService.create(name, category, null);
+  }
+
   static jsontoList(json: any) {
     let projects: any = [];
     json.forEach((project: any) => {
@@ -51,5 +56,9 @@ export class Project {
       project['admin'],
       project['img']
     );
+  }
+
+  async delete() {
+    if (typeof this.id == 'number') return ProjectService.delete(this.id);
   }
 }

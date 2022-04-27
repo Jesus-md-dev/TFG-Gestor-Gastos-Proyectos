@@ -13,7 +13,7 @@ urlpatterns = [
     path('register/', views.create_user),
     path('user/<str:username>', views.read_user),
     path('update_user/', views.update_user),
-    path('delete_user/', views.delete_user),
+    path('delete_user/<int:id>', views.delete_user),
     path('users', views.get_all_users),
     path('projects/<str:username>', views.read_user_projects),
 
@@ -21,12 +21,12 @@ urlpatterns = [
     path('create_project/', views.create_project),
     path('project/<int:id>', views.read_project),
     path('update_project/', views.update_project),
-    path('delete_project/', views.delete_project),
+    path('delete_project/<int:id>', views.delete_project),
     path('projects/', views.get_all_project),
 
     path('create_expense/', views.create_expense),
     path('expense/<int:id>', views.read_expense),
     path('update_expense/', views.update_expense),
-    path('delete_expense/', views.delete_expense),
+    path('delete_expense/<int:id>', views.delete_expense),
     path('expenses/', views.get_all_expenses),
 ]

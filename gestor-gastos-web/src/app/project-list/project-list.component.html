@@ -2,13 +2,18 @@
   <mat-tab label="My Own Projects">
     <div fxLayout="row wrap" fxLayoutGap="1em grid">
       <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of projects" class="card-grid">
-        <mat-card>
+        <mat-card class="project-item">
           <img class="project-img-card" alt="" matCardImage src={{project.img}}>
           <div class="project-name-card">{{project.name}}</div>
-          <mat-card-content>
+          <mat-card-content >
             <h2>{{project.category}}</h2>
-            <button mat-raised-button [routerLink]="['/project/' + project.id]"
-              color="accent">{{"Show" | translate}}</button>
+            <div class="button-container-space-between">
+              <a mat-raised-button [routerLink]="['/project/' + project.id]"
+                color="accent">{{"Show" | translate}}</a>
+              <button mat-raised-button color="warn" (click)="deleteProject(project)">
+                {{"Delete" | translate}}
+              </button>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

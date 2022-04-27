@@ -51,4 +51,50 @@ export class ProjectService {
       return e.response?.data;
     }
   }
+
+  static async create(name: string, category: string, img: string | null) {
+    try {
+      const response = await axios.post(
+        GlobalComponent.apiUrl + '/api/create_project/',
+        {
+          name: name,
+          category: category,
+          img: img,
+        },
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
+  static async delete(id: number) {
+    try {
+      const response = await axios.delete(
+        GlobalComponent.apiUrl + '/api/create_project/' + id,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
 }
+// {
+//
+//         },
+//         {
+//           headers: {
+//             Authorization: 'Token ' + this.localStorageService.get('token'),
+//           },
+//         }

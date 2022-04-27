@@ -69,12 +69,6 @@ export class UserService {
 
   static async save(username: string, first_name: string | null,
     last_name: string | null, img: string | null) {
-      let data = {
-        username: username,
-        first_name: first_name,
-        last_name: last_name,
-        img: img,
-      };
       try {
         const response = await axios.put(
           GlobalComponent.apiUrl + '/api/update_user/',

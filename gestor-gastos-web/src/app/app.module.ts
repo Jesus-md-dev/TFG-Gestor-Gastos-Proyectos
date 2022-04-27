@@ -36,6 +36,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 
 @NgModule({
   declarations: [
@@ -77,6 +81,8 @@ import { ProjectManagementComponent } from './project-management/project-managem
     ReactiveFormsModule,
     MatSnackBarModule,
     MatTabsModule,
+    MatExpansionModule,
+    MatDialogModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
