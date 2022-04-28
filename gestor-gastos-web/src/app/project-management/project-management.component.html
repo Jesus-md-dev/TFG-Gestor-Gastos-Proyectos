@@ -1,6 +1,4 @@
 <div class="main-content">
-
-
   <div class="project-form">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -8,7 +6,7 @@
           Create Project
         </mat-panel-title>
         <mat-panel-description>
-          Type the name and category of the project
+          <mat-icon>create_new_folder</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -33,11 +31,8 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="button-container-space-between">
-          <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
-          <button type="button" mat-raised-button color="secondary" (click)="changeShowForm()">{{"Close" | translate}}
-          </button>
-        </div>
+        <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
+
       </form>
     </mat-expansion-panel>
   </div>

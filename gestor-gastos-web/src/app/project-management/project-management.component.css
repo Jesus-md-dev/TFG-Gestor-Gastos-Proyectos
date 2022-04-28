@@ -4,9 +4,13 @@
 }
 
 .project-form mat-expansion-panel {
-  width: 30em;
+  width: 20em;
   text-align: center;
   margin: 0 auto 0 auto;
+}
+
+mat-panel-description mat-icon{
+  margin-left: auto;
 }
 
 .project-form mat-form-field {
