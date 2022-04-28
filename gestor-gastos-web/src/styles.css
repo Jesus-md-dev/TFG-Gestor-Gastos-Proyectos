@@ -169,6 +169,7 @@ mat-toolbar a {
 .button-container-space-between {
   display: flex;
   justify-content: space-between;
+  
 }
 
 .project-item .button-container-space-between {
