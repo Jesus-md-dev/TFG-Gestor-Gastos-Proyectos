@@ -342,11 +342,11 @@ def delete_project(request, id):
                 project.delete()
                 return Response({"project_info": "project " + name + " deleted"})
             else:
-                return Response({'error': 'user is not owner'}, status=400)
+                return Response({'notOwner': 'user is not owner'}, status=400)
         except Project.DoesNotExist:
-            return Response({'error': 'project does not exist'}, status=400)
+            return Response({'notExist': 'project does not exist'}, status=400)
     else:
-        return Response({'error': 'not authenticated'}, status=400)
+        return Response({'notAuth': 'not authenticated'}, status=400)
 
 
 #EXPENSE ENDPOINTS

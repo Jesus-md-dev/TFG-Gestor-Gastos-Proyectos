@@ -16,6 +16,10 @@ body {
   width: 100vw;
 }
 
+a {
+  color: black;
+}
+
 table {
   width: 100%;
   text-align: left;
@@ -218,6 +222,7 @@ mat-toolbar a {
 .mat-snack-bar-container {
   background-color: white;
   font-weight: normal;
+  color: black;
 }
 
 .form-edit-buttons button{

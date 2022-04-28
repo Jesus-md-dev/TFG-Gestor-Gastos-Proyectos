@@ -59,6 +59,6 @@ export class Project {
   }
 
   async delete() {
-    if (typeof this.id == 'number') return ProjectService.delete(this.id);
+    if (typeof this.id == 'number') return await ProjectService.delete(this.id);
   }
 }

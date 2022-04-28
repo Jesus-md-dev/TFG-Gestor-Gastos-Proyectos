@@ -1,5 +1,6 @@
 import { Component, Inject, Input } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Project } from '../project';
 
 @Component({
@@ -32,8 +33,10 @@ export class ProjectListComponent {
 })
 export class ProjectDeleteDialog {
   project: Project;
+  durationInSeconds = 3;
   constructor(
     public dialogRef: MatDialogRef<ProjectDeleteDialog>,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { this.project = data.project; }
 
@@ -42,7 +45,27 @@ export class ProjectDeleteDialog {
   }
 
   onClick(): void {
-    this.project.delete()
+    this.project.delete().then((response) => {
+      if (response.hasOwnProperty('project_info')) {
+      }
+      else{
+        if (response.hasOwnProperty('notOwner')) {
+          this.snackBar.open('You do not own the project', 'Close', {
+            duration: this.durationInSeconds * 1000,
+          });
+        }
+        if (response.hasOwnProperty('notExist')) {
+          this.snackBar.open('Project does not exist', 'Close', {
+            duration: this.durationInSeconds * 1000,
+          });
+        }
+        if (response.hasOwnProperty('notAuth')) {
+          this.snackBar.open('You are not authorized', 'Close', {
+            duration: this.durationInSeconds * 1000,
+          });
+        }
+      }
+    })
     this.dialogRef.close();
   }
 }

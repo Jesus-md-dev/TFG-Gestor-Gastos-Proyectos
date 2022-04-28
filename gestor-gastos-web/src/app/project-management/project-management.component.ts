@@ -21,10 +21,7 @@ export class ProjectManagementComponent implements OnInit {
   localStorageService = new LocalStorageService();
   showForm: boolean = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
-  ) {}
+  constructor(private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     let username = this.localStorageService.get('username') ?? undefined;
@@ -38,9 +35,7 @@ export class ProjectManagementComponent implements OnInit {
     }
   }
 
-  changeShowForm() {
-    this.showForm = !this.showForm;
-  }
+  changeShowForm() { this.showForm = !this.showForm; }
 
   createProject() {
     if (this.formGroup.valid) {

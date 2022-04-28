@@ -77,24 +77,18 @@ export class ProjectService {
   static async delete(id: number) {
     try {
       const response = await axios.delete(
-        GlobalComponent.apiUrl + '/api/create_project/' + id,
+        GlobalComponent.apiUrl + '/api/delete_project/' + id,
         {
           headers: {
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }
       );
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;
     }
   }
 }
-// {
-//
-//         },
-//         {
-//           headers: {
-//             Authorization: 'Token ' + this.localStorageService.get('token'),
-//           },
-//         }
