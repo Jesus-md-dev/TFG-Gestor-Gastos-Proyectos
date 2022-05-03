@@ -47,51 +47,77 @@ export class UserService {
     }
   }
 
-  static async create(username: string, first_name: string, last_name: string,
-    email: string, password: string) {
-      try {
-        const response = await axios.post(
-          GlobalComponent.apiUrl + '/api/register/',
-          {
-            username: username,
-            password: password,
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-          }
-        );
-        return response.data;
-      } catch (error) {
-        const e = error as AxiosError
-        return e.response?.data;
-      }
-  }
-
-  static async save(username: string, first_name: string | null,
-    last_name: string | null, img: string | null) {
-      try {
-        const response = await axios.put(
-          GlobalComponent.apiUrl + '/api/update_user/',
-          {
-            username: username,
-            first_name: first_name,
-            last_name: last_name,
-            img: img,
+  static async getUserProjectsMember(username: string) {
+    try {
+      const response = await axios.get(
+        GlobalComponent.apiUrl + '/api/member_projects/' + username,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
           },
-          {
-            headers: {
-              Authorization: 'Token ' + this.localStorageService.get('token'),
-            },
-          }
-        );
-        return response.data;
-      } catch (error) {
-        const e = error as AxiosError
-        return e.response?.data;
-      }
+        }
+      );
+      return Project.jsontoList(response.data);
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
   }
 
-  static async userLogin(username: string, password:string) {
+  static async create(
+    username: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    password: string
+  ) {
+    try {
+      const response = await axios.post(
+        GlobalComponent.apiUrl + '/api/register/',
+        {
+          username: username,
+          password: password,
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
+  static async save(
+    username: string,
+    first_name: string | null,
+    last_name: string | null,
+    img: string | null
+  ) {
+    try {
+      const response = await axios.put(
+        GlobalComponent.apiUrl + '/api/update_user/',
+        {
+          username: username,
+          first_name: first_name,
+          last_name: last_name,
+          img: img,
+        },
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
+  static async userLogin(username: string, password: string) {
     try {
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/login/',

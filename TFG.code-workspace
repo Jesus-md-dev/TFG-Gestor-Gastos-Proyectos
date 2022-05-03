@@ -1,13 +1,15 @@
 {
 	"folders": [
 		{
+			"name": "gestor-gastos-web",
 			"path": "gestor-gastos-web"
 		},
 		{
-			"path": "apiTest"
+			"name": "project-manager",
+			"path": "."
 		},
 		{
-			"path": "."
+			"path": "apiTest"
 		}
 	],
 	"settings": {

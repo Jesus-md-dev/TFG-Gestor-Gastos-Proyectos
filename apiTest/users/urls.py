@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete_user/<int:id>', views.delete_user),
     path('users', views.get_all_users),
     path('projects/<str:username>', views.read_user_projects),
+    path('member_projects/<str:username>', views.read_user_member_projects),
 
     
     path('create_project/', views.create_project),
@@ -29,4 +30,10 @@ urlpatterns = [
     path('update_expense/', views.update_expense),
     path('delete_expense/<int:id>', views.delete_expense),
     path('expenses/', views.get_all_expenses),
+
+    path('add_member_project/', views.add_project_member),
+    path('project_members/<int:project_id>', views.read_project_member),
+    # path('update_expense/', views.update_project_member),
+    # path('delete_expense/<int:id>', views.delete_project_member),
+    # path('expenses/', views.get_all_expenses),
 ]

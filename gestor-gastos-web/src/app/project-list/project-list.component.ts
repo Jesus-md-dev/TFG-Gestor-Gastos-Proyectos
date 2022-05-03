@@ -10,13 +10,17 @@ import { Project } from '../project';
 })
 export class ProjectListComponent {
   @Input()
-  projects: any = [];
+  ownProjects: any = [];
+  @Input()
+  memberProjects: any = [];
 
   constructor(public dialog: MatDialog) {}
 
   hasProjects() {
-    if (Array.isArray(this.projects))
-      if (this.projects.length != 0) return true;
+    if (Array.isArray(this.ownProjects))
+      if (this.ownProjects.length != 0) return true;
+    if (Array.isArray(this.memberProjects))
+      if (this.memberProjects.length != 0) return true;
     return false;
   }
 
@@ -26,11 +30,13 @@ export class ProjectListComponent {
     });
 
     ref.componentInstance.onAdd.subscribe((data) => {
-      this.projects.splice(
-        this.projects.findIndex((element: { id: number }) => element.id === data),
+      this.ownProjects.splice(
+        this.ownProjects.findIndex(
+          (element: { id: number }) => element.id === data
+        ),
         1
       );
-    })
+    });
   }
 }
 
@@ -54,7 +60,6 @@ export class ProjectDeleteDialog {
   }
 
   onClick(): void {
-
     this.project.delete().then((response) => {
       if (response.hasOwnProperty('project_info'))
         if (typeof this.project.name === 'string')

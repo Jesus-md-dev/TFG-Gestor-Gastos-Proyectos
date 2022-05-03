@@ -1,7 +1,7 @@
 <mat-tab-group dynamicHeight *ngIf="hasProjects()">
   <mat-tab label="My Own Projects">
     <div fxLayout="row wrap" fxLayoutGap="1em grid">
-      <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of projects"
+      <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of ownProjects"
         class="card-grid">
         <mat-card class="project-item">
           <img class="project-img-card" alt="" matCardImage src={{project.img}}>
@@ -22,7 +22,7 @@
   </mat-tab>
   <mat-tab label="Projects I Belong">
     <div fxLayout="row wrap" fxLayoutGap="1em grid">
-      <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of projects"
+      <div fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of memberProjects"
         class="card-grid">
         <mat-card>
           <img class="project-img-card" alt="" matCardImage src={{project.img}}>

@@ -77,6 +77,10 @@ export class User {
     return await UserService.getUserProjects(this.username);
   }
 
+  async getProjectsMember() {
+    return await UserService.getUserProjectsMember(this.username);
+  }
+
   async save() {
     return await UserService.save(
       this.username,
