@@ -1,7 +1,7 @@
 <mat-card-title>Login</mat-card-title>
-<form class="custom-form" (ngSubmit)="login()" [formGroup]="formGroup">
+<form (ngSubmit)="login()" [formGroup]="formGroup">
 
-    <mat-form-field class="example-full-width" appearance="fill">
+    <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
       <input type="text" matInput formControlName="username" />
       <mat-error *ngIf="formGroup.controls['username'].hasError('required')">
@@ -9,7 +9,7 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="example-full-width" appearance="fill">
+    <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
       <input type="password" matInput formControlName="password">
       <mat-error *ngIf="formGroup.controls['password'].hasError('required')">

@@ -45,15 +45,15 @@
             <span>{{'Log Out' | translate}}</span>
           </button>
         </mat-menu>
-        <button mat-stroked-button (click)="switchLang()">{{cur_lang}}</button>
+        <button class="lang-button" mat-stroked-button (click)="switchLang()">{{cur_lang}}</button>
       </mat-toolbar>
       <router-outlet></router-outlet>
     </div>
   </mat-drawer-container>
   <ng-template #elseNotLogged>
-    <div class="login">
+    <div>
       <h1 class="title"><strong>Project Expenses Manager</strong></h1>
-      <mat-card class="login-card">
+      <mat-card class="card-form">
         <router-outlet></router-outlet>
       </mat-card>
     </div>

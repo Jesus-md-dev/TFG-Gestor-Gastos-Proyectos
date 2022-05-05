@@ -69,19 +69,12 @@ mat-toolbar {
 
 mat-toolbar a {
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 0 auto;
   text-decoration: none;
 }
 
 .mat-drawer-inner-container {
   background-color: #dbe7e1;
-}
-
-.test-class {
-  margin: 0;
-  padding: 0;
-  width: 100%;
 }
 
 .main-content {
@@ -91,10 +84,6 @@ mat-toolbar a {
 
 .mat-drawer-content {
   background-color: #e9f1ed;
-}
-
-.spacer {
-  width: 100%;
 }
 
 .drawer-col button,
@@ -125,13 +114,6 @@ mat-toolbar a {
 
 .mat-column-image {
   color: black;
-}
-
-.div-table {
-  margin: auto;
-  width: 90%;
-  margin-bottom: 5%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .img-project {
@@ -167,40 +149,20 @@ mat-toolbar a {
 }
 
 .button-container-space-between {
+  margin: 1em auto 0 auto;
   display: flex;
   justify-content: space-between;
-  
+  width: 80%;
 }
 
-.project-item .button-container-space-between {
+.card-form {
   margin: 0 auto 0 auto;
-  width: 15em;
-}
-
-.login {
+  width: 25em;
+  text-align: center;
   margin-top: 10%;
 }
 
-.login mat-form-field {
-  width: 100%;
-
-}
-
-.login .button-container-space-between {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1em;
-}
-
-.login-card {
-  margin-left: auto;
-  margin-right: auto;
-  width: 25em;
-  text-align: center;
-}
-
-.login-card strong {
+.card-form strong {
   color: darkred;
 }
 
@@ -226,8 +188,8 @@ mat-toolbar a {
   color: black;
 }
 
-.form-edit-buttons button{
-  margin: 0em 2em 0em 2em
+.spacer {
+  width: 100%;
 }
 
 @media screen and (max-width: 960px) {
