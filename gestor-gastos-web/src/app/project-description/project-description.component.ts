@@ -31,6 +31,7 @@ export class ProjectDescriptionComponent implements OnInit {
   currentScreenSize: string | undefined;
   isSmall = false;
   localStorageService = new LocalStorageService();
+  filterData: {username: string} = {username: ""};
   private routeSub: Subscription = new Subscription();
   private projectId: any;
 
@@ -77,9 +78,13 @@ export class ProjectDescriptionComponent implements OnInit {
       });
 
       ProjectService.loadProjectData(this.projectId).then((response) => {
-        console.log(response);
         this.project = response;
       });
+
+      this.usersDataSource.filterPredicate = (myObject, filter) => {
+        let filterObject :{username: string} = JSON.parse(filter);
+        if()
+      }
     } catch (error) {}
   }
 
@@ -91,6 +96,14 @@ export class ProjectDescriptionComponent implements OnInit {
     // return [5, 10, 15, 20, this.usersDataSource.data.length].filter(
     //   (n) => n <= this.usersDataSource.data.length
     // );
-    return [5, 10, 15, 20]
+    return [5, 10, 15, 20];
+  }
+
+  applyFilter(event: Event) {
+    this.filterData.username = (event.target as HTMLInputElement).value;
+    console.log(this.usersDataSource);
+    if (this.usersDataSource.paginator) {
+      this.usersDataSource.paginator.firstPage();
+    }
   }
 }

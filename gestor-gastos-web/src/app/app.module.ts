@@ -39,8 +39,6 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
