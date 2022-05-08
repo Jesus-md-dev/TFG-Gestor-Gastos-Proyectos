@@ -105,11 +105,6 @@ export class ProjectDescriptionComponent implements OnInit {
       ProjectService.loadProjectData(this.projectId).then((response) => {
         this.project = response;
       });
-
-      // this.usersDataSource.filterPredicate = (myObject, filter) => {
-      //   let filterObject :{username: string} = JSON.parse(filter);
-      //   if()
-      // }
     } catch (error) {}
   }
 
@@ -118,9 +113,6 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   getPageSizeOptions(): number[] {
-    // return [5, 10, 15, 20, this.usersDataSource.data.length].filter(
-    //   (n) => n <= this.usersDataSource.data.length
-    // );
     return [5, 10, 15, 20];
   }
 }

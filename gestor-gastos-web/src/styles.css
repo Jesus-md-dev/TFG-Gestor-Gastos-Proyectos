@@ -32,8 +32,12 @@ td.mat-column-star {
   padding-right: 8px !important;
 }
 
-td span {
+.feature-name {
   font-weight: bold;
+}
+
+td button {
+  margin: 0 0.5em 0 0.5em;
 }
 
 mat-drawer-container {
@@ -199,8 +203,8 @@ mat-toolbar a {
     text-align: center;
     margin-top: 2%;
     margin-bottom: 2%;
-    margin-left: 20%;
-    margin-right: -90%;
+    margin-right: -150%;
+    margin: 2% -150% 2% 1%;
     overflow: hidden;
     height: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -235,10 +239,6 @@ mat-toolbar a {
 @media screen and (max-width: 730px) {
   .mat-header-row {
     display: none;
-  }
-
-  .mat-table .mat-row {
-    margin: 0;
   }
 
   .project-name {

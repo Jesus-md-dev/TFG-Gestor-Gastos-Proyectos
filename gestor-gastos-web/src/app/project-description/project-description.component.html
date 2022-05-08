@@ -4,22 +4,25 @@
     <div class="project-name"> {{project.name}} </div>
   </div>
 
+  <button class="add-member-button" mat-raised-button color="accent">Add Member</button>
+
   <form [formGroup]="formControl">
+    {{'Search' | translate}}:
     <mat-form-field>
       <input matInput formControlName="username">
-      <mat-placeholder>Username</mat-placeholder>
+      <mat-placeholder>{{'Username' | translate}}</mat-placeholder>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="last_name">
-      <mat-placeholder>Last Name</mat-placeholder>
+      <mat-placeholder>{{'Last Name' | translate}}</mat-placeholder>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="first_name">
-      <mat-placeholder>First Name</mat-placeholder>
+      <mat-placeholder>{{'First Name' | translate}}</mat-placeholder>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="email">
-      <mat-placeholder>Email</mat-placeholder>
+      <mat-placeholder>{{'Email' | translate}}</mat-placeholder>
     </mat-form-field>
   </form>
 
@@ -38,29 +41,33 @@
 
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Username' | translate}} </th>
-        <td mat-cell *matCellDef="let user"> <span *ngIf="isSmall"> {{'Username' | translate}}: </span> {{user.username}} </td>
+        <td mat-cell *matCellDef="let user"> <span class="feature-name" *ngIf="isSmall"> {{'Username' | translate}}: </span> {{user.username}} </td>
       </ng-container>
 
       <ng-container matColumnDef="last_name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Last Name' | translate}} </th>
-        <td mat-cell *matCellDef="let user"> <span *ngIf="isSmall"> {{'Last Name' | translate}}: </span> {{user.last_name}} </td>
+        <td mat-cell *matCellDef="let user"> <span class="feature-name" *ngIf="isSmall"> {{'Last Name' | translate}}:
+          </span> {{user.last_name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="first_name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'First Name' | translate}} </th>
-        <td mat-cell *matCellDef="let user"> <span *ngIf="isSmall"> {{'First Name' | translate}}: </span>
+        <td mat-cell *matCellDef="let user"> <span class="feature-name" *ngIf="isSmall"> {{'First Name' | translate}}:
+          </span>
           {{user.first_name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Email' | translate}} </th>
-        <td mat-cell *matCellDef="let user"> <span *ngIf="isSmall"> {{'Email' | translate}}: </span> {{user.email}} </td>
+        <td mat-cell *matCellDef="let user"> <span class="feature-name" *ngIf="isSmall"> {{'Email' | translate}}:
+          </span> {{user.email}} </td>
       </ng-container>
 
       <ng-container matColumnDef="expenses">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
           <button mat-raised-button color="accent">{{"Expenses" | translate}}</button>
+          <button mat-raised-button color="warn">{{"Expell" | translate}}</button>
         </td>
       </ng-container>
 
