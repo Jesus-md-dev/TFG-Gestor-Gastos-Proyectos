@@ -38,7 +38,6 @@ export class ProjectService {
           },
         }
       );
-      console.log(response)
       return new Project(
         response.data['project_info']['id'],
         response.data['project_info']['name'],

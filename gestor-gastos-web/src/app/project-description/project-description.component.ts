@@ -9,6 +9,7 @@ import { LocalStorageService } from '../local-storage.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../project.service';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -23,15 +24,17 @@ export class ProjectDescriptionComponent implements OnInit {
   displayedColumns: string[] = [
     'image',
     'username',
-    'surname',
-    'name',
+    'last_name',
+    'first_name',
     'email',
     'expenses',
   ];
   currentScreenSize: string | undefined;
   isSmall = false;
   localStorageService = new LocalStorageService();
-  filterData: {username: string} = {username: ""};
+  filterData: { username: string } = { username: '' };
+  filterSelectObj = [];
+  readonly formControl: FormGroup;
   private routeSub: Subscription = new Subscription();
   private projectId: any;
 
@@ -40,7 +43,8 @@ export class ProjectDescriptionComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     breakpointObserver: BreakpointObserver,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    formBuilder: FormBuilder
   ) {
     breakpointObserver
       .observe([
@@ -63,6 +67,27 @@ export class ProjectDescriptionComponent implements OnInit {
           }
         }
       });
+
+    this.usersDataSource.filterPredicate = ((data, filter) => {
+      let filterJs = JSON.parse(filter);
+      const a = !filterJs.username || data.username.toLowerCase().includes(filterJs.username);
+      const b = !filterJs.last_name || data.last_name?.toLowerCase().includes(filterJs.last_name);
+      const c = !filterJs.first_name || data.first_name?.toLowerCase().includes(filterJs.first_name);
+      const d = !filterJs.email || data.email?.toLowerCase().includes(filterJs.email);
+      return a && b && c && d;
+    }) as (data: User, filter: string) => boolean;
+
+    this.formControl = formBuilder.group({
+      username: '',
+      last_name: '',
+      first_name: '',
+      email: '',
+    });
+
+    this.formControl.valueChanges.subscribe((value) => {
+      const filter = JSON.stringify(value);
+      this.usersDataSource.filter = filter.toLowerCase();
+    });
   }
 
   ngOnInit(): void {
@@ -81,10 +106,10 @@ export class ProjectDescriptionComponent implements OnInit {
         this.project = response;
       });
 
-      this.usersDataSource.filterPredicate = (myObject, filter) => {
-        let filterObject :{username: string} = JSON.parse(filter);
-        if()
-      }
+      // this.usersDataSource.filterPredicate = (myObject, filter) => {
+      //   let filterObject :{username: string} = JSON.parse(filter);
+      //   if()
+      // }
     } catch (error) {}
   }
 
@@ -97,13 +122,5 @@ export class ProjectDescriptionComponent implements OnInit {
     //   (n) => n <= this.usersDataSource.data.length
     // );
     return [5, 10, 15, 20];
-  }
-
-  applyFilter(event: Event) {
-    this.filterData.username = (event.target as HTMLInputElement).value;
-    console.log(this.usersDataSource);
-    if (this.usersDataSource.paginator) {
-      this.usersDataSource.paginator.firstPage();
-    }
   }
 }
