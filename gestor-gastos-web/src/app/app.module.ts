@@ -38,6 +38,8 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DialogProjectDeleteComponent } from './dialog-project-delete/dialog-project-delete.component';
+import { DialogAddMemberComponent } from './dialog-add-member/dialog-add-member.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     RegisterComponent,
     ProjectListComponent,
     ProjectManagementComponent,
+    DialogProjectDeleteComponent,
+    DialogAddMemberComponent,
   ],
   imports: [
     BrowserModule,

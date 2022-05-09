@@ -4,7 +4,8 @@
     <div class="project-name"> {{project.name}} </div>
   </div>
 
-  <button class="add-member-button" mat-raised-button color="accent">Add Member</button>
+  <button mat-raised-button color="accent" (click)="addMembers()">Add Member</button>
+  <mat-divider></mat-divider>
 
   <form [formGroup]="formControl">
     {{'Search' | translate}}:

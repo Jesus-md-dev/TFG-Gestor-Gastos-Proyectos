@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../project.service';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
 
 
 @Component({
@@ -44,7 +46,8 @@ export class ProjectDescriptionComponent implements OnInit {
   constructor(
     breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute,
-    formBuilder: FormBuilder
+    formBuilder: FormBuilder,
+    public dialog: MatDialog
   ) {
     breakpointObserver
       .observe([
@@ -70,10 +73,17 @@ export class ProjectDescriptionComponent implements OnInit {
 
     this.usersDataSource.filterPredicate = ((data, filter) => {
       let filterJs = JSON.parse(filter);
-      const a = !filterJs.username || data.username.toLowerCase().includes(filterJs.username);
-      const b = !filterJs.last_name || data.last_name?.toLowerCase().includes(filterJs.last_name);
-      const c = !filterJs.first_name || data.first_name?.toLowerCase().includes(filterJs.first_name);
-      const d = !filterJs.email || data.email?.toLowerCase().includes(filterJs.email);
+      const a =
+        !filterJs.username ||
+        data.username.toLowerCase().includes(filterJs.username);
+      const b =
+        !filterJs.last_name ||
+        data.last_name?.toLowerCase().includes(filterJs.last_name);
+      const c =
+        !filterJs.first_name ||
+        data.first_name?.toLowerCase().includes(filterJs.first_name);
+      const d =
+        !filterJs.email || data.email?.toLowerCase().includes(filterJs.email);
       return a && b && c && d;
     }) as (data: User, filter: string) => boolean;
 
@@ -114,5 +124,9 @@ export class ProjectDescriptionComponent implements OnInit {
 
   getPageSizeOptions(): number[] {
     return [5, 10, 15, 20];
+  }
+
+  addMembers() {
+    const ref = this.dialog.open(DialogAddMemberComponent);
   }
 }
