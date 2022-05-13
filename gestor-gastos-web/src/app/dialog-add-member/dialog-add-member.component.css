@@ -1,0 +1,20 @@
+mat-card {
+  align-items: stretch;
+  background-color:lightgreen;
+  padding: 0 0 0 1em;
+  margin: 0.5em 0 0.5em 0;
+  width: fit-content;
+}
+
+cdk-virtual-scroll-viewport {
+  height: 12em;
+  width: auto;
+}
+
+mat-form-field {
+  margin-right: 0.5em;
+}
+
+form {
+  margin-bottom: 0.5em;
+}

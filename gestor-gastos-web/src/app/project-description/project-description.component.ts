@@ -9,7 +9,7 @@ import { LocalStorageService } from '../local-storage.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../project.service';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
 
@@ -127,6 +127,11 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   addMembers() {
-    const ref = this.dialog.open(DialogAddMemberComponent);
+    const ref = this.dialog.open(DialogAddMemberComponent, {
+      data: {
+        project: this.project,
+        projectMembers: this.users,
+      },
+    });
   }
 }

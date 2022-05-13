@@ -1,1 +1,27 @@
-<button mat-raised-button (click)="onClick()">Close</button>
+
+<form (ngSubmit)="onAdd()" #form="ngForm" [formGroup]="formGroup">
+  <mat-form-field>
+    <input matInput placeholder="Username" formControlName="username">
+    <mat-error *ngIf="formGroup.controls['username'].hasError('emptyField')">
+      Field empty
+    </mat-error>
+    <mat-error *ngIf="formGroup.controls['username'].hasError('existOnList')">
+      User already on list
+    </mat-error>
+  </mat-form-field>
+  <button type="submit" mat-button>Add</button>
+</form>
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
+  <div *ngFor="let username of userlist">
+    <mat-card>
+      {{username}}
+      <button mat-icon-button (click)="onDelete(username)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+</cdk-virtual-scroll-viewport>
+<div class="button-container-space-between">
+  <button mat-raised-button (click)="onSave()" color="accent">Save</button>
+  <button mat-raised-button (click)="onClick()">Close</button>
+</div>
