@@ -510,30 +510,40 @@ def delete_expense(request):
 #PROJECTMEMBER ENDPOINTS
 @api_view(['POST'])
 def add_project_member(request):
-    user = request.user
-    if user.is_authenticated:
-        project_requested = Project.objects.get(id = request.data.get('project_id'))
-        user_requested = User.objects.get(username = request.data.get('username'))
-        #TODO usuario administra projecto y usuario enviado no pertenece projecto
-        if project_requested.admin == user and True:
-            try:
-                project_member = ProjectMember(project=project_requested,user=user_requested,
-                    is_ip=False)
-                project_member.save()
-                return Response({
-                    'project_member': {
-                        'id': project_member.id,
-                        'project': project_member.project.name,
-                        'member': project_member.user.username,
-                        'is_ip': project_member.is_ip,
-                    },
-                })
-            except:
-                return Response({'error': 'error in expense parameters'})
-        else: 
-            return Response({'error': 'not authorized'}, status=401)
-    else:
-        return Response({'error': 'not authenticated'}, status=400)
+    try:
+        user = request.user
+        if user.is_authenticated:
+            project_requested = Project.objects.get(id = request.data.get('project_id'))
+            user_requested = User.objects.get(username = request.data.get('username'))
+            if project_requested.admin == user:
+                if len(ProjectMember.objects.filter(project=project_requested, 
+                    user=user_requested)) == 0:
+                    try:
+                        project_member = ProjectMember(project=project_requested,user=user_requested,
+                            is_ip=False)
+                        project_member.save()
+                        return Response({
+                            'project_member': {
+                                'id': project_member.id,
+                                'project': project_member.project.name,
+                                'member': project_member.user.username,
+                                'is_ip': project_member.is_ip,
+                            },
+                        })
+                    except:
+                        return Response({'error': 'error in expense parameters'})
+                else: 
+                    return Response({'error': 'user already belong to project'})
+            else: 
+                return Response({'error': 'not authorized'}, status=401)
+        else:
+            return Response({'error': 'not authenticated'}, status=400)
+    except Project.DoesNotExist:
+        return Response({'error': 'project does not exist'}, status=404)
+    except User.DoesNotExist:
+        return Response({'error': 'user does not exist'}, status=404)
+    except ProjectMember.DoesNotExist:
+        return Response({'error': 'user does not exist'}, status=404)
 
 
 @api_view(['GET'])
@@ -544,8 +554,9 @@ def read_project_member(request, project_id):
         if user.is_authenticated:
             if user == project_requested.admin:
                 user_list = []
-                members = ProjectMember.objects.all()
+                members = ProjectMember.objects.filter(project=project_requested)
                 for member in members:
+                    print("a")
                     user = member.user
                     user_dict = {}
                     user_dict['id'] = user.id
@@ -566,70 +577,16 @@ def read_project_member(request, project_id):
             return Response({'error': 'not authenticated'}, status=404)
     except Expense.DoesNotExist:
         return Response({'error': 'expense does not exist'}, status=404)
+    except ProjectMember.DoesNotExist:
+        return Response({'error': 'project has no members'}, status=404)
     except:
         return Response({'error': 'not found'}, status=404)
 
 
-@api_view(['PUT'])
-def update_project_member(request):
-    try:
-        if 'id' not in request.data:
-            return Response({'error': 'project id required'}, status=400)
-        expense_requested = Expense.objects.get(id=request.data['id'])
-        user = request.user
-        if user.is_authenticated:
-            #TODO usuario administra projecto y usuario enviado pertenece projecto
-            if expense_requested.projet.admin == user and True:
-                if 'dossier' in request.data:
-                    expense_requested.dossier = request.data['dossier']
-                if 'date' in request.data:
-                    expense_requested.date = request.data['date']
-                if 'concept' in request.data:
-                    expense_requested.concept =  request.data['concept']
-                if 'amount' in request.data:
-                    expense_requested.amount = round(float(request.data['amount']), 2)
-                if 'vatpercentage' in request.data:
-                    expense_requested.vatpercentage = round(float(request.data['vatpercentage']), 2)
-                
-                expense_requested.final_amount=round(expense_requested.amount + 
-                    (expense_requested.amount * expense_requested.vatpercentage / 100), 2)
-                expense_requested.save()
-                return Response({
-                    'project_info': {
-                        'id': expense_requested.id,
-                        'dossier': expense_requested.dossier,
-                        'date': expense_requested.date,
-                        'concept': expense_requested.concept,
-                        'amount': expense_requested.amount,
-                        'vatpercetange': expense_requested.vatpercentage,
-                        'final_amount': expense_requested.final_amount,
-                        'project': expense_requested.project.name,
-                        'admin': expense_requested.user.username,
-                    },
-                })
-            else:
-                return Response({'error': 'not authorized'}, status=401)
-        else: 
-            return Response({'error': 'not authenticated'}, status=404)
-    except Expense.DoesNotExist:
-        return Response({'error': 'expense does not exist'}, status=404)
-    except:
-        return Response({'error': 'not found'}, status=404)
+# @api_view(['PUT'])
+# def update_project_member(request):
+    # TODO
 
 
-@api_view(['DELETE'])
-def delete_project_member(request):
-    user = request.user
-    if user.is_authenticated:
-        try:
-            expense = Expense.objects.get(pk=request.data.get('id'))
-            if user == expense.project.admin:
-                id = expense.id
-                expense.delete()
-                return Response({"expense_info": "expense " + str(id) + " deleted"})
-            else:
-                return Response({'error': 'not authorized'}, status=401)
-        except Project.DoesNotExist:
-            return Response({'error': 'expense does not exist'}, status=400)
-    else:
-        return Response({'error': 'not authenticated'}, status=400)
+# @api_view(['DELETE'])
+# def delete_project_member(request):

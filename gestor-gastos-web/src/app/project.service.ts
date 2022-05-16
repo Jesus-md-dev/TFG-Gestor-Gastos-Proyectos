@@ -16,11 +16,13 @@ export class ProjectService {
   static async getProjectMembers(projectId: number) {
     try {
       const response = await axios.get(
-        GlobalComponent.apiUrl + '/api/users', {
-        headers: {
-          Authorization: 'Token ' + this.localStorageService.get('token'),
-        },
-      });
+        GlobalComponent.apiUrl + '/api/project_members/' + projectId,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
       return User.jsontoList(response['data']);
     } catch (error) {
       const e = error as AxiosError;

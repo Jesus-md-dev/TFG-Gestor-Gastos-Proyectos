@@ -2,11 +2,11 @@
 <form (ngSubmit)="onAdd()" #form="ngForm" [formGroup]="formGroup">
   <mat-form-field>
     <input matInput placeholder="Username" formControlName="username">
-    <mat-error *ngIf="formGroup.controls['username'].hasError('emptyField')">
-      Field empty
+    <mat-error *ngIf="formGroup.controls['username'].hasError('isOnList')">
+      User already added.
     </mat-error>
-    <mat-error *ngIf="formGroup.controls['username'].hasError('existOnList')">
-      User already on list
+    <mat-error *ngIf="formGroup.controls['username'].hasError('isOnProject')">
+      User belong to the project.
     </mat-error>
   </mat-form-field>
   <button type="submit" mat-button>Add</button>

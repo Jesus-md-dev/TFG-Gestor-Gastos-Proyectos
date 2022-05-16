@@ -132,4 +132,21 @@ export class UserService {
       return e.response?.data;
     }
   }
+
+  static async userExist(username: string) {
+    try {
+      const response = await axios.get(
+        GlobalComponent.apiUrl + '/api/user/' + username,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data
+    }
+  }
 }

@@ -106,14 +106,15 @@ export class ProjectDescriptionComponent implements OnInit {
         this.projectId = params['projectId'];
       });
 
-      ProjectService.getProjectMembers(this.projectId).then((response) => {
-        this.users = response;
-        this.usersDataSource.data = this.users;
-        this.usersDataSource.sort = this.sort;
-      });
-
       ProjectService.loadProjectData(this.projectId).then((response) => {
         this.project = response;
+        console.log(response)
+        ProjectService.getProjectMembers(this.projectId).then((response) => {
+          // TODO añadir admin
+          this.users = response;
+          this.usersDataSource.data = this.users;
+          this.usersDataSource.sort = this.sort;
+        });
       });
     } catch (error) {}
   }
@@ -127,10 +128,11 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   addMembers() {
+    const usernames = this.users.map((user) => user.username)
     const ref = this.dialog.open(DialogAddMemberComponent, {
       data: {
         project: this.project,
-        projectMembers: this.users,
+        projectMembers: usernames,
       },
     });
   }
