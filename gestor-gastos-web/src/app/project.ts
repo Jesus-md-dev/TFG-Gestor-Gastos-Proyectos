@@ -5,7 +5,7 @@ export class Project {
   id: number | null;
   name: string | null;
   category: string | null;
-  admin: number | null;
+  admin: string | null;
   private _img: string | null;
 
   constructor(
@@ -23,10 +23,12 @@ export class Project {
   }
 
   public get img(): string | null {
-    return (this._img != "") ? this._img : GlobalComponent.blankProjectImgPath;
+    return this._img != '' ? this._img : GlobalComponent.blankProjectImgPath;
   }
 
-  public set img(value: string | null) { this._img = value; }
+  public set img(value: string | null) {
+    this._img = value;
+  }
 
   static async create(name: string, category: string) {
     return ProjectService.create(name, category, null);
@@ -60,5 +62,12 @@ export class Project {
 
   async delete() {
     if (typeof this.id == 'number') return await ProjectService.delete(this.id);
+  }
+
+  async addMembers(userlist: string[]) {
+    userlist.forEach(async username => {
+      if (typeof this.id == 'number')
+        ProjectService.addMember(username, this.id);
+    });
   }
 }

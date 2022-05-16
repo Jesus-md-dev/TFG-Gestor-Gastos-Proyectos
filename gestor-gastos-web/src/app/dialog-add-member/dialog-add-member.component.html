@@ -8,6 +8,9 @@
     <mat-error *ngIf="formGroup.controls['username'].hasError('isOnProject')">
       User belong to the project.
     </mat-error>
+    <mat-error *ngIf="formGroup.controls['username'].hasError('isProjectAdmin')">
+      This user is admin project.
+    </mat-error>
   </mat-form-field>
   <button type="submit" mat-button>Add</button>
 </form>

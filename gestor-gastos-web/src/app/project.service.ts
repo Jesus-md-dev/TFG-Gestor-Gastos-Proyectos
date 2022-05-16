@@ -93,24 +93,27 @@ export class ProjectService {
   }
 
   static async addMember(username: string, projectId: number) {
-
-  }
-
-  static async expellMember(username: string, projectId: number) {
     try {
-      const response = await axios.delete(
-        GlobalComponent.apiUrl + '/api/delete_project/',
+      const response = await axios.post(
+        GlobalComponent.apiUrl + '/api/add_member_project/',
+        {
+          project_id: projectId,
+          username: username,
+        },
         {
           headers: {
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;
     }
+  }
+
+  static async expellMember(username: string, projectId: number) {
+
   }
 }

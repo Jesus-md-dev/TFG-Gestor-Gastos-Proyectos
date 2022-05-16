@@ -102,7 +102,6 @@ def create_user(request):
     user.profile.img = request.data.get('img') if request.data.get('img') else ""
     user.save()
     _, token = AuthToken.objects.create(user)
-
     return Response({
         'user_info': {
             'id':user.id,
@@ -147,7 +146,6 @@ def read_user(request, username):
 @api_view(['PUT'])
 def update_user(request):
     try:
-        print(request.data)
         if 'username' not in request.data:
             return Response({'error': 'username required'}, status=400)
         user_requested = User.objects.get(username=request.data['username'])
@@ -267,14 +265,11 @@ def read_user_member_projects(request, username):
 @api_view(['POST'])
 def create_project(request):
     user = request.user
-    print(request.data)
-    print(user)
     if user.is_authenticated:
         try:
             project = Project(name=request.data.get('name'), 
                 category=request.data.get('category'), admin=user, 
                 img=request.data.get('img') if request.data.get('img') else "")
-            print("a")
             project.save()
             return Response({
                 'project_info': {
@@ -556,7 +551,6 @@ def read_project_member(request, project_id):
                 user_list = []
                 members = ProjectMember.objects.filter(project=project_requested)
                 for member in members:
-                    print("a")
                     user = member.user
                     user_dict = {}
                     user_dict['id'] = user.id
