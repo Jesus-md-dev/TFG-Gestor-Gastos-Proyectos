@@ -577,10 +577,21 @@ def read_project_member(request, project_id):
         return Response({'error': 'not found'}, status=404)
 
 
-# @api_view(['PUT'])
-# def update_project_member(request):
-    # TODO
-
-
-# @api_view(['DELETE'])
-# def delete_project_member(request):
+@api_view(['DELETE'])
+def delete_project_member(request, project_member_id):
+    user = request.user
+    if user.is_authenticated:
+        try:
+            project_member = ProjectMember.objects.get(id=project_member_id)
+            project = Project.objects.get(id=project_member.project.id)
+            member = User.objects.get(id=project_member.user.id)
+            if user == expense.project.admin:
+                id = expense.id
+                expense.delete()
+                return Response({"expense_info": "expense " + str(id) + " deleted"})
+            else:
+                return Response({'error': 'not authorized'}, status=401)
+        except Project.DoesNotExist:
+            return Response({'error': 'expense does not exist'}, status=400)
+    else:
+        return Response({'error': 'not authenticated'}, status=400)

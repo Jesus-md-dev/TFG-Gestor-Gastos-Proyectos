@@ -33,7 +33,5 @@ urlpatterns = [
 
     path('add_member_project/', views.add_project_member),
     path('project_members/<int:project_id>', views.read_project_member),
-    # path('update_expense/', views.update_project_member),
-    # path('delete_expense/<int:id>', views.delete_project_member),
-    # path('expenses/', views.get_all_expenses),
+    path('delete_project_member/<int:project_member_id>', views.delete_project_member),
 ]
