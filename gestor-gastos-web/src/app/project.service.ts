@@ -58,9 +58,9 @@ export class ProjectService {
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/create_project/',
         {
-          name: name,
-          category: category,
-          img: img,
+          name,
+          category,
+          img,
         },
         {
           headers: {
@@ -98,7 +98,7 @@ export class ProjectService {
         GlobalComponent.apiUrl + '/api/add_member_project/',
         {
           project_id: projectId,
-          username: username,
+          username,
         },
         {
           headers: {
@@ -113,7 +113,24 @@ export class ProjectService {
     }
   }
 
-  static async expellMember(username: string, projectId: number) {
-
+  static async expellMember(project_id: number, member_id: number) {
+    try {
+      const response = await axios.delete(
+        GlobalComponent.apiUrl + '/api/delete_project_member/',
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+          data: {
+            project_id,
+            member_id
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
   }
 }

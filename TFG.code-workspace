@@ -5,11 +5,12 @@
 			"path": "gestor-gastos-web"
 		},
 		{
-			"name": "project-manager",
-			"path": "."
+			"name": "apiTest",
+			"path": "apiTest"
 		},
 		{
-			"path": "apiTest"
+			"name": "project-manager",
+			"path": "."
 		}
 	],
 	"settings": {

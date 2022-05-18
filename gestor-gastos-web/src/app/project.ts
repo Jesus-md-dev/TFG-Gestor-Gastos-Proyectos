@@ -70,4 +70,8 @@ export class Project {
         ProjectService.addMember(username, this.id);
     });
   }
+
+  async expellMember(pojetc_id: number, member_id: number) {
+    return ProjectService.expellMember(pojetc_id, member_id);
+  }
 }

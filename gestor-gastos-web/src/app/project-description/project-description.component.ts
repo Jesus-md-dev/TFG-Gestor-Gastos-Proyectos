@@ -108,7 +108,7 @@ export class ProjectDescriptionComponent implements OnInit {
 
       ProjectService.loadProjectData(this.projectId).then((response) => {
         this.project = response;
-        console.log(response)
+        console.log(response);
         ProjectService.getProjectMembers(this.projectId).then((response) => {
           // TODO añadir admin
           this.users = response;
@@ -128,12 +128,31 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   addMembers() {
-    const usernames = this.users.map((user) => user.username)
+    const usernames = this.users.map((user) => user.username);
     const ref = this.dialog.open(DialogAddMemberComponent, {
       data: {
         project: this.project,
         projectMembers: usernames,
       },
     });
+    ProjectService.getProjectMembers(this.projectId).then((response) => {
+      this.usersDataSource.data = response;
+      this.usersDataSource.sort = this.sort;
+         console.log(response);
+    });
+  }
+
+  expellMember(porject_id: number, member_id: number) {
+    this.project.expellMember(porject_id, member_id).then(() => {
+      this.users.forEach((user, index) => {
+        if(user.id == member_id) this.users.splice(index, 1);
+      })
+      ProjectService.getProjectMembers(this.projectId).then((response) => {
+        // TODO añadir admin
+        this.usersDataSource.data = response;
+        this.usersDataSource.sort = this.sort;
+      });
+    });
+
   }
 }

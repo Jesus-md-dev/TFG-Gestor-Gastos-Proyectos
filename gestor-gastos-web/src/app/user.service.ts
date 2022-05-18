@@ -75,11 +75,11 @@ export class UserService {
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/register/',
         {
-          username: username,
-          password: password,
-          first_name: first_name,
-          last_name: last_name,
-          email: email,
+          username,
+          password,
+          first_name,
+          last_name,
+          email,
         }
       );
       return response.data;
@@ -99,10 +99,10 @@ export class UserService {
       const response = await axios.put(
         GlobalComponent.apiUrl + '/api/update_user/',
         {
-          username: username,
-          first_name: first_name,
-          last_name: last_name,
-          img: img,
+          username,
+          first_name,
+          last_name,
+          img,
         },
         {
           headers: {
@@ -122,8 +122,8 @@ export class UserService {
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/login/',
         {
-          username: username,
-          password: password,
+          username,
+          password,
         }
       );
       return response.data;

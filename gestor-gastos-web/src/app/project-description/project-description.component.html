@@ -66,9 +66,10 @@
 
       <ng-container matColumnDef="expenses">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let user">
           <button mat-raised-button color="accent">{{"Expenses" | translate}}</button>
-          <button mat-raised-button color="warn">{{"Expell" | translate}}</button>
+          <button mat-raised-button color="warn"
+            (click)="expellMember(this.project.id, user.id)">{{"Expell" | translate}}</button>
         </td>
       </ng-container>
 

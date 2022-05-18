@@ -33,5 +33,5 @@ urlpatterns = [
 
     path('add_member_project/', views.add_project_member),
     path('project_members/<int:project_id>', views.read_project_member),
-    path('delete_project_member/<int:project_member_id>', views.delete_project_member),
+    path('delete_project_member/', views.delete_project_member),
 ]

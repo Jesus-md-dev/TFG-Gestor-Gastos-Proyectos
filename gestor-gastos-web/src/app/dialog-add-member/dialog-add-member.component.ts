@@ -44,10 +44,8 @@ export class DialogAddMemberComponent implements OnInit {
       this.formGroup.get('username')?.value != '' &&
       this.formGroup.get('username')?.value != null
     ) {
-      console.log(this.project.admin);
       let username = this.formGroup.get('username')?.value;
       UserService.userExist(username).then((response) => {
-        console.log(response);
         if (
           response.hasOwnProperty('error') &&
           (response['error'] == 'user does not exist' ||

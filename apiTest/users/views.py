@@ -508,6 +508,7 @@ def add_project_member(request):
     try:
         user = request.user
         if user.is_authenticated:
+            print(request.data)
             project_requested = Project.objects.get(id = request.data.get('project_id'))
             user_requested = User.objects.get(username = request.data.get('username'))
             if project_requested.admin == user:
@@ -538,7 +539,7 @@ def add_project_member(request):
     except User.DoesNotExist:
         return Response({'error': 'user does not exist'}, status=404)
     except ProjectMember.DoesNotExist:
-        return Response({'error': 'user does not exist'}, status=404)
+        return Response({'error': 'project member does not exist'}, status=404)
 
 
 @api_view(['GET'])
@@ -578,20 +579,24 @@ def read_project_member(request, project_id):
 
 
 @api_view(['DELETE'])
-def delete_project_member(request, project_member_id):
+def delete_project_member(request):
     user = request.user
     if user.is_authenticated:
         try:
-            project_member = ProjectMember.objects.get(id=project_member_id)
-            project = Project.objects.get(id=project_member.project.id)
-            member = User.objects.get(id=project_member.user.id)
-            if user == expense.project.admin:
-                id = expense.id
-                expense.delete()
-                return Response({"expense_info": "expense " + str(id) + " deleted"})
+            print(request.data)
+            project = Project.objects.get(id=request.data.get('project_id'))
+            member = User.objects.get(id=request.data.get('member_id'))
+            project_member = ProjectMember.objects.get(project=project, user=member)
+            if user == project.admin:
+                project_member.delete()
+                return Response({"expense_info": "project_member deleted"})
             else:
                 return Response({'error': 'not authorized'}, status=401)
         except Project.DoesNotExist:
-            return Response({'error': 'expense does not exist'}, status=400)
+            return Response({'error': 'project does not exist'}, status=400)
+        except User.DoesNotExist:
+            return Response({'error': 'user member does not exist'}, status=400)
+        except ProjectMember.DoesNotExist:
+            return Response({'error': 'project member does not exist'}, status=400)
     else:
         return Response({'error': 'not authenticated'}, status=400)
