@@ -20,85 +20,13 @@ import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member
   styleUrls: ['./project-description.component.css'],
 })
 export class ProjectDescriptionComponent implements OnInit {
-  users: User[] = [];
   project: any = new Project();
-  usersDataSource = new MatTableDataSource<User>();
-  displayedColumns: string[] = [
-    'image',
-    'username',
-    'last_name',
-    'first_name',
-    'email',
-    'expenses',
-  ];
-  currentScreenSize: string | undefined;
-  isSmall = false;
+
   localStorageService = new LocalStorageService();
-  filterData: { username: string } = { username: '' };
-  filterSelectObj = [];
-  readonly formControl: FormGroup;
-  private routeSub: Subscription = new Subscription();
-  private projectId: any;
+  routeSub: Subscription = new Subscription();
+  projectId: any;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  @ViewChild(MatSort) sort!: MatSort;
-  constructor(
-    breakpointObserver: BreakpointObserver,
-    private route: ActivatedRoute,
-    formBuilder: FormBuilder,
-    public dialog: MatDialog
-  ) {
-    breakpointObserver
-      .observe([
-        Breakpoints.XSmall,
-        Breakpoints.Small,
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
-      .subscribe((result) => {
-        for (const query of Object.keys(result.breakpoints)) {
-          if (result.breakpoints[query]) {
-            if (query === Breakpoints.Small || query === Breakpoints.XSmall) {
-              this.currentScreenSize = 'Is Small ' + query;
-              this.isSmall = true;
-            } else {
-              this.currentScreenSize = 'Not Small ' + query;
-              this.isSmall = false;
-            }
-          }
-        }
-      });
-
-    this.usersDataSource.filterPredicate = ((data, filter) => {
-      let filterJs = JSON.parse(filter);
-      const a =
-        !filterJs.username ||
-        data.username.toLowerCase().includes(filterJs.username);
-      const b =
-        !filterJs.last_name ||
-        data.last_name?.toLowerCase().includes(filterJs.last_name);
-      const c =
-        !filterJs.first_name ||
-        data.first_name?.toLowerCase().includes(filterJs.first_name);
-      const d =
-        !filterJs.email || data.email?.toLowerCase().includes(filterJs.email);
-      return a && b && c && d;
-    }) as (data: User, filter: string) => boolean;
-
-    this.formControl = formBuilder.group({
-      username: '',
-      last_name: '',
-      first_name: '',
-      email: '',
-    });
-
-    this.formControl.valueChanges.subscribe((value) => {
-      const filter = JSON.stringify(value);
-      this.usersDataSource.filter = filter.toLowerCase();
-    });
-  }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     try {
@@ -108,46 +36,7 @@ export class ProjectDescriptionComponent implements OnInit {
 
       ProjectService.loadProjectData(this.projectId).then((response) => {
         this.project = response;
-        console.log(response);
-        this.updateUserList();
       });
     } catch (error) {}
-  }
-
-  ngAfterViewInit() {
-    this.usersDataSource.paginator = this.paginator;
-  }
-
-  getPageSizeOptions(): number[] {
-    return [5, 10, 15, 20];
-  }
-
-  addMembers() {
-    const usernames = this.users.map((user) => user.username);
-    const ref = this.dialog.open(DialogAddMemberComponent, {
-      data: {
-        project: this.project,
-        projectMembers: usernames,
-      },
-    });
-    ref.componentInstance.onSaveEmitter.subscribe((data) => {
-      this.updateUserList();
-    })
-  }
-
-  expellMember(porject_id: number, member_id: number) {
-    this.project.expellMember(porject_id, member_id).then(() => {
-      this.users.forEach((user, index) => {
-        if(user.id == member_id) this.users.splice(index, 1);
-      })
-      this.updateUserList();
-    });
-  }
-
-  updateUserList() {
-    ProjectService.getProjectMembers(this.projectId).then((response) => {
-      this.usersDataSource.data = this.users = response;
-      this.usersDataSource.sort = this.sort;
-    });
   }
 }

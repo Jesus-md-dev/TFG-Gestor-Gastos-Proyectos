@@ -1,15 +1,142 @@
-import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
+import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
+import { Project } from '../project';
+import { ProjectService } from '../project.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-project-users-table',
   templateUrl: './project-users-table.component.html',
-  styleUrls: ['./project-users-table.component.css']
+  styleUrls: ['./project-users-table.component.css'],
 })
 export class ProjectUsersTableComponent implements OnInit {
+  readonly formControl: FormGroup;
+  @Input()
+  projectId: any;
+  users: User[] = [];
+  project: any = new Project();
+  usersDataSource = new MatTableDataSource<User>();
+  displayedColumns: string[] = [
+    'image',
+    'username',
+    'last_name',
+    'first_name',
+    'email',
+    'expenses',
+  ];
+  filterData: { username: string } = { username: '' };
+  filterSelectObj = [];
+  currentScreenSize: string | undefined;
+  isSmall = false;
 
-  constructor() { }
+  constructor(
+    breakpointObserver: BreakpointObserver,
+    formBuilder: FormBuilder,
+    public dialog: MatDialog
+  ) {
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .subscribe((result) => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            if (query === Breakpoints.Small || query === Breakpoints.XSmall) {
+              this.currentScreenSize = 'Is Small ' + query;
+              this.isSmall = true;
+            } else {
+              this.currentScreenSize = 'Not Small ' + query;
+              this.isSmall = false;
+            }
+          }
+        }
+      });
 
-  ngOnInit(): void {
+    this.usersDataSource.filterPredicate = ((data, filter) => {
+      let filterJs = JSON.parse(filter);
+      const a =
+        !filterJs.username ||
+        data.username.toLowerCase().includes(filterJs.username);
+      const b =
+        !filterJs.last_name ||
+        data.last_name?.toLowerCase().includes(filterJs.last_name);
+      const c =
+        !filterJs.first_name ||
+        data.first_name?.toLowerCase().includes(filterJs.first_name);
+      const d =
+        !filterJs.email || data.email?.toLowerCase().includes(filterJs.email);
+      return a && b && c && d;
+    }) as (data: User, filter: string) => boolean;
+
+    this.formControl = formBuilder.group({
+      username: '',
+      last_name: '',
+      first_name: '',
+      email: '',
+    });
+
+    this.formControl.valueChanges.subscribe((value) => {
+      const filter = JSON.stringify(value);
+      this.usersDataSource.filter = filter.toLowerCase();
+    });
   }
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  @ViewChild(MatSort) sort!: MatSort;
+
+  ngOnInit(): void {
+    ProjectService.loadProjectData(this.projectId).then((response) => {
+      this.project = response;
+      this.updateUserList();
+    });
+  }
+
+  ngAfterViewInit() {
+    this.usersDataSource.paginator = this.paginator;
+  }
+
+  addMembers() {
+    const usernames = this.users.map((user) => user.username);
+    const ref = this.dialog.open(DialogAddMemberComponent, {
+      data: {
+        project: this.project,
+        projectMembers: usernames,
+      },
+    });
+    ref.componentInstance.onSaveEmitter.subscribe((data) => {
+      this.updateUserList();
+    });
+  }
+
+  expellMember(porject_id: number, member_id: number) {
+    this.project.expellMember(porject_id, member_id).then(() => {
+      this.users.forEach((user, index) => {
+        if (user.id == member_id) this.users.splice(index, 1);
+      });
+      this.updateUserList();
+    });
+  }
+
+  getPageSizeOptions(): number[] {
+    return [5, 10, 15, 20];
+  }
+
+  updateUserList() {
+    ProjectService.getProjectMembers(this.projectId).then((response) => {
+      this.usersDataSource.data = this.users = response;
+      this.usersDataSource.sort = this.sort;
+    });
+  }
 }
