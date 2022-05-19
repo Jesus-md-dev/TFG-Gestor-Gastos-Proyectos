@@ -50,3 +50,7 @@ class ProjectMember (models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_ip = models.BooleanField()
+
+    def as_json(self):
+        return dict(id=self.id, project=self.project.id, user=self.user.username, 
+            is_ip=self.is_ip)

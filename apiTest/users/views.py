@@ -508,28 +508,25 @@ def add_project_member(request):
     try:
         user = request.user
         if user.is_authenticated:
-            print(request.data)
-            project_requested = Project.objects.get(id = request.data.get('project_id'))
-            user_requested = User.objects.get(username = request.data.get('username'))
+            project_requested = Project.objects.get(id=request.data.get('project_id'))
             if project_requested.admin == user:
-                if len(ProjectMember.objects.filter(project=project_requested, 
-                    user=user_requested)) == 0:
-                    try:
-                        project_member = ProjectMember(project=project_requested,user=user_requested,
-                            is_ip=False)
-                        project_member.save()
-                        return Response({
-                            'project_member': {
-                                'id': project_member.id,
-                                'project': project_member.project.name,
-                                'member': project_member.user.username,
-                                'is_ip': project_member.is_ip,
-                            },
-                        })
-                    except:
-                        return Response({'error': 'error in expense parameters'})
-                else: 
-                    return Response({'error': 'user already belong to project'})
+                username_list = request.data.get('usernames')['usernames']
+                new_project_members = []
+                for username in username_list:
+                    user = User.objects.get(username=username)
+                    lenvalue=len(ProjectMember.objects.filter(project=project_requested, user=user))
+                    if len(ProjectMember.objects.filter(project=project_requested, user=user)) == 0:
+                        project_member = ProjectMember(project=project_requested, user=user, is_ip=False)
+                        # project_member.save()
+                        new_project_members.append(project_member)
+                    else: 
+                        return Response({'error': 'user already belong to project'})
+                new_project_member_json = [project_member.as_json() for project_member
+                    in new_project_members]
+                for project_member in new_project_members:
+                    project_member.save()
+                print()
+                return Response(json.dumps(new_project_member_json))
             else: 
                 return Response({'error': 'not authorized'}, status=401)
         else:
@@ -583,7 +580,6 @@ def delete_project_member(request):
     user = request.user
     if user.is_authenticated:
         try:
-            print(request.data)
             project = Project.objects.get(id=request.data.get('project_id'))
             member = User.objects.get(id=request.data.get('member_id'))
             project_member = ProjectMember.objects.get(project=project, user=member)

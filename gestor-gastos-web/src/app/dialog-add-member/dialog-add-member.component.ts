@@ -71,7 +71,17 @@ export class DialogAddMemberComponent implements OnInit {
   }
 
   onSave(): void {
-    this.project.addMembers(this.userlist)
+    this.project.addMembers(this.userlist).then((response) => {
+      if (response.hasOwnProperty('error')) {
+        console.log(response['error']);
+        this.snackBar.open('Some users already belong to the project', 'Close', {
+          duration: 3 * 1000,
+        })
+      }
+      else{
+        this.onSaveEmitter.emit();
+      }
+    })
     this.dialogRef.close();
   }
 }

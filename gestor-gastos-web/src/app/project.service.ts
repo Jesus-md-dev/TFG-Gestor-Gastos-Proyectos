@@ -92,13 +92,13 @@ export class ProjectService {
     }
   }
 
-  static async addMember(username: string, projectId: number) {
+  static async addMembers(usernames: string[], projectId: number) {
     try {
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/add_member_project/',
         {
           project_id: projectId,
-          username,
+          usernames: {usernames},
         },
         {
           headers: {

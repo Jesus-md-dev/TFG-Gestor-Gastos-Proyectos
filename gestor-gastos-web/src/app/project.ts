@@ -65,10 +65,8 @@ export class Project {
   }
 
   async addMembers(userlist: string[]) {
-    userlist.forEach(async username => {
-      if (typeof this.id == 'number')
-        ProjectService.addMember(username, this.id);
-    });
+    if (typeof this.id == 'number')
+      return ProjectService.addMembers(userlist, this.id);
   }
 
   async expellMember(pojetc_id: number, member_id: number) {

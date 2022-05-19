@@ -40,6 +40,7 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { RegisterComponent } from './register/register.component';
 import { TestComponent } from './test/test.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ProjectUsersTableComponent } from './project-users-table/project-users-table.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ProjectManagementComponent,
     DialogProjectDeleteComponent,
     DialogAddMemberComponent,
+    ProjectUsersTableComponent,
   ],
   imports: [
     BrowserModule,

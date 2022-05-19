@@ -109,12 +109,7 @@ export class ProjectDescriptionComponent implements OnInit {
       ProjectService.loadProjectData(this.projectId).then((response) => {
         this.project = response;
         console.log(response);
-        ProjectService.getProjectMembers(this.projectId).then((response) => {
-          // TODO añadir admin
-          this.users = response;
-          this.usersDataSource.data = this.users;
-          this.usersDataSource.sort = this.sort;
-        });
+        this.updateUserList();
       });
     } catch (error) {}
   }
@@ -135,11 +130,9 @@ export class ProjectDescriptionComponent implements OnInit {
         projectMembers: usernames,
       },
     });
-    ProjectService.getProjectMembers(this.projectId).then((response) => {
-      this.usersDataSource.data = response;
-      this.usersDataSource.sort = this.sort;
-         console.log(response);
-    });
+    ref.componentInstance.onSaveEmitter.subscribe((data) => {
+      this.updateUserList();
+    })
   }
 
   expellMember(porject_id: number, member_id: number) {
@@ -147,12 +140,14 @@ export class ProjectDescriptionComponent implements OnInit {
       this.users.forEach((user, index) => {
         if(user.id == member_id) this.users.splice(index, 1);
       })
-      ProjectService.getProjectMembers(this.projectId).then((response) => {
-        // TODO añadir admin
-        this.usersDataSource.data = response;
-        this.usersDataSource.sort = this.sort;
-      });
+      this.updateUserList();
     });
+  }
 
+  updateUserList() {
+    ProjectService.getProjectMembers(this.projectId).then((response) => {
+      this.usersDataSource.data = this.users = response;
+      this.usersDataSource.sort = this.sort;
+    });
   }
 }
