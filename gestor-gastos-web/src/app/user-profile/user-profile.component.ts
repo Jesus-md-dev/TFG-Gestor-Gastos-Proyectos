@@ -3,6 +3,7 @@ import { User } from '../user';
 import { LocalStorageService } from '../local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,9 +17,15 @@ export class UserProfileComponent implements OnInit {
   localStorageService = new LocalStorageService();
   editView: boolean = false;
   formGroup!: FormGroup;
-  name = 'NAME';
+  username: string | undefined;
+  routeSub: any;
+  owner: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
+  ) {
     this.formGroup = this.formBuilder.group({
       first_name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
@@ -26,18 +33,24 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    let username = this.localStorageService.get('username') ?? undefined;
-    if (username != undefined) {
-      User.loadUser(username).then((response) => {
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.username = params['username'];
+      this.owner = this.username == this.localStorageService.get('username');
+    });
+
+    if (this.username != undefined) {
+      User.loadUser(this.username).then((response) => {
         this.user = response;
         this.formGroup.controls['first_name'].setValue(this.user.first_name);
         this.formGroup.controls['last_name'].setValue(this.user.last_name);
-        this.user.getProjects().then((response: any) => {
-          this.ownProjects = response;
-        });
-        this.user.getProjectsMember().then((response: any) => {
-          this.memberProjects = response;
-        });
+        if (this.owner) {
+          this.user.getProjects().then((response: any) => {
+            this.ownProjects = response;
+          });
+          this.user.getProjectsMember().then((response: any) => {
+            this.memberProjects = response;
+          });
+        }
       });
     }
   }

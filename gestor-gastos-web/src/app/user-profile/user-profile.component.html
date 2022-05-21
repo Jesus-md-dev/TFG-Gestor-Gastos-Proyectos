@@ -14,7 +14,8 @@
             {{ user.email }}
           </h2>
         </mat-card-content>
-        <button mat-raised-button color="accent" (click)="changeView()">Edit</button>
+
+        <button mat-raised-button color="accent" (click)="changeView()" *ngIf="this.owner">Edit</button>
       </mat-card>
     </div>
   </ng-container>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
@@ -19,7 +19,6 @@ export class ProjectManagementComponent implements OnInit {
   user: any = new User();
   projects: any = [];
   localStorageService = new LocalStorageService();
-  showForm: boolean = false;
 
   constructor(private snackBar: MatSnackBar) {}
 
@@ -34,8 +33,6 @@ export class ProjectManagementComponent implements OnInit {
       });
     }
   }
-
-  changeShowForm() { this.showForm = !this.showForm; }
 
   createProject() {
     if (this.formGroup.valid) {

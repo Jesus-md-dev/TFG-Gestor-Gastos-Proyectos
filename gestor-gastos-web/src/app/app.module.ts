@@ -41,6 +41,7 @@ import { RegisterComponent } from './register/register.component';
 import { TestComponent } from './test/test.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectUsersTableComponent } from './project-users-table/project-users-table.component';
+import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ProjectUsersTableComponent } from './project-users-table/project-users-
     DialogProjectDeleteComponent,
     DialogAddMemberComponent,
     ProjectUsersTableComponent,
+    DialogMemberDeleteComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
 import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
+import { DialogMemberDeleteComponent } from '../dialog-member-delete/dialog-member-delete.component';
 import { Project } from '../project';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
@@ -115,18 +115,17 @@ export class ProjectUsersTableComponent implements OnInit {
         projectMembers: usernames,
       },
     });
-    ref.componentInstance.onSaveEmitter.subscribe((data) => {
-      this.updateUserList();
-    });
+    ref.componentInstance.onSaveEmitter.subscribe((data) => { this.updateUserList(); });
   }
 
-  expellMember(porject_id: number, member_id: number) {
-    this.project.expellMember(porject_id, member_id).then(() => {
-      this.users.forEach((user, index) => {
-        if (user.id == member_id) this.users.splice(index, 1);
-      });
-      this.updateUserList();
+  expellMember(user: User) {
+    const ref = this.dialog.open(DialogMemberDeleteComponent, {
+      data: {
+        project: this.project,
+        user: user,
+      },
     });
+    ref.componentInstance.onDeleteEmitter.subscribe((data) => { this.updateUserList(); })
   }
 
   getPageSizeOptions(): number[] {

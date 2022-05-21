@@ -122,7 +122,7 @@ def read_user(request, username):
         user = request.user
         user_requested = User.objects.get(username=username)
         if user.is_authenticated:
-            if user.id == user_requested.id:
+            # if user.id == user_requested.id:
                 return Response({
                     'user_info': {
                         'id':user_requested.id,
@@ -133,8 +133,8 @@ def read_user(request, username):
                         'img': user_requested.profile.img
                     },
                 })
-            else:
-                return Response({'error': 'not allowed'}, status=405)
+            # else:
+            #     return Response({'error': 'not allowed'}, status=405)
         else: 
             return Response({'error': 'not authenticated'}, status=404)
     except User.DoesNotExist:

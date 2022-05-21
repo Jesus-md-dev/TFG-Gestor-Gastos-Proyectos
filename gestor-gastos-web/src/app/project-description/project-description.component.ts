@@ -1,17 +1,9 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
 import { Project } from '../project';
-import { User } from '../user';
 import { LocalStorageService } from '../local-storage.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../project.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
 
 
 @Component({
@@ -33,7 +25,6 @@ export class ProjectDescriptionComponent implements OnInit {
       this.routeSub = this.route.params.subscribe((params) => {
         this.projectId = params['projectId'];
       });
-
       ProjectService.loadProjectData(this.projectId).then((response) => {
         this.project = response;
       });
