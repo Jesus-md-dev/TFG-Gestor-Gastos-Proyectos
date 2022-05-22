@@ -4,40 +4,42 @@ import { UserService } from "./user.service";
 export class User {
   id: number | null;
   username: string;
-  first_name: string | null;
-  last_name: string | null;
-  email: string | null;
-  private _img: string | null;
+  first_name: string;
+  last_name: string;
+  email: string;
+  private _img: string;
 
   constructor(
-    username = '',
     id = null,
-    first_name = null,
-    last_name = null,
-    email = null,
-    img = null
+    username = '',
+    first_name = '',
+    last_name = '',
+    email = '',
+    img = ''
   ) {
-    this.username = username;
     this.id = id;
+    this.username = username;
     this.first_name = first_name;
     this.last_name = last_name;
     this.email = email;
     this._img = img;
   }
 
-  public get img(): string | null {
+  public get img(): string {
     return this._img != '' ? this._img : GlobalComponent.blankUserImgPath;
   }
 
-  public set img(value: string | null) { this._img = value; }
+  public set img(value: string) {
+    this._img = value;
+  }
 
   static jsontoList(json: any) {
     let users: User[] = [];
     json.forEach((user: any) => {
       users.push(
         new User(
-          user['username'],
           user['id'],
+          user['username'],
           user['first_name'],
           user['last_name'],
           user['email'],
@@ -50,8 +52,8 @@ export class User {
 
   static jsontoObject(user: any) {
     return new User(
-      user['username'],
       user['id'],
+      user['username'],
       user['first_name'],
       user['last_name'],
       user['email'],

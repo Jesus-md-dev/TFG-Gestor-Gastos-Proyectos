@@ -3,17 +3,17 @@ import { ProjectService } from "./project.service";
 
 export class Project {
   id: number | null;
-  name: string | null;
-  category: string | null;
-  admin: string | null;
-  private _img: string | null;
+  name: string;
+  category: string;
+  admin: string;
+  private _img: string;
 
   constructor(
     id = null,
-    name = null,
-    category = null,
-    admin = null,
-    img = null
+    name = '',
+    category = '',
+    admin = '',
+    img = ''
   ) {
     this.id = id;
     this.name = name;
@@ -22,11 +22,11 @@ export class Project {
     this._img = img;
   }
 
-  public get img(): string | null {
+  public get img(): string {
     return this._img != '' ? this._img : GlobalComponent.blankProjectImgPath;
   }
 
-  public set img(value: string | null) {
+  public set img(value: string) {
     this._img = value;
   }
 

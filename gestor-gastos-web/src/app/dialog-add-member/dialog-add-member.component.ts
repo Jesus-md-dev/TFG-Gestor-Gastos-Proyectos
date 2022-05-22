@@ -46,11 +46,7 @@ export class DialogAddMemberComponent implements OnInit {
     ) {
       let username = this.formGroup.get('username')?.value;
       UserService.userExist(username).then((response) => {
-        if (
-          response.hasOwnProperty('error') &&
-          (response['error'] == 'user does not exist' ||
-            response['error'] == 'not found')
-        ) {
+        if (response.hasOwnProperty('error')) {
           this.snackBar.open('User ' + username + ' not found', 'Close', {
             duration: 3 * 1000,
           });

@@ -1,60 +1,60 @@
-<div class="profile-body">
-  <ng-container *ngIf="!editView;else editCard">
-    <div class="profile-card">
-      <mat-card>
-        <img alt="" matCardImage src={{user.img}}>
-        <mat-card-content>
-          <h2>
-            {{ user.first_name }}
-          </h2>
-          <h2>
-            {{ user.last_name }}
-          </h2>
+<ng-container *ngIf="!editView;else editCard">
+  <div class="profile-card">
+    <mat-card>
+      <img alt="" matCardImage src={{user.img}}>
+      <mat-card-content>
+        <h2>
+          {{ user.first_name }}
+        </h2>
+        <h2>
+          {{ user.last_name }}
+        </h2>
+        <h2>
+          {{ user.email }}
+        </h2>
+      </mat-card-content>
+      <button mat-raised-button color="accent" (click)="changeView()" *ngIf="this.owner">
+        Edit
+      </button>
+    </mat-card>
+  </div>
+</ng-container>
+
+<ng-template #editCard>
+  <div class="profile-card">
+    <mat-card>
+      <img alt="" matCardImage src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
+      <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
+          <div>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput formControlName="first_name">
+              <mat-error>
+                First Name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput formControlName="last_name">
+              <mat-error>
+                Last Name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
           <h2>
             {{ user.email }}
           </h2>
+        <mat-card-content class="form-edit-custom">
+          <button mat-raised-button color="accent" type="submit">Save</button>
+          <button mat-raised-button color="secondary" (click)="changeView()">
+            Cancel
+          </button>
         </mat-card-content>
-
-        <button mat-raised-button color="accent" (click)="changeView()" *ngIf="this.owner">Edit</button>
-      </mat-card>
-    </div>
-  </ng-container>
-
-  <ng-template #editCard>
-    <div class="profile-card">
-      <mat-card>
-        <img alt="" matCardImage src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
-        <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
-            <div>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>First Name</mat-label>
-                <input type="text" matInput formControlName="first_name">
-                <mat-error>
-                  First Name is <strong>required</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Last Name</mat-label>
-                <input type="text" matInput formControlName="last_name">
-                <mat-error>
-                  Last Name is <strong>required</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <h2>
-              {{ user.email }}
-            </h2>
-          <mat-card-content class="form-edit-custom">
-            <button mat-raised-button color="accent" type="submit">Save</button>
-            <button mat-raised-button color="secondary" (click)="changeView()">
-              Cancel
-            </button>
-          </mat-card-content>
-        </form>
-      </mat-card>
-    </div>
-  </ng-template>
-  <app-project-list [ownProjects]="ownProjects" [memberProjects]="memberProjects"></app-project-list>
-</div>
+      </form>
+    </mat-card>
+  </div>
+</ng-template>
+<app-project-list [ownProjects]="ownProjects" [memberProjects]="memberProjects">
+</app-project-list>

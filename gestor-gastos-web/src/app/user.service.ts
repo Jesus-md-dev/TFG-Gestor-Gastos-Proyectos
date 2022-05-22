@@ -143,7 +143,7 @@ export class UserService {
           },
         }
       );
-      return;
+      return response;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data
