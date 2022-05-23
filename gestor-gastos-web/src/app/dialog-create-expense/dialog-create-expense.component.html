@@ -1,0 +1,44 @@
+<form class="custom-form" (ngSubmit)="createExpense()" [formGroup]="formGroup">
+  <div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>User (Username)</mat-label>
+      <input type="text" matInput formControlName="username" />
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Dossier</mat-label>
+      <input type="text" matInput formControlName="dossier">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Concept</mat-label>
+      <textarea matInput formControlName="concept"></textarea>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" formControlName="amount">
+      <span matSuffix>€&nbsp;</span>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>VAT</mat-label>
+      <input type="number" matInput formControlName="vatpercentage">
+      <span matSuffix>%&nbsp;</span>
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
+</form>

@@ -370,13 +370,13 @@ def delete_project(request, id):
 def create_expense(request):
     user = request.user
     if user.is_authenticated:
-        project_requested = Project.objects.get(id = request.data.get('project_id'))
-        user_requested = User.objects.get(username = request.data.get('username'))
-        #TODO usuario administra projecto y usuario enviado pertenece projecto
-        if project_requested.admin == user and True:
-            amount = float(request.data.get('amount'))
-            vatpercentage = float(request.data.get('vatpercentage'))
-            try:
+        try: 
+            project_requested = Project.objects.get(id = request.data.get('project_id'))
+            user_requested = User.objects.get(username = request.data.get('username'))
+            #TODO usuario administra projecto y usuario enviado pertenece projecto
+            if project_requested.admin == user and True:
+                amount = float(request.data.get('amount'))
+                vatpercentage = float(request.data.get('vatpercentage'))
                 expense = Expense(project=project_requested, 
                     user=user_requested,
                     dossier=request.data.get('dossier'),
@@ -399,10 +399,14 @@ def create_expense(request):
                         'admin': expense.user.username,
                     },
                 })
-            except:
-                return Response({'error': 'error in expense parameters'})
-        else: 
-            return Response({'error': 'not authorized'}, status=401)
+            else: 
+                return Response({'error': 'not authorized'}, status=401)
+        except Project.DoesNotExist:
+            return Response({'error': 'Project does not exist'})
+        except User.DoesNotExist:
+            return Response({'error': 'User does not exist'})
+        except AssertionError as error:
+            return Response({'error': error})
     else:
         return Response({'error': 'not authenticated'}, status=400)
 

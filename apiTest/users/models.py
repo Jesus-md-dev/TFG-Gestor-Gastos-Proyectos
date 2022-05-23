@@ -19,7 +19,7 @@ class Expense (models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     dossier = models.CharField(max_length=100)
-    date = models.DateTimeField()
+    date = models.DateField()
     concept = models.CharField(max_length=100)
     amount = models.FloatField()
     vatpercentage = models.IntegerField()

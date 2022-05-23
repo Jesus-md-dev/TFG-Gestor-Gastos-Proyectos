@@ -42,6 +42,9 @@ import { TestComponent } from './test/test.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectUsersTableComponent } from './project-users-table/project-users-table.component';
 import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
+import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +61,7 @@ import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-membe
     DialogAddMemberComponent,
     ProjectUsersTableComponent,
     DialogMemberDeleteComponent,
+    DialogCreateExpenseComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +93,7 @@ import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-membe
     MatTabsModule,
     MatExpansionModule,
     MatDialogModule,
+    MatDatepickerModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

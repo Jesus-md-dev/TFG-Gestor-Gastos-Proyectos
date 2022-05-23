@@ -26,21 +26,31 @@ export class Expense {
         let expenses: any = [];
         json.forEach((expense: any) => {
             expenses.push(new Expense(
-                expense["pk"],
-                expense["fields"]["project"],
-                expense["fields"]["user"],
-                expense["fields"]["dossier"],
-                new Date(expense["fields"]["date"]),
-                expense["fields"]["concept"],
-                expense["fields"]["amount"],
-                expense["fields"]["vatpercentage"],
-                expense["fields"]["final_amount"],
+                expense["id"],
+                expense["project"],
+                expense["user"],
+                expense["dossier"],
+                new Date(expense["date"]),
+                expense["concept"],
+                expense["amount"],
+                expense["vatpercentage"],
+                expense["final_amount"],
             ));
         });
         return expenses;
     }
 
-    static jsontoObject(json: any) {
-        return this.jsontoList(json)[0];
+    static jsontoObject(expense: any) {
+      return new Expense(
+        expense['id'],
+        expense['project'],
+        expense['user'],
+        expense['dossier'],
+        new Date(expense['date']),
+        expense['concept'],
+        expense['amount'],
+        expense['vatpercentage'],
+        expense['final_amount']
+      );
     }
 }

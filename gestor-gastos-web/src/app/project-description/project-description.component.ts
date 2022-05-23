@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class ProjectDescriptionComponent implements OnInit {
   projectId: any;
   user: User = new User();
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     try {
@@ -33,5 +35,13 @@ export class ProjectDescriptionComponent implements OnInit {
         });
       });
     } catch (error) {}
+  }
+
+  createExpense() {
+    const ref = this.dialog.open(DialogCreateExpenseComponent, {
+      data: {
+        projectId: this.projectId,
+      },
+    });
   }
 }
