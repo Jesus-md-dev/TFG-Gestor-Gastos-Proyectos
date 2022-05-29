@@ -1,10 +1,12 @@
 from django.contrib import admin
-from users.models import Project, Expense, Profile, ProjectMember
+from expenses.models import Expense
+from projects.models import Project, ProjectMember
+from users.models import Profile
 
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'category', 'admin', 'img')
 
 
 @admin.register(Expense)
