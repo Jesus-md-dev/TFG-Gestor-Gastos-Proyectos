@@ -31,7 +31,7 @@ export class DialogMemberDeleteComponent {
   onDelete(): void {
     if (this.project.id != null && this.user.id != null) {
       this.project.expellMember(this.project.id, this.user.id).then((response) => {
-        if (!response.hasOwnProperty('error')) this.onDeleteEmitter.emit();
+        if (!response.hasOwnProperty('message')) this.onDeleteEmitter.emit();
       });
     }
     this.dialogRef.close();

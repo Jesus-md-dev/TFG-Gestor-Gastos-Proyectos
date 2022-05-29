@@ -56,13 +56,9 @@ export class RegisterComponent {
       ).then( (response) => {
           if (response.hasOwnProperty('user_info')) this.router.navigate(['/login']);
           else{
-            if (response.hasOwnProperty('email'))
-              this.snackBar.open('Email is already used', 'Close', {
+            if (response.hasOwnProperty('message'))
+              this.snackBar.open('Email or username already used', 'Close', {
                 duration: this.durationInSeconds * 1000
-              });
-            if (response.hasOwnProperty('username'))
-              this.snackBar.open('Username is already used', 'Close', {
-                duration: this.durationInSeconds * 1000,
               });
           }
         }

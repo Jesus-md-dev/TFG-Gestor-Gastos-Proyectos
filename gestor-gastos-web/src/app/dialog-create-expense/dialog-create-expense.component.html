@@ -40,5 +40,8 @@
       <span matSuffix>%&nbsp;</span>
     </mat-form-field>
   </div>
-  <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
+  <div class="button-container-space-between">
+    <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
+    <button mat-raised-button (click)="onClose()">Close</button>
+  </div>
 </form>

@@ -46,7 +46,7 @@ export class DialogAddMemberComponent implements OnInit {
     ) {
       let username = this.formGroup.get('username')?.value;
       UserService.userExist(username).then((response) => {
-        if (response.hasOwnProperty('error')) {
+        if (response.hasOwnProperty('message')) {
           this.snackBar.open('User ' + username + ' not found', 'Close', {
             duration: 3 * 1000,
           });
@@ -68,8 +68,7 @@ export class DialogAddMemberComponent implements OnInit {
 
   onSave(): void {
     this.project.addMembers(this.userlist).then((response) => {
-      if (response.hasOwnProperty('error')) {
-        console.log(response['error']);
+      if (response.hasOwnProperty('message')) {
         this.snackBar.open('Some users already belong to the project', 'Close', {
           duration: 3 * 1000,
         })
@@ -77,7 +76,7 @@ export class DialogAddMemberComponent implements OnInit {
       else{
         this.onSaveEmitter.emit();
       }
-    })
+    });
     this.dialogRef.close();
   }
 }

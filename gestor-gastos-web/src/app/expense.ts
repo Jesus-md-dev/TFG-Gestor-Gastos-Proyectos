@@ -1,7 +1,7 @@
 export class Expense {
     id: number | undefined;
     project: number | undefined;
-    user: number | undefined;
+    user: string | undefined;
     dossier: string | undefined;
     date: Date | undefined;
     concept: string | undefined;
@@ -9,7 +9,7 @@ export class Expense {
     vatpercentage: number | undefined;
     final_amount: number | undefined;
 
-    constructor(id: number, project: number, user: number, dossier: string, date: Date,
+    constructor(id: number, project: number, user: string, dossier: string, date: Date,
         concept: string, amount: number, vatpercentage: number, final_amount: number) {
         this.id = id;
         this.project = project;

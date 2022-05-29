@@ -3,7 +3,7 @@ import { User } from '../user';
 import { LocalStorageService } from '../local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -24,7 +24,8 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.formGroup = this.formBuilder.group({
       first_name: ['', [Validators.required]],
@@ -40,16 +41,24 @@ export class UserProfileComponent implements OnInit {
 
     if (this.username != undefined) {
       User.loadUser(this.username).then((response) => {
-        this.user = response;
-        this.formGroup.controls['first_name'].setValue(this.user.first_name);
-        this.formGroup.controls['last_name'].setValue(this.user.last_name);
-        if (this.owner) {
-          this.user.getProjects().then((response: any) => {
-            this.ownProjects = response;
+        if (response.hasOwnProperty('message')) {
+          this.snackBar.open(response['message'], 'Close', {
+            duration: 3 * 1000,
           });
-          this.user.getProjectsMember().then((response: any) => {
-            this.memberProjects = response;
-          });
+          this.router.navigate(['/']);
+        }
+        else {
+          this.user = response;
+          this.formGroup.controls['first_name'].setValue(this.user.first_name);
+          this.formGroup.controls['last_name'].setValue(this.user.last_name);
+          if (this.owner) {
+            this.user.getProjects().then((response: any) => {
+              this.ownProjects = response;
+            });
+            this.user.getProjectsMember().then((response: any) => {
+              this.memberProjects = response;
+            });
+          }
         }
       });
     }
@@ -66,7 +75,6 @@ export class UserProfileComponent implements OnInit {
         });
         this.changeView();
       } else {
-        console.log(response.data);
         this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
       }
     });

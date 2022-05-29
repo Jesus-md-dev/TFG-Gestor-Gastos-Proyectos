@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Expense } from '../expense';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExpenseService } from '../expense.service';
 
 @Component({
@@ -11,30 +12,30 @@ import { ExpenseService } from '../expense.service';
 export class DialogCreateExpenseComponent implements OnInit {
   projectId = 7;
   formGroup: FormGroup = new FormGroup({
-    // username: new FormControl('', [Validators.required]),
-    // dossier: new FormControl('', [Validators.required]),
-    // date: new FormControl('', [Validators.required]),
-    // concept: new FormControl('', [Validators.required]),
-    // amount: new FormControl('', [Validators.required]),
-    // vatpercentage: new FormControl('', [
-    //   Validators.required,
-    //   Validators.max(100),
-    //   Validators.min(0),
-    // ]),
-    username: new FormControl(''),
-    dossier: new FormControl(''),
-    date: new FormControl(''),
-    concept: new FormControl(''),
-    amount: new FormControl(''),
+    username: new FormControl('', [Validators.required]),
+    dossier: new FormControl('', [Validators.required]),
+    // TODO max date today
+    date: new FormControl('', [Validators.required]),
+    concept: new FormControl('', [Validators.required]),
+    amount: new FormControl('', [Validators.required]),
     vatpercentage: new FormControl('', [
+      Validators.required,
       Validators.max(100),
       Validators.min(0),
     ]),
   });
+  @Output() onCreateEmmiter = new EventEmitter();
 
-  constructor() {}
+  constructor(
+    public dialogRef: MatDialogRef<DialogCreateExpenseComponent>,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {}
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
 
   createExpense(): void {
     ExpenseService.create(
@@ -46,7 +47,14 @@ export class DialogCreateExpenseComponent implements OnInit {
       this.formGroup.controls['amount'].value,
       this.formGroup.controls['vatpercentage'].value
     ).then((response) => {
-      console.log(response);
+      if (response.hasOwnProperty('message')) {
+        this.snackBar.open('Error', 'Close', {
+          duration: 3 * 1000,
+        });
+      } else {
+        this.onCreateEmmiter.emit();
+      }
+      this.dialogRef.close();
     });
   }
 }

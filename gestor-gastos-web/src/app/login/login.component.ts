@@ -41,7 +41,7 @@ export class LoginComponent {
         );
         window.location.reload();
       } else {
-        if (response.hasOwnProperty('error'))
+        if (response.hasOwnProperty('message'))
           this.snackBar.open('Username or Password are incorrect', 'Close', {
             duration: this.durationInSeconds * 1000,
           });

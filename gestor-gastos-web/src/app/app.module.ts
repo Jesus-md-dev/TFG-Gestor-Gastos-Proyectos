@@ -44,6 +44,7 @@ import { ProjectUsersTableComponent } from './project-users-table/project-users-
 import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
 import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ProjectExpensesTableComponent } from './project-expenses-table/project-expenses-table.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ProjectUsersTableComponent,
     DialogMemberDeleteComponent,
     DialogCreateExpenseComponent,
+    ProjectExpensesTableComponent,
   ],
   imports: [
     BrowserModule,
