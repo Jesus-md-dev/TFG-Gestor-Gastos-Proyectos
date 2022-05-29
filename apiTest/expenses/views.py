@@ -147,3 +147,18 @@ def delete_expense(request):
             return Response({'message': 'bad request'}, status=400)
     else:
         return Response({'message': 'unauthorized'}, status=401)
+
+
+@api_view(['GET'])
+def get_project_expenses(request, project_id):
+    try:
+        user = request.user
+        project = Project.objects.get(id=project_id)
+        if user.is_authenticated and project.admin == user:
+            expenses = Expense.objects.filter(project=project)
+            expenses = [expense.as_json() for expense in expenses]
+            return HttpResponse(json.dumps(expenses))
+        else: 
+            return Response({'message': 'unauthorized'}, status=401)
+    except:
+        return Response({'message': 'bad request'}, status=400)

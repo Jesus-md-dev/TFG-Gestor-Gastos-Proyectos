@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Project } from '../project';
 import { LocalStorageService } from '../local-storage.service';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -25,11 +25,11 @@ export class ProjectDescriptionComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      this.routeSub = this.route.params.subscribe((params) => {
+      this.routeSub = this.route.params.subscribe((params: { [x: string]: any; }) => {
         this.projectId = params['projectId'];
       });
       ProjectService.loadProjectData(this.projectId).then((response) => {
-        this.project = response;
+        this.project = response as Project;
         User.loadUser(this.project.admin).then((response) => {
           this.user = response;
         });

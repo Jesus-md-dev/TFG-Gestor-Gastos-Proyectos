@@ -3,13 +3,13 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from projects.models import Project
+from projects.models import Project, ProjectMember
 
 
 @api_view(['GET'])
 def get_all_project(request):
         user = request.user
-        if user.is_authenticated and  user.is_superuser:
+        if user.is_authenticated and user.is_superuser:
             projects = Project.objects.all()
             projects = [project.as_json() for project in projects]
             return HttpResponse(json.dumps(projects))

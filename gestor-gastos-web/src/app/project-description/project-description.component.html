@@ -9,6 +9,7 @@
       <button mat-raised-button color="accent" (click)="createExpense()">
         Create New Expense
       </button>
+      <app-project-expenses-table [projectId]="projectId"></app-project-expenses-table>
     </mat-tab>
     <mat-tab label="Owner">
       <ng-container>

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExpenseService } from '../expense.service';
 
@@ -10,7 +10,7 @@ import { ExpenseService } from '../expense.service';
   styleUrls: ['./dialog-create-expense.component.css'],
 })
 export class DialogCreateExpenseComponent implements OnInit {
-  projectId = 7;
+  projectId;
   formGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     dossier: new FormControl('', [Validators.required]),
@@ -28,8 +28,11 @@ export class DialogCreateExpenseComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogCreateExpenseComponent>,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.projectId = data.projectId;
+  }
 
   ngOnInit(): void {}
 
@@ -38,23 +41,30 @@ export class DialogCreateExpenseComponent implements OnInit {
   }
 
   createExpense(): void {
-    ExpenseService.create(
-      7,
-      this.formGroup.controls['username'].value,
-      this.formGroup.controls['dossier'].value,
-      this.formGroup.controls['date'].value,
-      this.formGroup.controls['concept'].value,
-      this.formGroup.controls['amount'].value,
-      this.formGroup.controls['vatpercentage'].value
-    ).then((response) => {
-      if (response.hasOwnProperty('message')) {
-        this.snackBar.open('Error', 'Close', {
-          duration: 3 * 1000,
-        });
-      } else {
-        this.onCreateEmmiter.emit();
-      }
-      this.dialogRef.close();
-    });
+    if (this.formGroup.valid) {
+      ExpenseService.create(
+        this.projectId,
+        this.formGroup.controls['username'].value,
+        this.formGroup.controls['dossier'].value,
+        this.formGroup.controls['date'].value,
+        this.formGroup.controls['concept'].value,
+        this.formGroup.controls['amount'].value,
+        this.formGroup.controls['vatpercentage'].value
+      ).then((response) => {
+        if (response.hasOwnProperty('message')) {
+          this.snackBar.open('Error', 'Close', {
+            duration: 3 * 1000,
+          });
+        } else {
+          this.onCreateEmmiter.emit();
+          this.dialogRef.close();
+        }
+      });
+    }
+    else {
+      this.snackBar.open('Some fields are not correct', 'Close', {
+        duration: 3 * 1000,
+      });
+    }
   }
 }

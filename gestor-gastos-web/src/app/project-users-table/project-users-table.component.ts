@@ -49,7 +49,7 @@ export class ProjectUsersTableComponent implements OnInit {
         Breakpoints.Large,
         Breakpoints.XLarge,
       ])
-      .subscribe((result) => {
+      .subscribe((result: { breakpoints: { [x: string]: any; }; }) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
             if (query === Breakpoints.Small || query === Breakpoints.XSmall) {
@@ -108,7 +108,9 @@ export class ProjectUsersTableComponent implements OnInit {
   }
 
   addMembers() {
-    const usernames = this.users.map((user) => user.username);
+    let usernames: string[] = [];
+    if (this.users.length > 0)
+      usernames = this.users.map((user) => user.username);
     const ref = this.dialog.open(DialogAddMemberComponent, {
       data: {
         project: this.project,

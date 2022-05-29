@@ -46,7 +46,7 @@ export class ProjectExpensesTableComponent implements OnInit {
         Breakpoints.Large,
         Breakpoints.XLarge,
       ])
-      .subscribe((result) => {
+      .subscribe((result: { breakpoints: { [x: string]: any; }; }) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
             if (query === Breakpoints.Small || query === Breakpoints.XSmall) {
@@ -131,7 +131,7 @@ export class ProjectExpensesTableComponent implements OnInit {
 
   updateUserList() {
     ExpenseService.getProjectExpenses(this.projectId).then((response) => {
-      // this.expensesDataSource.data = this.expenses = response;
+      this.expensesDataSource.data = this.expenses = response;
       this.expensesDataSource.sort = this.sort;
     });
   }
