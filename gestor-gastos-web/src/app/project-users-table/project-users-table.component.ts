@@ -29,7 +29,7 @@ export class ProjectUsersTableComponent implements OnInit {
     'last_name',
     'first_name',
     'email',
-    'expenses',
+    'options',
   ];
   filterData: { username: string } = { username: '' };
   filterSelectObj = [];

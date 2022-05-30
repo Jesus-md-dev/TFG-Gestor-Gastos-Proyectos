@@ -45,6 +45,8 @@ import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-membe
 import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ProjectExpensesTableComponent } from './project-expenses-table/project-expenses-table.component';
+import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
+import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
 
 
 @NgModule({
@@ -64,6 +66,8 @@ import { ProjectExpensesTableComponent } from './project-expenses-table/project-
     DialogMemberDeleteComponent,
     DialogCreateExpenseComponent,
     ProjectExpensesTableComponent,
+    DialogExpenseDeleteComponent,
+    ExpenseDescriptionComponent,
   ],
   imports: [
     BrowserModule,

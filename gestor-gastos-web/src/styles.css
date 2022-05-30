@@ -175,10 +175,6 @@ mat-tab-header {
   margin-top: 10%;
 }
 
-.card-form strong {
-  color: darkred;
-}
-
 .server-down {
   display: flex;
   justify-content: center;
@@ -230,14 +226,18 @@ mat-tab-header {
   .mat-table .mat-row {
     display: block;
     text-align: center;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    margin-right: -150%;
-    margin: 2% -150% 2% 1%;
     overflow: hidden;
     height: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 3px;
+  }
+
+  .user-table .mat-row {
+    margin: 2% -150% 2% 1%;
+  }
+
+  .expense-table .mat-row {
+    margin: 2% -192% 2% 1%;
   }
 
   .mat-table .mat-row+.mat-row {

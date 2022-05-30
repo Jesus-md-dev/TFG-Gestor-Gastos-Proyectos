@@ -46,6 +46,27 @@ export class ExpenseService {
     }
   }
 
+  static async delete(id: number) {
+    console.log("AAAAAAA");
+
+    try {
+      const response = await axios.delete(
+        GlobalComponent.apiUrl + '/api/delete_expense/' + id,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      console.log(response);
+
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
   static async getProjectExpenses(projectId: number) {
     try {
       const response = await axios.get(

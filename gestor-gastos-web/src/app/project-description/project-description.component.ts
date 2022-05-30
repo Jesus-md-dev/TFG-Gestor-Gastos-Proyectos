@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../project';
 import { LocalStorageService } from '../local-storage.service';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { User } from '../user';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
 import { ActivatedRoute } from '@angular/router';
+import { ProjectExpensesTableComponent } from '../project-expenses-table/project-expenses-table.component';
 
 
 @Component({
@@ -21,13 +22,18 @@ export class ProjectDescriptionComponent implements OnInit {
   projectId: any;
   user: User = new User();
 
+  @ViewChild(ProjectExpensesTableComponent)
+  expensesTable!: ProjectExpensesTableComponent;
+
   constructor(private route: ActivatedRoute, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     try {
-      this.routeSub = this.route.params.subscribe((params: { [x: string]: any; }) => {
-        this.projectId = params['projectId'];
-      });
+      this.routeSub = this.route.params.subscribe(
+        (params: { [x: string]: any }) => {
+          this.projectId = params['projectId'];
+        }
+      );
       ProjectService.loadProjectData(this.projectId).then((response) => {
         this.project = response as Project;
         User.loadUser(this.project.admin).then((response) => {
@@ -43,5 +49,9 @@ export class ProjectDescriptionComponent implements OnInit {
         projectId: this.projectId,
       },
     });
+
+    ref.componentInstance.onCreateEmmiter.subscribe((data) => {
+      this.expensesTable.updateExpenseList();
+    })
   }
 }

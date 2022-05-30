@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { Expense } from '../expense';
 import { ExpenseService } from '../expense.service';
 import { Project } from '../project';
@@ -29,6 +30,7 @@ export class ProjectExpensesTableComponent implements OnInit {
     'amount',
     'vatpercentage',
     'final_amount',
+    'options',
   ];
   currentScreenSize: string | undefined;
   isSmall = false;
@@ -46,7 +48,7 @@ export class ProjectExpensesTableComponent implements OnInit {
         Breakpoints.Large,
         Breakpoints.XLarge,
       ])
-      .subscribe((result: { breakpoints: { [x: string]: any; }; }) => {
+      .subscribe((result: { breakpoints: { [x: string]: any } }) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
             if (query === Breakpoints.Small || query === Breakpoints.XSmall) {
@@ -60,23 +62,16 @@ export class ProjectExpensesTableComponent implements OnInit {
         }
       });
 
-    // this.expensesDataSource.filterPredicate = ((data, filter) => {
-    //   let filterJs = JSON.parse(filter);
-    //   const a = !filterJs.user || data.user.toLowerCase().includes(filterJs.user);
-    //   const b = !filterJs.date || data.date?.toLowerCase().includes(filterJs.date);
-    //   const c = !filterJs.amount || data.amount?.toLowerCase().includes(filterJs.amount);
-    //   const d = !filterJs.vatpercentage ||
-    //     data.vatpercentage?.toLowerCase().includes(filterJs.vatpercentage);
-    //   const e = !filterJs.final_amount ||
-    //     data.final_amount?.toLowerCase().includes(filterJs.final_amount);
-    //   return a && b && c && d;
-    // }) as (data: Expense, filter: string) => boolean;
+    this.expensesDataSource.filterPredicate = ((data, filter) => {
+      let filterJs = JSON.parse(filter);
+      const a =
+        !filterJs.user || data.user.toLowerCase().includes(filterJs.user);
+      // const b = !filterJs.date || data.date?.toLowerCase().includes(filterJs.date);
+      return a;
+    }) as (data: Expense, filter: string) => boolean;
 
     this.formControl = formBuilder.group({
-      username: '',
-      last_name: '',
-      first_name: '',
-      email: '',
+      user: '',
     });
 
     this.formControl.valueChanges.subscribe((value) => {
@@ -92,7 +87,7 @@ export class ProjectExpensesTableComponent implements OnInit {
   ngOnInit(): void {
     ProjectService.loadProjectData(this.projectId).then((response) => {
       this.project = response;
-      this.updateUserList();
+      this.updateExpenseList();
     });
   }
 
@@ -100,36 +95,22 @@ export class ProjectExpensesTableComponent implements OnInit {
     this.expensesDataSource.paginator = this.paginator;
   }
 
-  // addMembers() {
-  //   const usernames = this.users.map((user) => user.username);
-  //   const ref = this.dialog.open(DialogAddMemberComponent, {
-  //     data: {
-  //       project: this.project,
-  //       projectMembers: usernames,
-  //     },
-  //   });
-  //   ref.componentInstance.onSaveEmitter.subscribe((data) => {
-  //     this.updateUserList();
-  //   });
-  // }
-
-  // expellMember(user: User) {
-  //   const ref = this.dialog.open(DialogMemberDeleteComponent, {
-  //     data: {
-  //       project: this.project,
-  //       user: user,
-  //     },
-  //   });
-  //   ref.componentInstance.onDeleteEmitter.subscribe((data) => {
-  //     this.updateUserList();
-  //   });
-  // }
+  deleteExpense(expense: Expense) {
+    const ref = this.dialog.open(DialogExpenseDeleteComponent, {
+      data: {
+        expense: expense,
+      },
+    });
+    ref.componentInstance.onDeleteEmitter.subscribe((data) => {
+      this.updateExpenseList();
+    });
+  }
 
   getPageSizeOptions(): number[] {
     return [5, 10, 15, 20];
   }
 
-  updateUserList() {
+  updateExpenseList() {
     ExpenseService.getProjectExpenses(this.projectId).then((response) => {
       this.expensesDataSource.data = this.expenses = response;
       this.expensesDataSource.sort = this.sort;
