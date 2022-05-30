@@ -47,8 +47,6 @@ export class ExpenseService {
   }
 
   static async delete(id: number) {
-    console.log("AAAAAAA");
-
     try {
       const response = await axios.delete(
         GlobalComponent.apiUrl + '/api/delete_expense/' + id,

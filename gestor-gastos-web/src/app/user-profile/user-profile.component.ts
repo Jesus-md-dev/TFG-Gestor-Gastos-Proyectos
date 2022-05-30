@@ -67,7 +67,7 @@ export class UserProfileComponent implements OnInit {
   save() {
     this.user.first_name = this.formGroup.controls['first_name'].value;
     this.user.last_name = this.formGroup.controls['last_name'].value;
-    this.user.save().then((response: any) => {
+    this.user.update().then((response: any) => {
       if (response.hasOwnProperty('user_info')) {
         this.user = User.jsontoObject(response['user_info']);
         this.snackBar.open('Edit success', 'Close', {

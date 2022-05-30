@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from expenses.models import Expense
 from projects.models import Project, ProjectMember
 
 
@@ -67,16 +68,15 @@ def update_project(request):
     try:
         project_requested = Project.objects.get(id=request.data['id'])
         user = request.user
-        if user.is_authenticated:
-            if project_requested.admin == user:
-                if 'name' in request.data:
-                    project_requested.first_name = request.data['name']
-                if 'category' in request.data:
-                    project_requested.last_name = request.data['category']
-                if 'img' in request.data:
-                    project_requested.profile.img =  request.data['img']
-                project_requested.save()
-                return Response({
+        if user.is_authenticated and project_requested.admin == user:
+            if 'name' in request.data:
+                project_requested.first_name = request.data['name']
+            if 'category' in request.data:
+                project_requested.last_name = request.data['category']
+            if 'img' in request.data:
+                project_requested.img =  request.data['img']
+            project_requested.save()
+            return Response({
                 'project_info': {
                     'id': project_requested.id,
                     'name': project_requested.name,
@@ -85,12 +85,8 @@ def update_project(request):
                     'admin': project_requested.admin.username
                 },
             })
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except Expense.DoesNotExist:
-        return Response({'message': 'bad request'}, status=400)
     except:
         return Response({'message': 'bad request'}, status=400)
 

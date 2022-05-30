@@ -83,12 +83,16 @@ export class User {
     return await UserService.getUserProjectsMember(this.username);
   }
 
-  async save() {
-    return await UserService.save(
+  async update() {
+    return await UserService.update(
       this.username,
       this.first_name,
       this.last_name,
       this._img
     );
+  }
+
+  async delete() {
+    return await UserService.delete(this.username);
   }
 }

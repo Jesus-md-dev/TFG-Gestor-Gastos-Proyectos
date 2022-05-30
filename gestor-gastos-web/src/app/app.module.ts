@@ -38,7 +38,6 @@ import { ProjectDescriptionComponent } from './project-description/project-descr
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { RegisterComponent } from './register/register.component';
-import { TestComponent } from './test/test.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectUsersTableComponent } from './project-users-table/project-users-table.component';
 import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
@@ -52,7 +51,6 @@ import { ExpenseDescriptionComponent } from './expense-description/expense-descr
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponent,
     UserProfileComponent,
     ProjectDescriptionComponent,
     LoginComponent,
@@ -111,7 +109,6 @@ import { ExpenseDescriptionComponent } from './expense-description/expense-descr
       { path: 'user/:username', component: UserProfileComponent },
       { path: 'projects/:username', component: ProjectManagementComponent },
       { path: 'project/:projectId', component: ProjectDescriptionComponent },
-      { path: 'test', component: TestComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: '', component: MainComponent },

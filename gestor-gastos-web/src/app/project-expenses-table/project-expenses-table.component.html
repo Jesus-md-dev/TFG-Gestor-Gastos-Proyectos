@@ -54,7 +54,7 @@
         <span class="feature-name" *ngIf="isSmall">
           {{'Amount' | translate}}:
         </span>
-        {{expense.amount}}
+        {{expense.amount}} &euro;
       </td>
     </ng-container>
     <ng-container matColumnDef="vatpercentage">
@@ -65,10 +65,7 @@
         <span class="feature-name" *ngIf="isSmall">
           {{'VAT' | translate}}:
         </span>
-        {{expense.vatpercentage}}
-        <span *ngIf="isSmall">
-          %
-        </span>
+        {{expense.vatpercentage}} &percnt;
       </td>
     </ng-container>
     <ng-container matColumnDef="final_amount">
@@ -79,7 +76,7 @@
         <span class="feature-name" *ngIf="isSmall">
           {{'Final Amount' | translate}}:
         </span>
-        {{expense.final_amount}}
+        {{expense.final_amount}} &euro;
       </td>
     </ng-container>
 

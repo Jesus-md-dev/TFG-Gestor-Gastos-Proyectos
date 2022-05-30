@@ -132,11 +132,11 @@ def update_expense(request):
 
 
 @api_view(['DELETE'])
-def delete_expense(request):
+def delete_expense(request, id):
     user = request.user
     if user.is_authenticated:
         try:
-            expense = Expense.objects.get(pk=request.data.get('id'))
+            expense = Expense.objects.get(pk=id)
             if user == expense.project.admin:
                 id = expense.id
                 expense.delete()

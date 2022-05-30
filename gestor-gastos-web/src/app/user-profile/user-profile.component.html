@@ -13,9 +13,14 @@
           {{ user.email }}
         </h2>
       </mat-card-content>
-      <button mat-raised-button color="accent" (click)="changeView()" *ngIf="this.owner">
-        Edit
-      </button>
+      <div class="button-container-space-between">
+        <button mat-raised-button color="accent" (click)="changeView()" *ngIf="this.owner">
+          Edit
+        </button>
+        <button mat-raised-button color="warn" (click)="changeView()" *ngIf="this.owner">
+          Delete Account
+        </button>
+      </div>
     </mat-card>
   </div>
 </ng-container>
@@ -23,7 +28,7 @@
 <ng-template #editCard>
   <div class="profile-card">
     <mat-card>
-      <img alt="" matCardImage src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256_960_720.png">
+      <img alt="" matCardImage src={{user.img}}>
       <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
           <div>
             <mat-form-field class="example-full-width" appearance="fill">
@@ -46,12 +51,12 @@
           <h2>
             {{ user.email }}
           </h2>
-        <mat-card-content class="form-edit-custom">
+        <div class="button-container-space-between">
           <button mat-raised-button color="accent" type="submit">Save</button>
           <button mat-raised-button color="secondary" (click)="changeView()">
             Cancel
           </button>
-        </mat-card-content>
+        </div>
       </form>
     </mat-card>
   </div>

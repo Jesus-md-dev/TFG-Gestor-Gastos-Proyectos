@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExpenseService } from '../expense.service';
+import { ProjectService } from '../project.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-dialog-create-expense',
@@ -10,7 +12,8 @@ import { ExpenseService } from '../expense.service';
   styleUrls: ['./dialog-create-expense.component.css'],
 })
 export class DialogCreateExpenseComponent implements OnInit {
-  projectId;
+  projectId: number;
+  users: User[] = [];
   formGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     dossier: new FormControl('', [Validators.required]),
@@ -60,11 +63,16 @@ export class DialogCreateExpenseComponent implements OnInit {
           this.dialogRef.close();
         }
       });
-    }
-    else {
+    } else {
       this.snackBar.open('Some fields are not correct', 'Close', {
         duration: 3 * 1000,
       });
     }
+  }
+
+  updateUserList() {
+    ProjectService.getProjectMembers(this.projectId).then((response) => {
+      this.users = response;
+    });
   }
 }

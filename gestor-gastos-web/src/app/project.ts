@@ -8,13 +8,7 @@ export class Project {
   admin: string;
   private _img: string;
 
-  constructor(
-    id = null,
-    name = '',
-    category = '',
-    admin = '',
-    img = ''
-  ) {
+  constructor(id = null, name = '', category = '', admin = '', img = '') {
     this.id = id;
     this.name = name;
     this.category = category;
@@ -32,6 +26,15 @@ export class Project {
 
   static async create(name: string, category: string) {
     return ProjectService.create(name, category, null);
+  }
+
+  async delete() {
+    if (typeof this.id == 'number') return await ProjectService.delete(this.id);
+  }
+
+  async update() {
+    if (typeof this.id == 'number') return await ProjectService.update(
+      this.id, this.name, this.category, this.img);
   }
 
   static jsontoList(json: any) {
@@ -58,10 +61,6 @@ export class Project {
       project['admin'],
       project['img']
     );
-  }
-
-  async delete() {
-    if (typeof this.id == 'number') return await ProjectService.delete(this.id);
   }
 
   async addMembers(userlist: string[]) {

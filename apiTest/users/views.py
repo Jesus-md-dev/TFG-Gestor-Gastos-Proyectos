@@ -157,12 +157,12 @@ def login_api(request):
 
 
 @api_view(['DELETE'])
-def delete_user(request):
+def delete_user(request, username):
     try:
-        user_requested = User.objects.get(username=request.data['username'])
+        user_requested = User.objects.get(username=username)
         user = request.user
-        if user.is_authenticated and user.id == user_requested.id:
-            user_requested.delete()
+        if user.is_authenticated and user.username == user_requested.username:
+            # user_requested.delete()
             return Response({'user': 'User ' + request.data['username'] + ' deleted'})
         else: 
             return Response({'message': 'unauthorized'}, status=401)

@@ -92,6 +92,29 @@ export class ProjectService {
     }
   }
 
+  static async update(id: number, name: string, category: string, img: string) {
+    try {
+      const response = await axios.put(
+        GlobalComponent.apiUrl + '/api/update_project/',
+        {
+          id,
+          name,
+          category,
+          img,
+        },
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
   static async addMembers(usernames: string[], projectId: number) {
     try {
       const response = await axios.post(
