@@ -124,6 +124,9 @@ mat-tab-header {
   width: 100%;
 }
 
+.toolbar button, .toolbar mat-ripple mat-menu-ripple {
+  width: 1px;
+}
 
 .mat-column-image {
   color: black;

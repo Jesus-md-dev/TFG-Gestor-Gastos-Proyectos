@@ -4,6 +4,8 @@ import { LocalStorageService } from '../local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAccountDeleteComponent } from '../dialog-account-delete/dialog-account-delete.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -25,7 +27,8 @@ export class UserProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
     this.formGroup = this.formBuilder.group({
       first_name: ['', [Validators.required]],
@@ -77,6 +80,20 @@ export class UserProfileComponent implements OnInit {
       } else {
         this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
       }
+    });
+  }
+
+  deleteAccount() {
+    const ref = this.dialog.open(DialogAccountDeleteComponent, {
+      data: {
+        user: this.user,
+      },
+    });
+    ref.componentInstance.onDeleteEmitter.subscribe((data) => {
+      this.snackBar.open('Your account has been deleted', 'Close', {
+        duration: 3 * 1000,
+      });
+      this.router.navigate(['/']);
     });
   }
 

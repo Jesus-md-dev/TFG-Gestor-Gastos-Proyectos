@@ -12,7 +12,6 @@ import { User } from '../user';
 export class DialogMemberDeleteComponent {
   project: Project;
   user: User;
-  durationInSeconds = 3;
   @Output() onDeleteEmitter = new EventEmitter();
 
   constructor(

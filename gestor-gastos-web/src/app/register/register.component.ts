@@ -10,7 +10,6 @@ import { User } from '../user';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  durationInSeconds = 3;
   formGroup!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar,
@@ -58,7 +57,7 @@ export class RegisterComponent {
           else{
             if (response.hasOwnProperty('message'))
               this.snackBar.open('Email or username already used', 'Close', {
-                duration: this.durationInSeconds * 1000
+                duration: 3 * 1000
               });
           }
         }

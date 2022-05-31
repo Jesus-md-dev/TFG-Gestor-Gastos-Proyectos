@@ -46,6 +46,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ProjectExpensesTableComponent } from './project-expenses-table/project-expenses-table.component';
 import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
 import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
+import { DialogAccountDeleteComponent } from './dialog-account-delete/dialog-account-delete.component';
+import { AccessGuard } from './access.guard';
 
 
 @NgModule({
@@ -66,6 +68,7 @@ import { ExpenseDescriptionComponent } from './expense-description/expense-descr
     ProjectExpensesTableComponent,
     DialogExpenseDeleteComponent,
     ExpenseDescriptionComponent,
+    DialogAccountDeleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -106,12 +109,30 @@ import { ExpenseDescriptionComponent } from './expense-description/expense-descr
       },
     }),
     RouterModule.forRoot([
-      { path: 'user/:username', component: UserProfileComponent },
-      { path: 'projects/:username', component: ProjectManagementComponent },
-      { path: 'project/:projectId', component: ProjectDescriptionComponent },
+      {
+        path: 'user/:username',
+        component: UserProfileComponent,
+        data: { requiresLogin: true },
+        canActivate: [AccessGuard]
+      },
+      {
+        path: 'projects/:username',
+        component: ProjectManagementComponent,
+        data: { requiresLogin: true },
+        canActivate: [AccessGuard]
+      },
+      {
+        path: 'project/:projectId',
+        component: ProjectDescriptionComponent,
+        data: { requiresLogin: true },
+        canActivate: [AccessGuard]
+      },
+      {
+        path: '',
+        component: MainComponent
+      },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: '', component: MainComponent },
     ]),
   ],
   providers: [],

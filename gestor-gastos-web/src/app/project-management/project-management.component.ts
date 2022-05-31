@@ -15,7 +15,6 @@ export class ProjectManagementComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
   });
-  durationInSeconds = 3;
   user: any = new User();
   projects: any = [];
   localStorageService = new LocalStorageService();
@@ -44,12 +43,12 @@ export class ProjectManagementComponent implements OnInit {
           this.snackBar.open(
             'Project ' + response['project_info']['name'] + ' created',
             'Close',
-            { duration: this.durationInSeconds * 1000 }
+            { duration: 3 * 1000 }
           );
           this.ngOnInit();
         } else
           this.snackBar.open('Project parameters are not correct', 'Close', {
-            duration: this.durationInSeconds * 1000,
+            duration: 3 * 1000,
           });
       });
     }

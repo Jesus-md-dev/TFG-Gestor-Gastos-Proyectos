@@ -10,7 +10,6 @@ import { Project } from '../project';
 })
 export class DialogProjectDeleteComponent {
   project: Project;
-  durationInSeconds = 3;
   @Output() onDeleteEmitter = new EventEmitter();
 
   constructor(
@@ -33,7 +32,7 @@ export class DialogProjectDeleteComponent {
         else {
           if (response.hasOwnProperty('message'))
             this.snackBar.open('Unable to delete project', 'Close', {
-              duration: this.durationInSeconds * 1000,
+              duration: 3 * 1000,
             });
         }
     });

@@ -24,7 +24,7 @@ def clear_users(request):
 def is_token_available(request):
     user = request.user
     if user.is_authenticated:
-        return Response({'message': 'token available'})
+        return Response({'token_info': 'token available'})
     else: 
         return Response({'message': 'unauthorized'}, status=401)
 
@@ -162,12 +162,11 @@ def delete_user(request, username):
         user_requested = User.objects.get(username=username)
         user = request.user
         if user.is_authenticated and user.username == user_requested.username:
-            # user_requested.delete()
-            return Response({'user': 'User ' + request.data['username'] + ' deleted'})
+            username = user_requested.username
+            user_requested.delete()
+            return Response({'user_info': 'User ' + username + ' deleted'})
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except User.DoesNotExist:
-        return Response({'message': 'bad request'}, status=400)
     except:
         return Response({'message': 'bad request'}, status=400)
 

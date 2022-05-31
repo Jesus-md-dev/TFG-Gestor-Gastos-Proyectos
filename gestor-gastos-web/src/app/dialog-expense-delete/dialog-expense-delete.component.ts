@@ -11,7 +11,6 @@ import { ExpenseService } from '../expense.service';
 })
 export class DialogExpenseDeleteComponent {
   expense: Expense;
-  durationInSeconds = 3;
   @Output() onDeleteEmitter = new EventEmitter();
 
   constructor(
@@ -34,7 +33,7 @@ export class DialogExpenseDeleteComponent {
         else {
           if (response.hasOwnProperty('message'))
             this.snackBar.open('Unable to delete project', 'Close', {
-              duration: this.durationInSeconds * 1000,
+              duration: 3 * 1000,
             });
         }
       });

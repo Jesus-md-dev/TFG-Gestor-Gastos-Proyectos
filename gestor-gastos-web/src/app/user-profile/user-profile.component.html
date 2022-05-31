@@ -14,10 +14,12 @@
         </h2>
       </mat-card-content>
       <div class="button-container-space-between">
-        <button mat-raised-button color="accent" (click)="changeView()" *ngIf="this.owner">
+        <button mat-raised-button color="accent" (click)="changeView()"
+          *ngIf="this.owner">
           Edit
         </button>
-        <button mat-raised-button color="warn" (click)="changeView()" *ngIf="this.owner">
+        <button mat-raised-button color="warn" (click)="deleteAccount()"
+          *ngIf="this.owner">
           Delete Account
         </button>
       </div>

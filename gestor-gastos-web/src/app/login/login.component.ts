@@ -16,7 +16,6 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required]),
   });
   localStorageService = new LocalStorageService();
-  durationInSeconds = 3;
 
   constructor(private router: Router, private snackBar: MatSnackBar) {}
 
@@ -43,7 +42,7 @@ export class LoginComponent {
       } else {
         if (response.hasOwnProperty('message'))
           this.snackBar.open('Username or Password are incorrect', 'Close', {
-            duration: this.durationInSeconds * 1000,
+            duration: 3 * 1000,
           });
       }
     });

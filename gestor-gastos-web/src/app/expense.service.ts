@@ -56,8 +56,6 @@ export class ExpenseService {
           },
         }
       );
-      console.log(response);
-
       return response.data;
     } catch (error) {
       const e = error as AxiosError;
