@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { maxDateValidator } from 'custom-validators.directive';
 import { ExpenseService } from '../expense.service';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
@@ -13,12 +14,13 @@ import { User } from '../user';
 })
 export class DialogCreateExpenseComponent implements OnInit {
   projectId: number;
+  admin: User;
   users: User[] = [];
   formGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     dossier: new FormControl('', [Validators.required]),
     // TODO max date today
-    date: new FormControl('', [Validators.required]),
+    date: new FormControl('', [Validators.required, maxDateValidator(new Date())]),
     concept: new FormControl('', [Validators.required]),
     amount: new FormControl('', [Validators.required]),
     vatpercentage: new FormControl('', [
@@ -29,15 +31,24 @@ export class DialogCreateExpenseComponent implements OnInit {
   });
   @Output() onCreateEmmiter = new EventEmitter();
 
+  dateFilter = (d: Date | null): boolean => {
+    const date = (d || new Date())
+    return date < new Date()
+  };
+
   constructor(
     public dialogRef: MatDialogRef<DialogCreateExpenseComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.projectId = data.projectId;
+    this.admin = data.admin;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadUserList();
+
+  }
 
   onClose(): void {
     this.dialogRef.close();
@@ -70,9 +81,14 @@ export class DialogCreateExpenseComponent implements OnInit {
     }
   }
 
-  updateUserList() {
+  loadUserList() {
     ProjectService.getProjectMembers(this.projectId).then((response) => {
       this.users = response;
+      this.users.push(this.admin)
+      this.users.sort((a,b) =>
+      (a.username.toLowerCase() > b.username.toLowerCase()) ? 1 :
+      ((b.username.toLowerCase() > a.username.toLowerCase()) ? -1 : 0) )
     });
   }
 }
+

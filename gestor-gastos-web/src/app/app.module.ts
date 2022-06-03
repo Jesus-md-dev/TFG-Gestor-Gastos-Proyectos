@@ -48,6 +48,7 @@ import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-exp
 import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
 import { DialogAccountDeleteComponent } from './dialog-account-delete/dialog-account-delete.component';
 import { AccessGuard } from './access.guard';
+import { ExpenseViewComponent } from './expense-view/expense-view.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { AccessGuard } from './access.guard';
     DialogExpenseDeleteComponent,
     ExpenseDescriptionComponent,
     DialogAccountDeleteComponent,
+    ExpenseViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -113,23 +115,29 @@ import { AccessGuard } from './access.guard';
         path: 'user/:username',
         component: UserProfileComponent,
         data: { requiresLogin: true },
-        canActivate: [AccessGuard]
+        canActivate: [AccessGuard],
       },
       {
         path: 'projects/:username',
         component: ProjectManagementComponent,
         data: { requiresLogin: true },
-        canActivate: [AccessGuard]
+        canActivate: [AccessGuard],
       },
       {
         path: 'project/:projectId',
         component: ProjectDescriptionComponent,
         data: { requiresLogin: true },
-        canActivate: [AccessGuard]
+        canActivate: [AccessGuard],
+      },
+      {
+        path: 'expense/:expenseId',
+        component: ExpenseViewComponent,
+        data: { requiresLogin: true },
+        canActivate: [AccessGuard],
       },
       {
         path: '',
-        component: MainComponent
+        component: MainComponent,
       },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },

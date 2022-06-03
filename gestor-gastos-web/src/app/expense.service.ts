@@ -27,7 +27,12 @@ export class ExpenseService {
           project_id: projectId,
           username,
           dossier,
-          date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
+          date:
+            date.getFullYear() +
+            '-' +
+            (date.getMonth() + 1) +
+            '-' +
+            date.getDate(),
           concept,
           amount,
           vatpercentage,
@@ -50,6 +55,23 @@ export class ExpenseService {
     try {
       const response = await axios.delete(
         GlobalComponent.apiUrl + '/api/delete_expense/' + id,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
+  static async loadExpenseData(expenseId: number) {
+    try {
+      let response = await axios.get(
+        GlobalComponent.apiUrl + '/api/expense/' + expenseId,
         {
           headers: {
             Authorization: 'Token ' + this.localStorageService.get('token'),

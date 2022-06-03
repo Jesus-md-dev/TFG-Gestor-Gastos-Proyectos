@@ -37,6 +37,10 @@ export class Expense {
     if (typeof this.id == 'number') return await ExpenseService.delete(this.id);
   }
 
+  static async load(expenseId: number) {
+    return ExpenseService.loadExpenseData(expenseId);
+  }
+
   static jsontoList(json: any) {
     let expenses: any = [];
     json.forEach((expense: any) => {
@@ -44,7 +48,7 @@ export class Expense {
         new Expense(
           expense['id'],
           expense['project'],
-          expense['user'],
+          expense['username'],
           expense['dossier'],
           new Date(expense['date']),
           expense['concept'],
@@ -61,7 +65,7 @@ export class Expense {
     return new Expense(
       expense['id'],
       expense['project'],
-      expense['user'],
+      expense['username'],
       expense['dossier'],
       new Date(expense['date']),
       expense['concept'],

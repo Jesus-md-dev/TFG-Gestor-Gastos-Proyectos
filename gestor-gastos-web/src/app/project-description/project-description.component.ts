@@ -88,6 +88,7 @@ export class ProjectDescriptionComponent implements OnInit {
     const ref = this.dialog.open(DialogCreateExpenseComponent, {
       data: {
         projectId: this.projectId,
+        admin: this.user,
       },
     });
 

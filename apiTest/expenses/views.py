@@ -49,7 +49,7 @@ def create_expense(request):
                         'vatpercetange': expense.vatpercentage,
                         'final_amount': expense.final_amount,
                         'project': expense.project.name,
-                        'admin': expense.user.username,
+                        'username': expense.user.username,
                     },
                 })
             else: 
@@ -68,7 +68,7 @@ def read_expense(request, id):
         if user.is_authenticated:
             if user == expense_requested.user or user == expense_requested.project.admin:
                 return Response({
-                    'project_info': {
+                    'expense_info': {
                         'id': expense_requested.id,
                         'dossier': expense_requested.dossier,
                         'date': expense_requested.date,
@@ -77,7 +77,7 @@ def read_expense(request, id):
                         'vatpercetange': expense_requested.vatpercentage,
                         'final_amount': expense_requested.final_amount,
                         'project': expense_requested.project.name,
-                        'admin': expense_requested.user.username,
+                        'username': expense_requested.user.username,
                     },
                 })
             else:
@@ -111,7 +111,7 @@ def update_expense(request):
                     (expense_requested.amount * expense_requested.vatpercentage / 100), 2)
                 expense_requested.save()
                 return Response({
-                    'project_info': {
+                    'expense_info': {
                         'id': expense_requested.id,
                         'dossier': expense_requested.dossier,
                         'date': expense_requested.date,
@@ -120,7 +120,7 @@ def update_expense(request):
                         'vatpercetange': expense_requested.vatpercentage,
                         'final_amount': expense_requested.final_amount,
                         'project': expense_requested.project.name,
-                        'admin': expense_requested.user.username,
+                        'username': expense_requested.user.username,
                     },
                 })
             else:
