@@ -7,7 +7,8 @@ export class User {
   first_name: string;
   last_name: string;
   email: string;
-  private _img: string;
+  private _img: File | null;
+  private _imgUrl: string | null;
 
   constructor(
     id = null,
@@ -15,7 +16,8 @@ export class User {
     first_name = '',
     last_name = '',
     email = '',
-    img = ''
+    img = null,
+    _imgUrl = null
   ) {
     this.id = id;
     this.username = username;
@@ -23,14 +25,19 @@ export class User {
     this.last_name = last_name;
     this.email = email;
     this._img = img;
+    this._imgUrl = null;
   }
 
-  public get img(): string {
-    return this._img != '' ? this._img : GlobalComponent.blankUserImgPath;
+  public get img(): any {
+    if (this._imgUrl != null) return this._imgUrl;
+    else return GlobalComponent.blankUserImgPath;
   }
 
-  public set img(value: string) {
+  public set img(value: File) {
     this._img = value;
+    var reader = new FileReader();
+    reader.readAsDataURL(this._img);
+    reader.onload = (event: any) => { this._imgUrl = event.target.result; };
   }
 
   static jsontoList(json: any) {

@@ -91,21 +91,25 @@ export class UserService {
 
   static async update(
     username: string,
-    first_name: string | null,
-    last_name: string | null,
-    img: string | null
+    first_name: string,
+    last_name: string,
+    img: File | null
   ) {
+    console.log(img);
+    const fd = new FormData();
+    fd.append('img', img as File);
+    fd.append('username', username);
+    fd.append('first_name', first_name);
+    fd.append('last_name', last_name);
+    console.log(fd);
+
     try {
       const response = await axios.put(
         GlobalComponent.apiUrl + '/api/update_user/',
-        {
-          username,
-          first_name,
-          last_name,
-          img,
-        },
+        fd,
         {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }

@@ -12,10 +12,7 @@ import { LocalStorageService } from './local-storage.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'gestor-web';
   cur_lang: string;
-  username: string | any;
-  password: string | any;
   localStorageService = new LocalStorageService();
 
   constructor(public translate: TranslateService, private router: Router) {

@@ -28,27 +28,34 @@
         (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button> -->
-      <button mat-icon-button [routerLink]="['/']">
-        <mat-icon>home</mat-icon>
-      </button>
-      <button mat-menu-item [routerLink]="['/projects/' +
-        this.localStorageService.get('username')]">
-        <mat-icon>create_new_folder</mat-icon>
-        <span>{{'Projects' | translate}}</span>
-      </button>
-      <button mat-menu-item [routerLink]="['']">
-        <mat-icon>attach_money</mat-icon>
-        <span>{{'Expenses' | translate}}</span>
-      </button>
+      <span>
+        <button mat-menu-item [routerLink]="['/']">
+          <mat-icon>home</mat-icon>
+          <span>{{'P.E.M.' | translate}}</span>
+        </button>
+      </span>
+      <span *ngIf="isLogged()">
+        <button mat-menu-item [routerLink]="['/projects/' +
+          this.localStorageService.get('username')]">
+          <mat-icon>create_new_folder</mat-icon>
+          <span>{{'Projects' | translate}}</span>
+        </button>
+      </span>
+      <span *ngIf="isLogged()">
+        <button mat-menu-item [routerLink]="['']">
+          <mat-icon>attach_money</mat-icon>
+          <span>{{'Expenses' | translate}}</span>
+        </button>
+      </span>
       <span class="spacer"></span>
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>account_circle</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <ng-container *ngIf="isLogged(); else elseTemplate">
-          <button mat-menu-item (click)="logout()">
+          <a mat-menu-item href="/user/{{this.localStorageService.get('username')}}">
             <span>{{'Profile' | translate}}</span>
-          </button>
+          </a>
           <button mat-menu-item (click)="logout()">
             <span>{{'Log Out' | translate}}</span>
           </button>

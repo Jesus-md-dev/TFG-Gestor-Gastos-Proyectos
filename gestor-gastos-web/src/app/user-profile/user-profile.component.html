@@ -1,4 +1,4 @@
-<ng-container *ngIf="!editView;else editCard">
+<ng-container *ngIf="editView;else editCard">
   <div class="profile-card">
     <mat-card>
       <img alt="" matCardImage src={{user.img}}>
@@ -25,12 +25,15 @@
       </div>
     </mat-card>
   </div>
+
 </ng-container>
 
 <ng-template #editCard>
   <div class="profile-card">
     <mat-card>
       <img alt="" matCardImage src={{user.img}}>
+      <input type="file" (change)="onFileSelected($event)" />
+      <label>Choose Files</label>
       <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
           <div>
             <mat-form-field class="example-full-width" appearance="fill">

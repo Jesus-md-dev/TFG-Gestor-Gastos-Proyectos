@@ -22,6 +22,7 @@ export class UserProfileComponent implements OnInit {
   username: string | undefined;
   routeSub: any;
   owner: boolean = false;
+  selectedFile: File | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,8 +50,9 @@ export class UserProfileComponent implements OnInit {
             duration: 3 * 1000,
           });
           this.router.navigate(['/']);
-        }
-        else {
+        } else {
+          console.log(response);
+
           this.user = response;
           this.formGroup.controls['first_name'].setValue(this.user.first_name);
           this.formGroup.controls['last_name'].setValue(this.user.last_name);
@@ -99,5 +101,11 @@ export class UserProfileComponent implements OnInit {
 
   changeView() {
     this.editView = !this.editView;
+  }
+
+  onFileSelected(event: any) {
+    if (event.target.files) {
+      this.user.img = event.target.files[0]
+    }
   }
 }
