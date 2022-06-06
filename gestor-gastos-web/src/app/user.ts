@@ -8,7 +8,7 @@ export class User {
   last_name: string;
   email: string;
   private _img: File | null;
-  private _imgUrl: string | null;
+  private _imgUrl: string;
 
   constructor(
     id = null,
@@ -16,16 +16,16 @@ export class User {
     first_name = '',
     last_name = '',
     email = '',
+    imgUrl = '',
     img = null,
-    _imgUrl = null
   ) {
     this.id = id;
     this.username = username;
     this.first_name = first_name;
     this.last_name = last_name;
     this.email = email;
-    this._img = img;
-    this._imgUrl = null;
+    this._imgUrl = imgUrl;
+    this._img = null;
   }
 
   public get img(): any {
@@ -50,7 +50,7 @@ export class User {
           user['first_name'],
           user['last_name'],
           user['email'],
-          user['img']
+          GlobalComponent.apiUrl + user['img']
         )
       );
     });
@@ -64,7 +64,7 @@ export class User {
       user['first_name'],
       user['last_name'],
       user['email'],
-      user['img']
+      GlobalComponent.apiUrl + user['img']
     );
   }
 

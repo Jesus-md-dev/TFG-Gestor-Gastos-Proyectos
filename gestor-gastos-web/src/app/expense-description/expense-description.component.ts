@@ -16,12 +16,9 @@ export class ExpenseDescriptionComponent implements OnInit {
   constructor(private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    console.log(this.expenseId);
-
     if (this.expenseId != null)
       Expense.load(this.expenseId).then((response) => {
         if (response.hasOwnProperty('expense_info')) {
-          console.log(response);
           this.expense = Expense.jsontoObject(response['expense_info']);
         } else if (response.hasOwnProperty('message')) {
           this.snackBar.open('Can not load expense data', 'Close', {

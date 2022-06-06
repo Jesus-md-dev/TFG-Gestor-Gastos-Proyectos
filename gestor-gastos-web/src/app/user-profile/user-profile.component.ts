@@ -51,8 +51,6 @@ export class UserProfileComponent implements OnInit {
           });
           this.router.navigate(['/']);
         } else {
-          console.log(response);
-
           this.user = response;
           this.formGroup.controls['first_name'].setValue(this.user.first_name);
           this.formGroup.controls['last_name'].setValue(this.user.last_name);

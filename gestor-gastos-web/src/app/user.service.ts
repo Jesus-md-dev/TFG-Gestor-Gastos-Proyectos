@@ -95,18 +95,15 @@ export class UserService {
     last_name: string,
     img: File | null
   ) {
-    console.log(img);
-    const fd = new FormData();
-    fd.append('img', img as File);
-    fd.append('username', username);
-    fd.append('first_name', first_name);
-    fd.append('last_name', last_name);
-    console.log(fd);
-
+    const formData = new FormData();
+    formData.append('img', img as File);
+    formData.append('username', username);
+    formData.append('first_name', first_name);
+    formData.append('last_name', last_name);
     try {
       const response = await axios.put(
         GlobalComponent.apiUrl + '/api/update_user/',
-        fd,
+        formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',

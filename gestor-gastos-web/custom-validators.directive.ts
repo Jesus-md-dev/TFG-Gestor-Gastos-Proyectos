@@ -21,8 +21,6 @@ export function isProjectAdminValidator(project: Project): ValidatorFn {
 
 export function maxDateValidator(date: Date): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    console.log(control.value);
-    console.log(date);
     return date < control.value  ? { maxDate: { value: control.value } } : null;
   };
 }
