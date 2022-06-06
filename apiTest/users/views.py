@@ -67,21 +67,26 @@ def get_all_users(request):
 def create_user(request):
     serializer = RegisterSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    user = serializer.save()
-    user.profile.img = request.data.get('img') if request.data.get('img') else ""
-    user.save()
-    _, token = AuthToken.objects.create(user)
-    return Response({
-        'user_info': {
-            'id':user.id,
-            'username': user.username,
-            'email': user.email,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'img': user.profile.img.url
-        },
-        'token': token,
-    })
+    try: 
+        user = serializer.save()
+        if(request.data.get('img') != None):
+            user.profile.img = request.data.get('img')
+        user.save()
+        _, token = AuthToken.objects.create(user)
+        return Response({
+            'user_info': {
+                'id':user.id,
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'img': user.profile.img.url
+            },
+            'token': token,
+        })
+    except:
+        user.delete()
+        return Response({'message': 'bad request'}, status=400)
 
 
 
@@ -116,7 +121,10 @@ def update_user(request):
         if user.is_authenticated and user.id == user_requested.id:
             user_requested.first_name = request.data['first_name']
             user_requested.last_name = request.data['last_name']
-            user_requested.profile.img =  request.data['img']
+            if(request.data['img'] != "null"):
+                if(user_requested.profile.img.url != "userdefault.jpg"):
+                    user_requested.profile.img.delete()
+                user_requested.profile.img =  request.data['img']
             user_requested.save()
             return Response({
                 'user_info': {
@@ -161,6 +169,8 @@ def delete_user(request, username):
         user = request.user
         if user.is_authenticated and user.username == user_requested.username:
             username = user_requested.username
+            if(user_requested.profile.img.url != "/media/userdefault.jpg"):
+                user_requested.profile.img.delete()
             user_requested.delete()
             return Response({'user_info': 'User ' + username + ' deleted'})
         else: 

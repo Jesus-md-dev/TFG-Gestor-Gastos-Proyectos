@@ -160,7 +160,7 @@ def read_project_member(request, project_id):
                 user_dict['is_staff'] = user.is_staff
                 user_dict['is_active'] = user.is_active
                 user_dict['date_joined'] = user.date_joined
-                user_dict['img'] = user.profile.img
+                user_dict['img'] = user.profile.img.url
                 user_list.append(user_dict)
             return JsonResponse(user_list, safe=False)
         else: 

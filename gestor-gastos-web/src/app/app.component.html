@@ -49,10 +49,15 @@
       </span>
       <span class="spacer"></span>
       <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>
+        <ng-container *ngIf="isLogged(); else elseIcon">
+          <img class="img-avatar" src={{user.img}} height="100%" width="100%">
+        </ng-container>
+        <ng-template #elseIcon>
+          <mat-icon>account_circle</mat-icon>
+        </ng-template>
       </button>
       <mat-menu #menu="matMenu">
-        <ng-container *ngIf="isLogged(); else elseTemplate">
+        <ng-container *ngIf="isLogged(); else elseMenu">
           <a mat-menu-item href="/user/{{this.localStorageService.get('username')}}">
             <span>{{'Profile' | translate}}</span>
           </a>
@@ -60,12 +65,13 @@
             <span>{{'Log Out' | translate}}</span>
           </button>
         </ng-container>
-        <ng-template #elseTemplate>
+        <ng-template #elseMenu>
           <button mat-menu-item (click)="login()">
             <span>{{'Login' | translate}}</span>
           </button>
         </ng-template>
       </mat-menu>
+      <span class="spacer-1em"></span>
       <button class="lang-button" mat-stroked-button (click)="switchLang()">
         {{cur_lang}}
       </button>

@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   routeSub: any;
   owner: boolean = false;
   selectedFile: File | null = null;
+  selectedFileName: String | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -70,6 +71,7 @@ export class UserProfileComponent implements OnInit {
   save() {
     this.user.first_name = this.formGroup.controls['first_name'].value;
     this.user.last_name = this.formGroup.controls['last_name'].value;
+    if (this.selectedFile != null) this.user.img = this.selectedFile;
     this.user.update().then((response: any) => {
       if (response.hasOwnProperty('user_info')) {
         this.user = User.jsontoObject(response['user_info']);
@@ -99,11 +101,24 @@ export class UserProfileComponent implements OnInit {
 
   changeView() {
     this.editView = !this.editView;
+    this.selectedFile = null;
+    this.selectedFileName = null;
   }
 
   onFileSelected(event: any) {
     if (event.target.files) {
-      this.user.img = event.target.files[0]
+      this.selectedFile = event.target.files[0];
+      this.selectedFileName = this.fixFileName(event.target.files[0]['name']);
+    }
+  }
+
+  fixFileName(name: string): string {
+    var max = 30
+
+    if (name.length < max) return name;
+    else {
+      var parts: string[] = name.split('.');
+      return parts[0].substring(0, max) + "... ." + parts[1];
     }
   }
 }

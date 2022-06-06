@@ -204,6 +204,10 @@ mat-tab-header {
   width: 100%;
 }
 
+.spacer-1em {
+  width: 1em;
+}
+
 .profile-body {
   margin-left: auto;
   margin-right: auto;
@@ -222,6 +226,14 @@ mat-tab-header {
 .profile-card img {
   object-fit: cover;
   height: 15em;
+}
+
+.img-avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  border-style: solid;
+  border-color: rgb(0, 110, 9);
+  border-width: 2px;
 }
 
 @media screen and (max-width: 960px) {

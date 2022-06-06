@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import axios from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
+import { User } from './user';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +16,13 @@ import { LocalStorageService } from './local-storage.service';
 export class AppComponent {
   cur_lang: string;
   localStorageService = new LocalStorageService();
+  user: User = new User();
 
-  constructor(public translate: TranslateService, private router: Router) {
+  constructor(
+    public translate: TranslateService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
     {
       translate.addLangs(['en', 'es']);
       translate.setDefaultLang('en');
@@ -29,7 +36,18 @@ export class AppComponent {
     this.translate.use(this.cur_lang);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    User.loadUser(this.localStorageService.get('username') as string).then(
+      (response) => {
+        if (response.hasOwnProperty('message')) {
+          this.snackBar.open(response['message'], 'Close', {
+            duration: 3 * 1000,
+          });
+          this.router.navigate(['/']);
+        } else this.user = response;
+      }
+    );
+  }
 
   getUrl() {
     return this.router.url != '/login' && this.router.url != '/register';

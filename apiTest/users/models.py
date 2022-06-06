@@ -11,7 +11,7 @@ def upload_to(instance, filename):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    img = models.ImageField(("Image"), upload_to=upload_to, default='posts/default.jpg')
+    img = models.ImageField(("Image"), upload_to=upload_to, default='userdefault.jpg')
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -21,5 +21,3 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
-
-
