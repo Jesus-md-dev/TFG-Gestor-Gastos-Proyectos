@@ -52,7 +52,7 @@ def get_all_users(request):
                 user_dict['is_staff'] = user.is_staff
                 user_dict['is_active'] = user.is_active
                 user_dict['date_joined'] = user.date_joined
-                user_dict['img'] = user.profile.img
+                user_dict['img'] = user.profile.img.url
                 user_list.append(user_dict)
             user_list = list(user_list)
             return JsonResponse(user_list, safe=False)
@@ -78,7 +78,7 @@ def create_user(request):
             'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'img': user.profile.img
+            'img': user.profile.img.url
         },
         'token': token,
     })
@@ -91,19 +91,17 @@ def read_user(request, username):
         user = request.user
         user_requested = User.objects.get(username=username)
         if user.is_authenticated:
-            # if user.id == user_requested.id:
-                return Response({
-                    'user_info': {
-                        'id':user_requested.id,
-                        'username': user_requested.username,
-                        'email': user_requested.email,
-                        'first_name': user_requested.first_name,
-                        'last_name': user_requested.last_name,
-                        'img': user_requested.profile.img
-                    },
-                })
-            # else:
-            #     return Response({'message': 'unauthorized'}, status=401)
+            return Response({
+                'user_info': {
+                    'id':user_requested.id,
+                    'username': user_requested.username,
+                    'email': user_requested.email,
+                    'first_name': user_requested.first_name,
+                    'last_name': user_requested.last_name,
+                    'img': user_requested.profile.img.url
+                },
+            },
+            )
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except:
@@ -127,7 +125,7 @@ def update_user(request):
                     'email': user_requested.email,
                     'first_name': user_requested.first_name,
                     'last_name': user_requested.last_name,
-                    'img': user_requested.profile.img,
+                    'img': user_requested.profile.img.url,
                 },
             })
         else: 

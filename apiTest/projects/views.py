@@ -131,7 +131,6 @@ def add_project_member(request):
                     in new_project_members]
                 for project_member in new_project_members:
                     project_member.save()
-                print()
                 return Response(json.dumps(new_project_member_json))
             else: 
                 return Response({'message': 'unauthorized'}, status=401)
