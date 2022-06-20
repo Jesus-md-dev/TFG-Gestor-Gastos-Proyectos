@@ -1,0 +1,11 @@
+.file-input {
+  display: none;
+}
+
+.file-upload {
+  margin: 0.5em 0 0.5em 0;
+}
+
+.file-upload img {
+  height: 5em;
+}

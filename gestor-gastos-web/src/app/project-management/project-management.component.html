@@ -1,5 +1,5 @@
-<div class="main-content">
-  <div class="project-form">
+<section class="main-content">
+  <section class="project-form">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -12,8 +12,10 @@
 
       <img class="project-img-card" alt="" matCardImage src=>
 
+      
+
       <form class="custom-form" (ngSubmit)="createProject()" [formGroup]="formGroup">
-        <div>
+        <section>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Name</mat-label>
             <input type="text" matInput formControlName="name" />
@@ -21,8 +23,8 @@
               Name is <strong>required</strong>
             </mat-error>
           </mat-form-field>
-        </div>
-        <div>
+        </section>
+        <section>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Category</mat-label>
             <input type="text" matInput formControlName="category">
@@ -30,11 +32,11 @@
               Category is <strong>required</strong>
             </mat-error>
           </mat-form-field>
-        </div>
+        </section>
         <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
       </form>
     </mat-expansion-panel>
-  </div>
+  </section>
   <app-project-list [ownProjects]="projects"></app-project-list>
-</div>
+</section>
 

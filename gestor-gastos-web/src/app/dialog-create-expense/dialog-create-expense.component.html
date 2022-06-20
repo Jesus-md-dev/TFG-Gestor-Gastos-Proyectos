@@ -1,5 +1,5 @@
 <form class="custom-form" (ngSubmit)="createExpense()" [formGroup]="formGroup">
-  <div>
+  <section>
     <mat-form-field appearance="fill">
       <mat-label>Select</mat-label>
       <mat-select formControlName="username">
@@ -12,8 +12,8 @@
         Select an user is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </div>
-  <div>
+  </section>
+  <section>
     <mat-form-field appearance="fill">
       <mat-label>Dossier</mat-label>
       <input type="text" matInput formControlName="dossier">
@@ -21,8 +21,8 @@
         Dossier is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </div>
-  <div>
+  </section>
+  <section>
     <mat-form-field appearance="fill">
       <mat-label>Date</mat-label>
       <input matInput
@@ -37,8 +37,8 @@
         The date cannot be in the future
       </mat-error>
     </mat-form-field>
-  </div>
-  <div>
+  </section>
+  <section>
     <mat-form-field appearance="fill">
       <mat-label>Concept</mat-label>
       <textarea matInput formControlName="concept"></textarea>
@@ -46,8 +46,8 @@
         Concept is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </div>
-  <div>
+  </section>
+  <section>
     <mat-form-field appearance="fill">
       <mat-label>Amount</mat-label>
       <input matInput type="number" formControlName="amount">
@@ -56,8 +56,8 @@
         Amount is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </div>
-  <div>
+  </section>
+  <section>
     <mat-form-field appearance="fill">
       <mat-label>VAT</mat-label>
       <input type="number" matInput formControlName="vatpercentage">
@@ -66,9 +66,9 @@
         Vat % is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-  </div>
-  <div class="button-container-space-between">
+  </section>
+  <section class="button-container-space-between">
     <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
     <button mat-raised-button (click)="onClose()">Close</button>
-  </div>
+  </section>
 </form>

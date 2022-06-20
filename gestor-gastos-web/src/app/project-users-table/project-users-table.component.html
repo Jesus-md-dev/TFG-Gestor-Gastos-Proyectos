@@ -20,7 +20,7 @@
   </mat-form-field>
 </form>
 
-<div class="div-table user-table">
+<section class="section-table user-table">
   <table mat-table [dataSource]="usersDataSource" matSort mdbTableScroll
     scrollX="true" scrollY="True">
     <ng-container matColumnDef="image">
@@ -86,4 +86,4 @@
   </table>
   <mat-paginator [pageSizeOptions]="getPageSizeOptions()" showFirstLastButtons>
   </mat-paginator>
-</div>
+</section>

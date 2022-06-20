@@ -92,18 +92,19 @@ export class ProjectService {
     }
   }
 
-  static async update(id: number, name: string, category: string, img: string) {
+  static async update(id: any, name: string, category: string, img: File | null) {
     try {
+      const formData = new FormData();
+      formData.append('img', img as File);
+      formData.append('id', id);
+      formData.append('name', name);
+      formData.append('category', category);
       const response = await axios.put(
         GlobalComponent.apiUrl + '/api/update_project/',
-        {
-          id,
-          name,
-          category,
-          img,
-        },
+        formData,
         {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }

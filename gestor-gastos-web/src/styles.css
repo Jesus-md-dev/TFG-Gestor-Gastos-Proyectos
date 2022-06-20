@@ -154,7 +154,7 @@ mat-tab-header {
     1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
 
-.div-content {
+.section-content {
   margin: auto;
   margin-top: 2%;
   width: 90%;
@@ -223,17 +223,17 @@ mat-tab-header {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.profile-card img {
-  object-fit: cover;
-  height: 15em;
-}
-
 .img-avatar {
   border-radius: 50%;
   overflow: hidden;
   border-style: solid;
   border-color: rgb(0, 110, 9);
   border-width: 2px;
+}
+
+.preview-img-avatar {
+  border-radius: 50%;
+  height: 5em;
 }
 
 @media screen and (max-width: 960px) {
@@ -271,11 +271,11 @@ mat-tab-header {
     height: 3em;
   }
 
-  .div-table {
+  .section-table {
     width: 100%;
   }
 
-  .div-content {
+  .section-content {
     width: 95%;
   }
 }

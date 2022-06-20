@@ -10,7 +10,7 @@
   </mat-form-field> -->
 </form>
 
-<div class="div-table expense-table">
+<section class="section-table expense-table">
   <table mat-table [dataSource]="expensesDataSource" matSort mdbTableScroll
     scrollX="true" scrollY="True">
     <ng-container matColumnDef="user">
@@ -93,4 +93,4 @@
   </table>
   <mat-paginator [pageSizeOptions]="getPageSizeOptions()" showFirstLastButtons>
   </mat-paginator>
-</div>
+</section>

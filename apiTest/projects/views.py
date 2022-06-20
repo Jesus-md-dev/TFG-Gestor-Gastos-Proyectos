@@ -65,17 +65,26 @@ def read_project(request, id):
 
 @api_view(['PUT'])
 def update_project(request):
+    print("a")
     try:
+        print(request.data['name'])
         project_requested = Project.objects.get(id=request.data['id'])
+        print("a")
         user = request.user
+        print("a")
         if user.is_authenticated and project_requested.admin == user:
             if 'name' in request.data:
                 project_requested.first_name = request.data['name']
             if 'category' in request.data:
                 project_requested.last_name = request.data['category']
-            if 'img' in request.data:
-                project_requested.img =  request.data['img']
+            print("a")
+            if(request.data['img'] != "null"):
+                if(project_requested.profile.img.url != "userdefault.jpg"):
+                    project_requested.profile.img.delete()
+                project_requested.profile.img =  request.data['img']
+            print("a")
             project_requested.save()
+            print("a")
             return Response({
                 'project_info': {
                     'id': project_requested.id,

@@ -6,22 +6,37 @@ export class Project {
   name: string;
   category: string;
   admin: string;
-  private _img: string;
+  private _img: File | null;
+  private _imgUrl: string;
 
-  constructor(id = null, name = '', category = '', admin = '', img = '') {
+  constructor(
+    id = null,
+    name = '',
+    category = '',
+    admin = '',
+    imgUrl = '',
+    img = null
+  ) {
     this.id = id;
     this.name = name;
     this.category = category;
     this.admin = admin;
-    this._img = img;
+    this._imgUrl = imgUrl;
+    this._img = null;
   }
 
-  public get img(): string {
-    return this._img != '' ? this._img : GlobalComponent.blankProjectImgPath;
+  public get img(): any {
+    if (this._imgUrl != null) return this._imgUrl;
+    else return GlobalComponent.blankUserImgPath;
   }
 
-  public set img(value: string) {
+  public set img(value: File) {
     this._img = value;
+    var reader = new FileReader();
+    reader.readAsDataURL(this._img);
+    reader.onload = (event: any) => {
+      this._imgUrl = event.target.result;
+    };
   }
 
   static async create(name: string, category: string) {
@@ -33,8 +48,13 @@ export class Project {
   }
 
   async update() {
-    if (typeof this.id == 'number') return await ProjectService.update(
-      this.id, this.name, this.category, this.img);
+    if (typeof this.id == 'number')
+      return await ProjectService.update(
+        this.id,
+        this.name,
+        this.category,
+        this.img
+      );
   }
 
   static jsontoList(json: any) {

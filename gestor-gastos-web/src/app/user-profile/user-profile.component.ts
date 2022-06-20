@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   routeSub: any;
   owner: boolean = false;
   selectedFile: File | null = null;
+  selectedFileSrc: string | null = null;
   selectedFileName: String | null = null;
 
   constructor(
@@ -69,20 +70,22 @@ export class UserProfileComponent implements OnInit {
   }
 
   save() {
-    this.user.first_name = this.formGroup.controls['first_name'].value;
-    this.user.last_name = this.formGroup.controls['last_name'].value;
-    if (this.selectedFile != null) this.user.img = this.selectedFile;
-    this.user.update().then((response: any) => {
-      if (response.hasOwnProperty('user_info')) {
-        this.user = User.jsontoObject(response['user_info']);
-        this.snackBar.open('Edit success', 'Close', {
-          duration: 3 * 1000,
-        });
-        this.changeView();
-      } else {
-        this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
-      }
-    });
+    if (this.formGroup.valid) {
+      this.user.first_name = this.formGroup.controls['first_name'].value;
+      this.user.last_name = this.formGroup.controls['last_name'].value;
+      if (this.selectedFile != null) this.user.img = this.selectedFile;
+      this.user.update().then((response: any) => {
+        if (response.hasOwnProperty('user_info')) {
+          this.user = User.jsontoObject(response['user_info']);
+          this.snackBar.open('Edit success', 'Close', {
+            duration: 3 * 1000,
+          });
+          this.changeView();
+        } else {
+          this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
+        }
+      });
+    }
   }
 
   deleteAccount() {
@@ -106,15 +109,20 @@ export class UserProfileComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
+    const reader = new FileReader();
     if (event.target.files) {
       this.selectedFile = event.target.files[0];
       this.selectedFileName = this.fixFileName(event.target.files[0]['name']);
+    }
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => { this.selectedFileSrc = reader.result as string; };
     }
   }
 
   fixFileName(name: string): string {
     var max = 30
-
     if (name.length < max) return name;
     else {
       var parts: string[] = name.split('.');

@@ -27,6 +27,9 @@ export class ProjectDescriptionComponent implements OnInit {
   routeSub: Subscription = new Subscription();
   projectId: any;
   user: User = new User();
+  selectedFile: File | null = null;
+  selectedFileSrc: string | null = null;
+  selectedFileName: String | null = null;
 
   @ViewChild(ProjectExpensesTableComponent)
   expensesTable!: ProjectExpensesTableComponent;
@@ -60,6 +63,7 @@ export class ProjectDescriptionComponent implements OnInit {
     if (this.formGroup.valid) {
       this.project.name = this.formGroup.controls['name'].value;
       this.project.category = this.formGroup.controls['category'].value;
+      if (this.selectedFile != null) this.project.img = this.selectedFile;
       this.project.update().then((response) => {
         if (response.hasOwnProperty('project_info')) {
           this.snackBar.open('Project updated successfully', 'Close', {
@@ -95,5 +99,29 @@ export class ProjectDescriptionComponent implements OnInit {
     ref.componentInstance.onCreateEmmiter.subscribe((data) => {
       this.expensesTable.updateExpenseList();
     });
+  }
+
+  onFileSelected(event: any) {
+    const reader = new FileReader();
+    if (event.target.files) {
+      this.selectedFile = event.target.files[0];
+      this.selectedFileName = this.fixFileName(event.target.files[0]['name']);
+    }
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.selectedFileSrc = reader.result as string;
+      };
+    }
+  }
+
+  fixFileName(name: string): string {
+    var max = 30;
+    if (name.length < max) return name;
+    else {
+      var parts: string[] = name.split('.');
+      return parts[0].substring(0, max) + '... .' + parts[1];
+    }
   }
 }

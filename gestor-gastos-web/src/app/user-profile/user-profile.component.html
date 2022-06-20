@@ -1,5 +1,5 @@
 <ng-container *ngIf="!editView;else editCard">
-  <div class="profile-card">
+  <section class="profile-card">
     <mat-card>
       <img alt="" matCardImage src={{user.img}}>
       <mat-card-content>
@@ -13,7 +13,7 @@
           {{ user.email }}
         </h2>
       </mat-card-content>
-      <div class="button-container-space-between">
+      <section class="button-container-space-between">
         <button mat-raised-button color="accent" (click)="changeView()"
           *ngIf="this.owner">
           Edit
@@ -22,25 +22,26 @@
           *ngIf="this.owner">
           Delete Account
         </button>
-      </div>
+      </section>
     </mat-card>
-  </div>
+  </section>
 
 </ng-container>
 
 <ng-template #editCard>
-  <div class="profile-card">
+  <section class="profile-card">
     <mat-card>
-      <img alt="" matCardImage src={{user.img}}>
+      <img class="profile-img" alt="" matCardImage src={{user.img}}>
       <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
-      <div class="file-upload">
-        {{selectedFileName || "No file uploaded yet."}}
+      <section class="file-upload">
+        <img *ngIf="selectedFile" class="preview-img-avatar" [src]="selectedFileSrc">
+        <br>{{selectedFileName || "No file uploaded yet."}}
         <button mat-mini-fab color="accent" (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
         </button>
-      </div>
+      </section>
       <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
-          <div>
+          <section>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>First Name</mat-label>
               <input type="text" matInput formControlName="first_name">
@@ -48,8 +49,8 @@
                 First Name is <strong>required</strong>
               </mat-error>
             </mat-form-field>
-          </div>
-          <div>
+          </section>
+          <section>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Last Name</mat-label>
               <input type="text" matInput formControlName="last_name">
@@ -57,19 +58,19 @@
                 Last Name is <strong>required</strong>
               </mat-error>
             </mat-form-field>
-          </div>
+          </section>
           <h2>
             {{ user.email }}
           </h2>
-        <div class="button-container-space-between">
+        <section class="button-container-space-between">
           <button mat-raised-button color="accent" type="submit">Save</button>
           <button mat-raised-button color="secondary" (click)="changeView()">
             Cancel
           </button>
-        </div>
+        </section>
       </form>
     </mat-card>
-  </div>
+  </section>
 </ng-template>
 <app-project-list [ownProjects]="ownProjects" [memberProjects]="memberProjects">
 </app-project-list>
