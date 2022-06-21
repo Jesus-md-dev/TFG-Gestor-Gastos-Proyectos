@@ -53,17 +53,18 @@ export class ProjectService {
     }
   }
 
-  static async create(name: string, category: string, img: string | null) {
+  static async create(name: string, category: string, img: File | null) {
     try {
+      const formData = new FormData();
+      if (img != null) formData.append('img', img as File);
+      formData.append('name', name);
+      formData.append('category', category);
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/create_project/',
-        {
-          name,
-          category,
-          img,
-        },
+        formData,
         {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }
@@ -92,10 +93,15 @@ export class ProjectService {
     }
   }
 
-  static async update(id: any, name: string, category: string, img: File | null) {
+  static async update(
+    id: any,
+    name: string,
+    category: string,
+    img: File | null
+  ) {
     try {
       const formData = new FormData();
-      formData.append('img', img as File);
+      if (img != null) formData.append('img', img as File);
       formData.append('id', id);
       formData.append('name', name);
       formData.append('category', category);
@@ -122,7 +128,7 @@ export class ProjectService {
         GlobalComponent.apiUrl + '/api/add_member_project/',
         {
           project_id: projectId,
-          usernames: {usernames},
+          usernames: { usernames },
         },
         {
           headers: {
@@ -147,8 +153,8 @@ export class ProjectService {
           },
           data: {
             project_id,
-            member_id
-          }
+            member_id,
+          },
         }
       );
       return response.data;

@@ -14,13 +14,13 @@
     </mat-form-field>
   </section>
   <section>
-    <mat-form-field appearance="fill">
-      <mat-label>Dossier</mat-label>
-      <input type="text" matInput formControlName="dossier">
-      <mat-error *ngIf="formGroup.controls['dossier'].hasError('required')">
-        Dossier is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
+      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+      <section class="file-upload">
+        <br>{{selectedFileName || "Upload dossier"}}
+        <button mat-mini-fab color="accent" (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </section>
   </section>
   <section>
     <mat-form-field appearance="fill">

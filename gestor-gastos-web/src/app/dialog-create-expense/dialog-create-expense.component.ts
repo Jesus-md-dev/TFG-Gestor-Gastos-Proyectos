@@ -6,6 +6,7 @@ import { maxDateValidator } from 'custom-validators.directive';
 import { ExpenseService } from '../expense.service';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
+import { FileManagerService } from '../file-manager.service';
 
 @Component({
   selector: 'app-dialog-create-expense',
@@ -16,11 +17,15 @@ export class DialogCreateExpenseComponent implements OnInit {
   projectId: number;
   admin: User;
   users: User[] = [];
+  fileManagerService = new FileManagerService();
   formGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     dossier: new FormControl('', [Validators.required]),
     // TODO max date today
-    date: new FormControl('', [Validators.required, maxDateValidator(new Date())]),
+    date: new FormControl('', [
+      Validators.required,
+      maxDateValidator(new Date()),
+    ]),
     concept: new FormControl('', [Validators.required]),
     amount: new FormControl('', [Validators.required]),
     vatpercentage: new FormControl('', [
@@ -30,10 +35,12 @@ export class DialogCreateExpenseComponent implements OnInit {
     ]),
   });
   @Output() onCreateEmmiter = new EventEmitter();
+  selectedFile: File | null = null;
+  selectedFileName: String | null = null;
 
   dateFilter = (d: Date | null): boolean => {
-    const date = (d || new Date())
-    return date < new Date()
+    const date = d || new Date();
+    return date < new Date();
   };
 
   constructor(
@@ -47,7 +54,6 @@ export class DialogCreateExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserList();
-
   }
 
   onClose(): void {
@@ -84,11 +90,25 @@ export class DialogCreateExpenseComponent implements OnInit {
   loadUserList() {
     ProjectService.getProjectMembers(this.projectId).then((response) => {
       this.users = response;
-      this.users.push(this.admin)
-      this.users.sort((a,b) =>
-      (a.username.toLowerCase() > b.username.toLowerCase()) ? 1 :
-      ((b.username.toLowerCase() > a.username.toLowerCase()) ? -1 : 0) )
+      this.users.push(this.admin);
+      this.users.sort((a, b) =>
+        a.username.toLowerCase() > b.username.toLowerCase()
+          ? 1
+          : b.username.toLowerCase() > a.username.toLowerCase()
+          ? -1
+          : 0
+      );
     });
+  }
+
+  onFileSelected(event: any) {
+    const reader = new FileReader();
+    if (event.target.files) {
+      this.selectedFile = event.target.files[0];
+      this.selectedFileName = this.fileManagerService.fixFileName(
+        event.target.files[0]['name']
+      );
+    }
   }
 }
 

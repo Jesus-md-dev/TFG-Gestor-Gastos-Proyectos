@@ -236,6 +236,18 @@ mat-tab-header {
   height: 5em;
 }
 
+.file-input {
+  display: none;
+}
+
+.file-upload {
+  margin: 0.5em 0 0.5em 0;
+}
+
+.file-upload img {
+  height: 5em;
+}
+
 @media screen and (max-width: 960px) {
 
   .mat-table .mat-row {

@@ -1,7 +1,7 @@
 <ng-container *ngIf="!editView;else editCard">
   <section class="profile-card">
     <mat-card>
-      <img alt="" matCardImage src={{user.img}}>
+      <img class="profile-img" alt="" matCardImage src={{user.img}}>
       <mat-card-content>
         <h2>
           {{ user.first_name }}

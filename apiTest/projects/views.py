@@ -24,15 +24,16 @@ def create_project(request):
     if user.is_authenticated:
         try:
             project = Project(name=request.data.get('name'), 
-                category=request.data.get('category'), admin=user, 
-                img=request.data.get('img') if request.data.get('img') else "")
+                category=request.data.get('category'), admin=user)
+            if(request.data.get('img') != None):
+                project.img = request.data.get('img')
             project.save()
             return Response({
                 'project_info': {
                     'id': project.id,
                     'name': project.name,
                     'category': project.category,
-                    'img': project.img,
+                    'img': project.img.url,
                     'admin': project.admin.username
                 },
             })
@@ -53,7 +54,7 @@ def read_project(request, id):
                     'id':project_requested.id,
                     'name': project_requested.name,
                     'category': project_requested.category,
-                    'img': project_requested.img,
+                    'img': project_requested.img.url,
                     'admin': project_requested.admin.username,
                 },
             })
@@ -65,39 +66,30 @@ def read_project(request, id):
 
 @api_view(['PUT'])
 def update_project(request):
-    print("a")
-    try:
-        print(request.data['name'])
         project_requested = Project.objects.get(id=request.data['id'])
-        print("a")
         user = request.user
-        print("a")
         if user.is_authenticated and project_requested.admin == user:
             if 'name' in request.data:
                 project_requested.first_name = request.data['name']
             if 'category' in request.data:
                 project_requested.last_name = request.data['category']
-            print("a")
             if(request.data['img'] != "null"):
-                if(project_requested.profile.img.url != "userdefault.jpg"):
-                    project_requested.profile.img.delete()
-                project_requested.profile.img =  request.data['img']
-            print("a")
+                if(project_requested.img.url != "projectdefault.jpg"):
+                    project_requested.img.delete()
+                project_requested.img = request.data['img']
             project_requested.save()
-            print("a")
             return Response({
                 'project_info': {
                     'id': project_requested.id,
                     'name': project_requested.name,
                     'category': project_requested.category,
-                    'img': project_requested.img,
+                    'img': project_requested.img.url,
                     'admin': project_requested.admin.username
                 },
             })
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
-        return Response({'message': 'bad request'}, status=400)
+    
 
 
 @api_view(['DELETE'])
@@ -116,6 +108,7 @@ def delete_project(request, id):
             return Response({'message': 'bad request'}, status=400)
     else:
         return Response({'message': 'unauthorized'}, status=401)
+
 
 #PROJECTMEMBER ENDPOINTS
 @api_view(['POST'])

@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 
 def upload_to(instance, filename):
-    return 'posts/{filename}'.format(filename=filename)
+    return 'user/{filename}'.format(filename=filename)
 
 
 class Profile(models.Model):

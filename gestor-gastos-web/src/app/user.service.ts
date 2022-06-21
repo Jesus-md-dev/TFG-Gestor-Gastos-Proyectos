@@ -97,7 +97,8 @@ export class UserService {
   ) {
     try {
       const formData = new FormData();
-      formData.append('img', img as File);
+      if (img != null)
+        formData.append('img', img as File);
       formData.append('username', username);
       formData.append('first_name', first_name);
       formData.append('last_name', last_name);

@@ -11,6 +11,7 @@ import { ProjectExpensesTableComponent } from '../project-expenses-table/project
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
+import { FileManagerService } from '../file-manager.service';
 
 @Component({
   selector: 'app-project-description',
@@ -23,6 +24,7 @@ export class ProjectDescriptionComponent implements OnInit {
     category: new FormControl('', [Validators.required]),
   });
   project: Project = new Project();
+  fileManagerService = new FileManagerService();
   localStorageService = new LocalStorageService();
   routeSub: Subscription = new Subscription();
   projectId: any;
@@ -105,23 +107,14 @@ export class ProjectDescriptionComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files) {
       this.selectedFile = event.target.files[0];
-      this.selectedFileName = this.fixFileName(event.target.files[0]['name']);
-    }
-    if (event.target.files && event.target.files.length) {
+      this.selectedFileName = this.fileManagerService.fixFileName(
+        event.target.files[0]['name']
+      );
       const [file] = event.target.files;
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.selectedFileSrc = reader.result as string;
       };
-    }
-  }
-
-  fixFileName(name: string): string {
-    var max = 30;
-    if (name.length < max) return name;
-    else {
-      var parts: string[] = name.split('.');
-      return parts[0].substring(0, max) + '... .' + parts[1];
     }
   }
 }

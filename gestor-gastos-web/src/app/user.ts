@@ -24,7 +24,7 @@ export class User {
     this.first_name = first_name;
     this.last_name = last_name;
     this.email = email;
-    this._imgUrl = imgUrl;
+    this._imgUrl = GlobalComponent.apiUrl + imgUrl;
     this._img = null;
   }
 
@@ -50,7 +50,7 @@ export class User {
           user['first_name'],
           user['last_name'],
           user['email'],
-          GlobalComponent.apiUrl + user['img']
+          user['img']
         )
       );
     });
@@ -64,7 +64,7 @@ export class User {
       user['first_name'],
       user['last_name'],
       user['email'],
-      GlobalComponent.apiUrl + user['img']
+      user['img']
     );
   }
 

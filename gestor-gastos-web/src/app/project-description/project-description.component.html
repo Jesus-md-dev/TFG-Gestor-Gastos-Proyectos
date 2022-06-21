@@ -6,7 +6,6 @@
       <h2> Category: {{project.category}}</h2>
     </section>
   </section>
-
   <mat-tab-group>
     <mat-tab label="Expenses">
       <button mat-raised-button color="accent" (click)="createExpense()">
@@ -44,7 +43,7 @@
       <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
       <section class="file-upload">
         <img *ngIf="selectedFile" [src]="selectedFileSrc">
-        <br>{{selectedFileName || "No file uploaded yet."}}
+        <br>{{selectedFileName || "Upload image"}}
         <button mat-mini-fab color="accent" (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
         </button>

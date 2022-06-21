@@ -21,7 +21,7 @@ export class Project {
     this.name = name;
     this.category = category;
     this.admin = admin;
-    this._imgUrl = imgUrl;
+    this._imgUrl = GlobalComponent.apiUrl + imgUrl;
     this._img = null;
   }
 
@@ -39,8 +39,8 @@ export class Project {
     };
   }
 
-  static async create(name: string, category: string) {
-    return ProjectService.create(name, category, null);
+  static async create(name: string, category: string, img: File | null) {
+    return ProjectService.create(name, category, img);
   }
 
   async delete() {
@@ -53,7 +53,7 @@ export class Project {
         this.id,
         this.name,
         this.category,
-        this.img
+        this._img
       );
   }
 

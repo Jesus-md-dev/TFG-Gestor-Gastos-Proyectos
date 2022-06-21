@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { User } from '../user';
+import { FileManagerService } from '../file-manager.service';
+
 
 @Component({
   selector: 'app-project-management',
@@ -17,7 +19,12 @@ export class ProjectManagementComponent implements OnInit {
   });
   user: any = new User();
   projects: any = [];
+  fileManagerService = new FileManagerService();
   localStorageService = new LocalStorageService();
+  selectedFile: File | null = null;
+  selectedFileSrc: string | null = null;
+  selectedFileName: String | null = null;
+  expansionPanel: boolean = false;
 
   constructor(private snackBar: MatSnackBar) {}
 
@@ -37,7 +44,8 @@ export class ProjectManagementComponent implements OnInit {
     if (this.formGroup.valid) {
       Project.create(
         this.formGroup.controls['name'].value,
-        this.formGroup.controls['category'].value
+        this.formGroup.controls['category'].value,
+        this.selectedFile != null ? this.selectedFile : null
       ).then((response) => {
         if (response.hasOwnProperty('project_info')) {
           this.snackBar.open(
@@ -46,11 +54,35 @@ export class ProjectManagementComponent implements OnInit {
             { duration: 3 * 1000 }
           );
           this.ngOnInit();
+          this.formGroup.reset();
+          this.resetFile();
+          this.expansionPanel = false;
         } else
           this.snackBar.open('Project parameters are not correct', 'Close', {
             duration: 3 * 1000,
           });
       });
     }
+  }
+
+  onFileSelected(event: any) {
+    const reader = new FileReader();
+    if (event.target.files) {
+      this.selectedFile = event.target.files[0];
+      this.selectedFileName = this.fileManagerService.fixFileName(
+        event.target.files[0]['name']
+      );
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.selectedFileSrc = reader.result as string;
+      };
+    }
+  }
+
+  resetFile() {
+    this.selectedFile = null;
+    this.selectedFileSrc = null;
+    this.selectedFileName = null;
   }
 }

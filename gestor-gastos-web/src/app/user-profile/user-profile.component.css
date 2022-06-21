@@ -4,19 +4,7 @@
   width: 95%;
 }
 
-.profile-card img {
+.profile-card .profile-img {
   object-fit: cover;
   height: 15em;
-}
-
-.file-input {
-  display: none;
-}
-
-.file-upload {
-  margin: 0.5em 0 0.5em 0;
-}
-
-.file-upload img{
-  height: 5em;
 }

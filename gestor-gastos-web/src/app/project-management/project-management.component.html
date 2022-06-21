@@ -1,6 +1,6 @@
 <section class="main-content">
   <section class="project-form">
-    <mat-expansion-panel>
+    <mat-expansion-panel [(expanded)]="expansionPanel">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Create Project
@@ -9,11 +9,14 @@
           <mat-icon>create_new_folder</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-
-      <img class="project-img-card" alt="" matCardImage src=>
-
-      
-
+      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+      <section class="file-upload">
+        <img *ngIf="selectedFile" [src]="selectedFileSrc">
+        <br>{{selectedFileName || "Upload image"}}
+        <button mat-mini-fab color="accent" (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </section>
       <form class="custom-form" (ngSubmit)="createProject()" [formGroup]="formGroup">
         <section>
           <mat-form-field class="example-full-width" appearance="fill">
