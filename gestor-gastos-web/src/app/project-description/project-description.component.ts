@@ -7,11 +7,11 @@ import { User } from '../user';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectExpensesTableComponent } from '../project-expenses-table/project-expenses-table.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { FileManagerService } from '../file-manager.service';
+import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
 
 @Component({
   selector: 'app-project-description',
@@ -33,8 +33,8 @@ export class ProjectDescriptionComponent implements OnInit {
   selectedFileSrc: string | null = null;
   selectedFileName: String | null = null;
 
-  @ViewChild(ProjectExpensesTableComponent)
-  expensesTable!: ProjectExpensesTableComponent;
+  @ViewChild(ExpensesTableComponent)
+  expensesTable!: ExpensesTableComponent;
 
   constructor(
     private route: ActivatedRoute,

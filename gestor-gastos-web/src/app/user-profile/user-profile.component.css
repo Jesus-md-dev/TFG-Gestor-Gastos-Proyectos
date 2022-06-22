@@ -1,10 +1,4 @@
-.profile-body {
-  margin-left: auto;
-  margin-right: auto;
-  width: 95%;
-}
-
-.profile-card .profile-img {
+.profile-card .profile-card-img {
   object-fit: cover;
   height: 15em;
 }

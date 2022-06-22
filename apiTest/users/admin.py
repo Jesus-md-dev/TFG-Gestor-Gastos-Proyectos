@@ -11,8 +11,13 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Expense)
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'project', 'user', 'dossier', 'date', 'concept', 'amount',
+    list_display = ('id', 'get_project_name', 'user', 'dossier', 'date', 'concept', 'amount',
      'vatpercentage', 'final_amount')
+
+    def get_project_name(self, obj):
+        return obj.project.name
+    get_project_name.short_description = 'Project Name'
+    get_project_name.admin_order_field = 'project__name'
 
 
 @admin.register(Profile)
@@ -23,3 +28,8 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(ProjectMember)
 class ProjectMemberAdmin(admin.ModelAdmin):
     list_display = ('id', 'project', 'user', 'is_ip')
+
+    def get_project_name(self, obj):
+        return obj.project.name
+    get_project_name.short_description = 'Project Name'
+    get_project_name.admin_order_field = 'project__name'

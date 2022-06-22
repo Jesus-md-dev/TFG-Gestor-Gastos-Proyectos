@@ -39,17 +39,18 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { RegisterComponent } from './register/register.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { ProjectUsersTableComponent } from './project-users-table/project-users-table.component';
 import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
 import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ProjectExpensesTableComponent } from './project-expenses-table/project-expenses-table.component';
 import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
 import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
 import { DialogAccountDeleteComponent } from './dialog-account-delete/dialog-account-delete.component';
 import { AccessGuard } from './access.guard';
 import { ExpenseViewComponent } from './expense-view/expense-view.component';
-
+import { registerLocaleData } from '@angular/common';
+import localeES from '@angular/common/locales/es';
+import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
+import { UsersTableComponent } from './users-table/users-table.component';
 
 @NgModule({
   declarations: [
@@ -63,14 +64,14 @@ import { ExpenseViewComponent } from './expense-view/expense-view.component';
     ProjectManagementComponent,
     DialogProjectDeleteComponent,
     DialogAddMemberComponent,
-    ProjectUsersTableComponent,
     DialogMemberDeleteComponent,
     DialogCreateExpenseComponent,
-    ProjectExpensesTableComponent,
     DialogExpenseDeleteComponent,
     ExpenseDescriptionComponent,
     DialogAccountDeleteComponent,
     ExpenseViewComponent,
+    ExpensesTableComponent,
+    UsersTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -151,3 +152,5 @@ export class AppModule {}
 export function httpTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
+
+registerLocaleData(localeES, 'es');

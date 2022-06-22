@@ -13,7 +13,8 @@ class Project (models.Model):
 
     def as_json(self):
         return dict(id=self.id, name=self.name, category=self.category, 
-            admin=self.admin.username, img=self.img.url)
+            admin=self.admin.username, 
+            img=self.img.url if self.img is not None else None)
 
 
 class ProjectMember (models.Model):

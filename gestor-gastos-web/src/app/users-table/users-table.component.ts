@@ -12,11 +12,11 @@ import { ProjectService } from '../project.service';
 import { User } from '../user';
 
 @Component({
-  selector: 'app-project-users-table',
-  templateUrl: './project-users-table.component.html',
-  styleUrls: ['./project-users-table.component.css'],
+  selector: 'app-users-table',
+  templateUrl: './users-table.component.html',
+  styleUrls: ['./users-table.component.css'],
 })
-export class ProjectUsersTableComponent implements OnInit {
+export class UsersTableComponent implements OnInit {
   readonly formControl: FormGroup;
   @Input()
   projectId: any;
@@ -29,7 +29,8 @@ export class ProjectUsersTableComponent implements OnInit {
     'last_name',
     'first_name',
     'email',
-    'options',
+    'expensesBtn',
+    'expellBtn'
   ];
   filterData: { username: string } = { username: '' };
   filterSelectObj = [];
@@ -49,7 +50,7 @@ export class ProjectUsersTableComponent implements OnInit {
         Breakpoints.Large,
         Breakpoints.XLarge,
       ])
-      .subscribe((result: { breakpoints: { [x: string]: any; }; }) => {
+      .subscribe((result: { breakpoints: { [x: string]: any } }) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
             if (query === Breakpoints.Small || query === Breakpoints.XSmall) {
@@ -117,7 +118,9 @@ export class ProjectUsersTableComponent implements OnInit {
         projectMembers: usernames,
       },
     });
-    ref.componentInstance.onSaveEmitter.subscribe((data) => { this.updateUserList(); });
+    ref.componentInstance.onSaveEmitter.subscribe((data) => {
+      this.updateUserList();
+    });
   }
 
   expellMember(user: User) {
@@ -127,7 +130,9 @@ export class ProjectUsersTableComponent implements OnInit {
         user: user,
       },
     });
-    ref.componentInstance.onDeleteEmitter.subscribe((data) => { this.updateUserList(); })
+    ref.componentInstance.onDeleteEmitter.subscribe((data) => {
+      this.updateUserList();
+    });
   }
 
   getPageSizeOptions(): number[] {

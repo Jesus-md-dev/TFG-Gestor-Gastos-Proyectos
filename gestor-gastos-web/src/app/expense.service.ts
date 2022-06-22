@@ -14,32 +14,30 @@ export class ExpenseService {
   static async create(
     projectId: number,
     username: string,
-    dossier: string,
+    dossier: File | null,
     date: Date,
     concept: string,
     amount: number,
     vatpercentage: number
   ) {
     try {
+      const formData = new FormData();
+      if (dossier != null) formData.append('dossier', dossier as File);
+      formData.append('project_id', projectId.toString());
+      formData.append('username', username);
+      formData.append(
+        'date',
+        date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+      );
+      formData.append('concept', concept);
+      formData.append('amount', amount.toString());
+      formData.append('vatpercentage', vatpercentage.toString());
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/create_expense/',
-        {
-          project_id: projectId,
-          username,
-          dossier,
-          date:
-            date.getFullYear() +
-            '-' +
-            (date.getMonth() + 1) +
-            '-' +
-            date.getDate(),
-          concept,
-          amount,
-          vatpercentage,
-          finalAmount: (amount * vatpercentage) / 100,
-        },
+        formData,
         {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }

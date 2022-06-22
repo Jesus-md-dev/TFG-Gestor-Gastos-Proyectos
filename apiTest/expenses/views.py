@@ -24,17 +24,19 @@ def create_expense(request):
     user = request.user
     if user.is_authenticated:
         try: 
-            project_requested = Project.objects.get(id = request.data.get('project_id'))
-            user_requested = User.objects.get(username = request.data.get('username'))
+            aux = request.data['project_id']
+            project_requested = Project.objects.get(id = request.data['project_id'])
+            user_requested = User.objects.get(username = request.data['username'])
             #TODO usuario enviado pertenece projecto
+
             if project_requested.admin == user:
-                amount = float(request.data.get('amount'))
-                vatpercentage = float(request.data.get('vatpercentage'))
+                amount = float(request.data['amount'])
+                vatpercentage = float(request.data['vatpercentage'])
                 expense = Expense(project=project_requested, 
                     user=user_requested,
-                    dossier=request.data.get('dossier'),
-                    date=request.data.get('date'),
-                    concept=request.data.get('concept'),
+                    dossier=request.data['dossier'],
+                    date=request.data['date'],
+                    concept=request.data['concept'],
                     amount=round(amount, 2),
                     vatpercentage=round(vatpercentage, 2),
                     final_amount=round(amount + (amount * vatpercentage / 100), 2))
@@ -42,7 +44,7 @@ def create_expense(request):
                 return Response({
                     'project_info': {
                         'id': expense.id,
-                        'dossier': expense.dossier,
+                        'dossier': expense.dossier.url,
                         'date': expense.date,
                         'concept': expense.concept,
                         'amount': expense.amount,
@@ -54,7 +56,8 @@ def create_expense(request):
                 })
             else: 
                 return Response({'message': 'unauthorized'}, status=401)
-        except: 
+        except Exception as e: 
+            print('%s' % type(e))
             return Response({'message': 'bad request'}, status=400)
     else:
         return Response({'message': 'unauthorized'}, status=401)
@@ -70,7 +73,7 @@ def read_expense(request, id):
                 return Response({
                     'expense_info': {
                         'id': expense_requested.id,
-                        'dossier': expense_requested.dossier,
+                        'dossier': expense_requested.dossier.url,
                         'date': expense_requested.date,
                         'concept': expense_requested.concept,
                         'amount': expense_requested.amount,
@@ -113,14 +116,14 @@ def update_expense(request):
                 return Response({
                     'expense_info': {
                         'id': expense_requested.id,
-                        'dossier': expense_requested.dossier,
+                        'dossier': expense_requested.dossier.url,
                         'date': expense_requested.date,
                         'concept': expense_requested.concept,
                         'amount': expense_requested.amount,
                         'vatpercetange': expense_requested.vatpercentage,
                         'final_amount': expense_requested.final_amount,
                         'project': expense_requested.project.name,
-                        'username': expense_requested.user.username,
+                        'user': expense_requested.user.username,
                     },
                 })
             else:

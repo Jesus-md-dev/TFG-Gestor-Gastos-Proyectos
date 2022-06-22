@@ -20,7 +20,6 @@ export class DialogCreateExpenseComponent implements OnInit {
   fileManagerService = new FileManagerService();
   formGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
-    dossier: new FormControl('', [Validators.required]),
     // TODO max date today
     date: new FormControl('', [
       Validators.required,
@@ -65,7 +64,7 @@ export class DialogCreateExpenseComponent implements OnInit {
       ExpenseService.create(
         this.projectId,
         this.formGroup.controls['username'].value,
-        this.formGroup.controls['dossier'].value,
+        this.selectedFile,
         this.formGroup.controls['date'].value,
         this.formGroup.controls['concept'].value,
         this.formGroup.controls['amount'].value,

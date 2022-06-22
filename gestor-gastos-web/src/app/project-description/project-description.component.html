@@ -11,7 +11,7 @@
       <button mat-raised-button color="accent" (click)="createExpense()">
         Create New Expense
       </button>
-      <app-project-expenses-table [projectId]="projectId"></app-project-expenses-table>
+      <app-expenses-table [projectId]="projectId"></app-expenses-table>
     </mat-tab>
     <mat-tab label="Owner">
       <ng-container>
@@ -37,7 +37,7 @@
       </ng-container>
     </mat-tab>
     <mat-tab label="Members">
-      <app-project-users-table [projectId]="projectId"></app-project-users-table>
+      <app-users-table [projectId]="projectId"></app-users-table>
     </mat-tab>
     <mat-tab *ngIf="project.admin == user.username" label="Configuration">
       <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />

@@ -1,7 +1,7 @@
 <ng-container *ngIf="!editView;else editCard">
   <section class="profile-card">
     <mat-card>
-      <img class="profile-img" alt="" matCardImage src={{user.img}}>
+      <img class="profile-card-img" alt="" matCardImage src={{user.img}}>
       <mat-card-content>
         <h2>
           {{ user.first_name }}
@@ -31,7 +31,7 @@
 <ng-template #editCard>
   <section class="profile-card">
     <mat-card>
-      <img class="profile-img" alt="" matCardImage src={{user.img}}>
+      <img class="profile-card-img" alt="" matCardImage src={{user.img}}>
       <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
       <section class="file-upload">
         <img *ngIf="selectedFile" class="preview-img-avatar" [src]="selectedFileSrc">

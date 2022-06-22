@@ -32,10 +32,6 @@ td.mat-column-star {
   padding-right: 8px !important;
 }
 
-.feature-name {
-  font-weight: bold;
-}
-
 td button {
   margin: 0 0.5em 0 0.5em;
 }
@@ -50,7 +46,6 @@ mat-drawer-container {
 
 mat-drawer {
   width: auto;
-
 }
 
 mat-drawer h1{
@@ -178,17 +173,6 @@ mat-tab-header {
   margin-top: 10%;
 }
 
-.server-down {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90%;
-}
-
-.server-down h1 {
-  font-size: 3em;
-}
-
 .title {
   width: 100%;
   text-align: center;
@@ -206,12 +190,6 @@ mat-tab-header {
 
 .spacer-1em {
   width: 1em;
-}
-
-.profile-body {
-  margin-left: auto;
-  margin-right: auto;
-  width: 95%;
 }
 
 .profile-card {
@@ -248,41 +226,48 @@ mat-tab-header {
   height: 5em;
 }
 
+.profile-img {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.project-name-card {
+  font-size: 1em;
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000,
+    1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+
+.project-img-card {
+  height: 5.5em;
+  object-fit: cover;
+}
+
+.project-form {
+  text-align: left;
+  margin: 1em 0 1em 0;
+}
+
+.project-form mat-expansion-panel {
+  width: 20em;
+  text-align: center;
+  margin: 0 auto 0 auto;
+}
+
+.project-form mat-form-field {
+  margin: 0.5em 0 0.5em 0;
+}
+
+.project-form form {
+  margin: 0 auto 0 auto;
+  width: 15em;
+}
+
 @media screen and (max-width: 960px) {
-
-  .mat-table .mat-row {
-    display: block;
-    text-align: center;
-    overflow: hidden;
-    height: auto;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 3px;
-  }
-
-  .user-table .mat-row {
-    margin: 2% -105% 2% 1%;
-  }
-
-  .expense-table .mat-row {
-    margin: 2% -188% 2% 1%;
-  }
-
-  .mat-table .mat-row+.mat-row {
-    margin-top: 24px;
-  }
-
-  .mat-table .mat-cell {
-    display: block;
-    padding: 0 1em;
-    margin: 1em 0;
-    border: 0 none;
-  }
-
-  .profile-img {
-    width: 3em;
-    height: 3em;
-  }
-
   .section-table {
     width: 100%;
   }

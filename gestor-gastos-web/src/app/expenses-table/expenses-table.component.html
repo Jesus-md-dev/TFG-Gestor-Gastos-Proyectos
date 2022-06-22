@@ -15,79 +15,64 @@
     scrollX="true" scrollY="True">
     <ng-container matColumnDef="user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span> {{'User' | translate}} </span>
+        {{'User' | translate}}
       </th>
       <td mat-cell *matCellDef="let expense">
-        <span class="feature-name" *ngIf="isSmall">
-          {{'User Profile' | translate}}:
-        </span>
         <a href="user/{{expense.user}}">{{expense.user}}</a>
       </td>
     </ng-container>
     <ng-container matColumnDef="dossier">
       <th mat-header-cell *matHeaderCellDef>
-        <span> {{'Dossier' | translate}} </span>
+        {{'Dossier' | translate}}
       </th>
       <td mat-cell *matCellDef="let expense">
-        <span class="feature-name" *ngIf="isSmall">
-          {{'Dossier' | translate}}:
-        </span>
-        {{expense.dossier}}
+        <a *ngIf="expense.dossier != null" mat-stroked-button [href]="expense.dossier">Open dossier</a>
       </td>
     </ng-container>
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span> {{'Date' | translate}} </span>
+        {{'Date' | translate}}
       </th>
       <td mat-cell *matCellDef="let expense">
-        <span class="feature-name" *ngIf="isSmall">
-          {{'Date' | translate}}:
-        </span>
-        {{expense.date}}
+        {{expense.formmatedDate}}
       </td>
     </ng-container>
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span> {{'Amount' | translate}} </span>
+        {{'Amount' | translate}}
       </th>
       <td mat-cell *matCellDef="let expense">
-        <span class="feature-name" *ngIf="isSmall">
-          {{'Amount' | translate}}:
-        </span>
         {{expense.amount}} &euro;
       </td>
     </ng-container>
     <ng-container matColumnDef="vatpercentage">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span> {{'VAT %' | translate}} </span>
+        {{'VAT %' | translate}}
       </th>
       <td mat-cell *matCellDef="let expense">
-        <span class="feature-name" *ngIf="isSmall">
-          {{'VAT' | translate}}:
-        </span>
         {{expense.vatpercentage}} &percnt;
       </td>
     </ng-container>
     <ng-container matColumnDef="final_amount">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span> {{'Final Amount' | translate}} </span>
+        {{'Final Amount' | translate}}
       </th>
       <td mat-cell *matCellDef="let expense">
-        <span class="feature-name" *ngIf="isSmall">
-          {{'Final Amount' | translate}}:
-        </span>
         {{expense.final_amount}} &euro;
       </td>
     </ng-container>
-
-    <ng-container matColumnDef="options">
+    <ng-container matColumnDef="showBtn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let expense">
-        <a mat-raised-button color="accent" href="/expense/{{expense.id}}"> {{"Show" | translate}} </a>
+        <a mat-raised-button color="accent" href="/expense/{{expense.id}}"> {{"Details" | translate}} </a>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="deleteBtn">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let expense">
         <button mat-raised-button color="warn" (click)="deleteExpense(expense)">{{"Delete" | translate}}</button>
       </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

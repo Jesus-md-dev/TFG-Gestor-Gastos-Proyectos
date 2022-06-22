@@ -12,11 +12,11 @@ import { Project } from '../project';
 import { ProjectService } from '../project.service';
 
 @Component({
-  selector: 'app-project-expenses-table',
-  templateUrl: './project-expenses-table.component.html',
-  styleUrls: ['./project-expenses-table.component.css'],
+  selector: 'app-expenses-table',
+  templateUrl: './expenses-table.component.html',
+  styleUrls: ['./expenses-table.component.css'],
 })
-export class ProjectExpensesTableComponent implements OnInit {
+export class ExpensesTableComponent implements OnInit {
   readonly formControl: FormGroup;
   @Input()
   projectId: any;
@@ -30,7 +30,8 @@ export class ProjectExpensesTableComponent implements OnInit {
     'amount',
     'vatpercentage',
     'final_amount',
-    'options',
+    'showBtn',
+    'deleteBtn',
   ];
   currentScreenSize: string | undefined;
   isSmall = false;
@@ -112,7 +113,8 @@ export class ProjectExpensesTableComponent implements OnInit {
 
   updateExpenseList() {
     ExpenseService.getProjectExpenses(this.projectId).then((response) => {
-      this.expensesDataSource.data = this.expenses = response;
+      this.expensesDataSource.data = this.expenses =
+        Expense.jsontoList(response);
       this.expensesDataSource.sort = this.sort;
     });
   }
