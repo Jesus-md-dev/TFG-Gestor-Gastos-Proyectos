@@ -75,7 +75,10 @@ def update_project(request):
                 project_requested.last_name = request.data['category']
             if(request.data['img'] != "null"):
                 if(project_requested.img.url != "projectdefault.jpg"):
-                    project_requested.img.delete()
+                    try:
+                        project_requested.img.delete()
+                    except:
+                        print("Project " + str(project_requested.id) + " img does not exist")
                 project_requested.img = request.data['img']
             project_requested.save()
             return Response({

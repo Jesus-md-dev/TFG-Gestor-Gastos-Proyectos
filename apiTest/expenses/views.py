@@ -51,7 +51,7 @@ def create_expense(request):
                         'vatpercetange': expense.vatpercentage,
                         'final_amount': expense.final_amount,
                         'project': expense.project.name,
-                        'username': expense.user.username,
+                        'user': expense.user.username,
                     },
                 })
             else: 
@@ -80,7 +80,7 @@ def read_expense(request, id):
                         'vatpercetange': expense_requested.vatpercentage,
                         'final_amount': expense_requested.final_amount,
                         'project': expense_requested.project.name,
-                        'username': expense_requested.user.username,
+                        'user': expense_requested.user.username,
                     },
                 })
             else:

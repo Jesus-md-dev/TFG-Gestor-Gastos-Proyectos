@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Expense } from '../expense';
-import { ExpenseService } from '../expense.service';
 
 @Component({
   selector: 'app-expense-description',
@@ -20,6 +19,7 @@ export class ExpenseDescriptionComponent implements OnInit {
       Expense.load(this.expenseId).then((response) => {
         if (response.hasOwnProperty('expense_info')) {
           this.expense = Expense.jsontoObject(response['expense_info']);
+          console.log(this.expense);
         } else if (response.hasOwnProperty('message')) {
           this.snackBar.open('Can not load expense data', 'Close', {
             duration: 3 * 1000,

@@ -23,11 +23,11 @@ export class AppComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    {
-      translate.addLangs(['en', 'es']);
-      translate.setDefaultLang('en');
-      this.cur_lang = 'en';
-    }
+    translate.addLangs(['en', 'es']);
+    this.cur_lang = translate.langs.some((lang) => lang == navigator.language)
+      ? navigator.language
+      : 'en';
+    translate.setDefaultLang(this.cur_lang);
   }
 
   switchLang() {

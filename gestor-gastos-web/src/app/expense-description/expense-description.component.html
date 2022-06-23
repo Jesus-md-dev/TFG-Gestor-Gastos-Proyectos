@@ -1,8 +1,17 @@
-<p>{{expense.project}}</p>
-<p>{{expense.user}}</p>
-<p>{{expense.dossier}}</p>
-<p>{{expense.date}}</p>
-<p>{{expense.concept}}</p>
-<p>{{expense.amount}}</p>
-<p>{{expense.vatpercentage}}</p>
-<p>{{expense.final_amount}}</p>
+<section class="expense-card">
+    <h1><a href="">{{expense.project}}</a></h1>
+    <p><a href="/user/{{expense.user}}">{{expense.user}}</a></p>
+    <a *ngIf="expense.dossier != null" mat-stroked-button [href]="expense.dossier">Open dossier</a>
+    <p>Date: {{expense.formmatedDate}}</p>
+    <mat-accordion>
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                    Concept
+            </mat-expansion-panel-header>
+            <p>{{expense.concept}}</p>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <p>Amount: {{expense.amount}}</p>
+    <p>VAT %: {{expense.vatpercentage}}</p>
+    <p>Final Amount: {{expense.final_amount}}</p>
+</section>

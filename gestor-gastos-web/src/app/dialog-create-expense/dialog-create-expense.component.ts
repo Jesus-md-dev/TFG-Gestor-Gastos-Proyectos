@@ -20,7 +20,6 @@ export class DialogCreateExpenseComponent implements OnInit {
   fileManagerService = new FileManagerService();
   formGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
-    // TODO max date today
     date: new FormControl('', [
       Validators.required,
       maxDateValidator(new Date()),

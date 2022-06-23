@@ -84,6 +84,8 @@ export class Expense {
   }
 
   static jsontoObject(expense: any) {
+    console.log(expense);
+    
     return new Expense(
       expense['id'],
       expense['project'],
