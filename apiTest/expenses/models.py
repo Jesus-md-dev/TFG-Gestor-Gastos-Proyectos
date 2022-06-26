@@ -9,7 +9,7 @@ class Expense (models.Model):
     date = models.DateField()
     concept = models.CharField(max_length=100)
     amount = models.FloatField()
-    vatpercentage = models.IntegerField()
+    vatpercentage = models.FloatField()
     final_amount = models.FloatField()
 
     def as_json(self):

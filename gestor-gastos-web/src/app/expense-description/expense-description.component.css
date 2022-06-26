@@ -1,8 +1,22 @@
 .expense-card {
     width: 25em;
-    padding: 1% 0 1% 0;
+    padding: 1em 1em 1em 1em;
     margin: 2% auto 0 auto;
     margin-bottom: 2%;
     border-radius: 3%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fafafa;
+}
+
+.expense-sections section {
+    margin: 1em 0 1em 0;
+}
+
+.expense-details {
+    text-align: left;
+}
+
+.button-container-space-between {
+    width: 80%;
+    padding: 0 10% 0 10%;
 }
