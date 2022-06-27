@@ -34,7 +34,9 @@ export class ProjectManagementComponent implements OnInit {
       User.loadUser(username).then((response) => {
         this.user = response;
         this.user.getProjects().then((response: any) => {
-          this.projects = response;
+          console.log(response);
+          if ('projects_info' in response) 
+            this.projects = Project.jsontoList(response['projects_info']);
         });
       });
     }

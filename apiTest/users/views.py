@@ -1,26 +1,15 @@
 import json
 
 from django.contrib.auth.models import User
-from django.http import HttpResponse, JsonResponse
 from knox.auth import AuthToken
 from projects.models import Project, ProjectMember
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, UserSerializer
 
 
-#MUST DELETE ENDPOINTS
-@api_view(['GET'])
-def clear_users(request):
-    users = User.objects.all()
-    for user in users:
-        if not user.is_superuser:
-            user.delete()
-    return Response({'message': 'clear'})
-
-#ADMIN ENDPOINTS
 @api_view(['GET'])
 def is_token_available(request):
     user = request.user
@@ -33,35 +22,6 @@ def is_token_available(request):
 def is_alive(request):
     return Response({'message': 'available'})
 
-@api_view(['GET'])
-def get_all_users(request):
-    try:
-        user = request.user
-        if user.is_authenticated and user.is_superuser:
-            user_list = []
-            users = User.objects.all()
-            for user in users:
-                user_dict = {}
-                user_dict['id'] = user.id
-                user_dict['username'] = user.username
-                user_dict['email'] = user.email
-                user_dict['first_name'] = user.first_name
-                user_dict['last_name'] = user.last_name
-                user_dict['is_superuser'] = user.is_superuser
-                user_dict['is_staff'] = user.is_staff
-                user_dict['is_active'] = user.is_active
-                user_dict['date_joined'] = user.date_joined
-                user_dict['img'] = user.profile.img.url
-                user_list.append(user_dict)
-            user_list = list(user_list)
-            return JsonResponse(user_list, safe=False)
-        else: 
-            return Response({'message': 'unauthorized'}, status=401)
-    except Exception as e:
-        print(e)
-        return Response({'message': 'bad request'}, status=400)
-
-#USER ENDPOINTS
 @api_view(['POST'])
 def create_user(request):
     serializer = RegisterSerializer(data=request.data)
@@ -73,16 +33,9 @@ def create_user(request):
         user.save()
         _, token = AuthToken.objects.create(user)
         return Response({
-            'user_info': {
-                'id':user.id,
-                'username': user.username,
-                'email': user.email,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'img': user.profile.img.url
-            },
-            'token': token,
-        })
+                'user_info': user.profile.as_json(),
+                'token': token
+                })
     except Exception as e:
         print(e)
         user.delete()
@@ -94,17 +47,7 @@ def read_user(request, username):
         user = request.user
         user_requested = User.objects.get(username=username)
         if user.is_authenticated:
-            return Response({
-                'user_info': {
-                    'id':user_requested.id,
-                    'username': user_requested.username,
-                    'email': user_requested.email,
-                    'first_name': user_requested.first_name,
-                    'last_name': user_requested.last_name,
-                    'img': user_requested.profile.img.url
-                },
-            },
-            )
+            return Response({'user_info': user_requested.profile.as_json()})
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
@@ -117,23 +60,11 @@ def update_user(request):
         user_requested = User.objects.get(username=request.data['username'])
         user = request.user
         if user.is_authenticated and user.id == user_requested.id:
-            user_requested.first_name = request.data['first_name']
-            user_requested.last_name = request.data['last_name']
-            if(request.data['img'] != "null"):
-                if(user_requested.profile.img.url != "userdefault.jpg"):
-                    user_requested.profile.img.delete()
-                user_requested.profile.img =  request.data['img']
-            user_requested.save()
-            return Response({
-                'user_info': {
-                    'id':user_requested.id,
-                    'username': user_requested.username,
-                    'email': user_requested.email,
-                    'first_name': user_requested.first_name,
-                    'last_name': user_requested.last_name,
-                    'img': user_requested.profile.img.url,
-                },
-            })
+            serializer = UserSerializer(user_requested, request.data, 
+                context={'img': request.data['img']})
+            serializer.is_valid(raise_exception=True)
+            user_requested = serializer.save()
+            return Response({'user_info': user.profile.as_json()})
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
@@ -147,15 +78,7 @@ def login_api(request):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         _, token = AuthToken.objects.create(user)
-
-        return Response({
-            'user_info': {
-                'id':user.id,
-                'username': user.username,
-                'email': user.email,
-            },
-            'token': token,
-        })
+        return Response({'user_info': user.profile.as_json(),'token': token})
     except Exception as e:
         print(e)
         return Response({'message': 'bad request'}, status=400)
@@ -184,8 +107,10 @@ def read_user_projects(request, username):
         user_requested = User.objects.get(username=username)
         if user.is_authenticated and user.id == user_requested.id:
                 user_projects = Project.objects.filter(admin=user_requested)
-                projects = [project.as_json() for project in user_projects]
-                return HttpResponse(json.dumps(projects))
+                projects = []
+                projects['projects_info'] = []
+                [projects['projects_info'].append([project.as_json()]) for project in user_projects]
+                return Response(projects)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
@@ -202,7 +127,7 @@ def read_user_member_projects(request, username):
                 project_members = ProjectMember.objects.filter(user=user_requested)
                 projects = [project_member.project.as_json() for project_member 
                     in project_members]
-                return HttpResponse(json.dumps(projects))
+                return Response(projects)
             else:
                 return Response({'message': 'unauthorized'}, status=401)
         else: 

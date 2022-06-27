@@ -73,9 +73,7 @@ export class Project {
     return projects;
   }
 
-  static jsontoObject(project: any) {
-    console.log(project);
-    
+  static jsontoObject(project: any) {    
     return new Project(
       project['id'],
       project['name'],

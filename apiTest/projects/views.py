@@ -1,11 +1,9 @@
-import json
 from django.contrib.auth.models import User
-from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from projects.models import Project, ProjectMember
 from projects.serializers import ProjectSerializer
+from rest_framework.response import Response
 
-            
 @api_view(['POST'])
 def create_project(request):
     try:
@@ -14,33 +12,28 @@ def create_project(request):
             serializer = ProjectSerializer(data=request.data, context={'user': user})
             serializer.is_valid(raise_exception=True)
             project = serializer.save()
-            print(json.dumps(project.as_json()))
-            return HttpResponse(json.dumps({
-                'project_info': project.as_json()
-                }))
+            return Response({'project_info': project.as_json()})
         else:
-            return HttpResponse({'message': 'unauthorized'}, status=401)
+            return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
             print(e)
-            return HttpResponse({'message': 'bad request'}, status=400)
-
+            return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
 def read_project(request, id):
     try:
         user = request.user
         project_requested = Project.objects.get(id=id)
-        print({'project_info': json.dumps(project_requested.as_json())})
         if user.is_authenticated and user == project_requested.admin:
-            return HttpResponse(json.dumps({
+            aux = {'project_info': project_requested.as_json()}
+            return Response({
                 'project_info': project_requested.as_json()
-                }))
+                })
         else: 
-            return HttpResponse({'message': 'unauthorized'}, status=401)
+            return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
-        return HttpResponse({'message': 'bad request'}, status=400)
-
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
 def update_project(request):
@@ -51,16 +44,12 @@ def update_project(request):
             serializer = ProjectSerializer(project_requested, data=request.data)
             serializer.is_valid(raise_exception=True)
             project = serializer.save()
-            return HttpResponse(json.dumps({
-                'project_info': project.as_json()
-                }))
+            return Response({'project_info': project.as_json()})
         else: 
-            return HttpResponse({'message': 'unauthorized'}, status=401)
+            return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
-        return HttpResponse({'message': 'bad request'}, status=400)
-    
-
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
 def delete_project(request, id):
@@ -71,15 +60,14 @@ def delete_project(request, id):
             if user == project.admin:
                 name = project.name
                 project.delete()
-                return HttpResponse({"project_info": "project " + name + " deleted"})
+                return Response({"project_info": "project " + name + " deleted"})
             else:
-                return HttpResponse({'message': 'unauthorized'}, status=401)
+                return Response({'message': 'unauthorized'}, status=401)
         else:
-            return HttpResponse({'message': 'unauthorized'}, status=401)
+            return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
-        return HttpResponse({'message': 'bad request'}, status=400)
-
+        return Response({'message': 'bad request'}, status=400)
 
 #PROJECTMEMBER ENDPOINTS
 @api_view(['POST'])
@@ -99,20 +87,19 @@ def add_project_member(request):
                         # project_member.save()
                         new_project_members.append(project_member)
                     else: 
-                        return HttpResponse({'message': 'bad request'}, status=400)
+                        return Response({'message': 'bad request'}, status=400)
                 new_project_member_json = [project_member.as_json() for project_member
                     in new_project_members]
                 for project_member in new_project_members:
                     project_member.save()
-                return HttpResponse(json.dumps(new_project_member_json))
+                return Response({new_project_member_json})
             else: 
-                return HttpResponse({'message': 'unauthorized'}, status=401)
+                return Response({'message': 'unauthorized'}, status=401)
         else:
-            return HttpResponse({'message': 'unauthorized'}, status=401)
+            return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
-        return HttpResponse({'message': 'bad request'}, status=400)
-
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
 def read_project_member(request, project_id):
@@ -136,13 +123,12 @@ def read_project_member(request, project_id):
                 user_dict['date_joined'] = user.date_joined
                 user_dict['img'] = user.profile.img.url
                 user_list.append(user_dict)
-            return JsonResponse(user_list, safe=False)
+            return Response(user_list, safe=False)
         else: 
-            return HttpResponse({'message': 'unauthorized'}, status=401)
+            return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
-        return HttpResponse({'message': 'bad request'}, status=400)
-
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
 def delete_project_member(request):
@@ -154,11 +140,11 @@ def delete_project_member(request):
             project_member = ProjectMember.objects.get(project=project, user=member)
             if user == project.admin:
                 project_member.delete()
-                return HttpResponse({"expense_info": "project_member deleted"})
+                return Response({"expense_info": "project_member deleted"})
             else:
-                return HttpResponse({'message': 'unauthorized'}, status=401)
+                return Response({'message': 'unauthorized'}, status=401)
         except Exception as e:
             print(e) 
-            return HttpResponse({'message': 'bad request'}, status=400)
+            return Response({'message': 'bad request'}, status=400)
     else:
-        return HttpResponse({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)

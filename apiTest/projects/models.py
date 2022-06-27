@@ -16,7 +16,14 @@ class Project (models.Model):
         if not self.img:
             self.img = 'projectdefault.jpg'
             self.save()
-        return dict(id=self.id, name=self.name, category=self.category, 
+        return {
+            'id':self.id,
+            'name':self.name, 
+            'category':self.category, 
+            'admin':self.admin.username, 
+            'img':self.img.url
+        }
+        dict(id=self.id, name=self.name, category=self.category, 
             admin=self.admin.username, img=self.img.url)
 
 

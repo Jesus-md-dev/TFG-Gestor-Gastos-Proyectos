@@ -145,6 +145,8 @@ export class UserService {
           password,
         }
       );
+      console.log(response);
+      
       return response.data;
     } catch (error) {
       const e = error as AxiosError;
