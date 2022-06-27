@@ -1,13 +1,14 @@
 import json
+
+from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse
+from knox.auth import AuthToken
+from projects.models import Project, ProjectMember
+from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.authtoken.serializers import AuthTokenSerializer
-from knox.auth import AuthToken
 
-from projects.models import Project, ProjectMember
 from .serializers import RegisterSerializer
-from django.contrib.auth.models import User
 
 
 #MUST DELETE ENDPOINTS
@@ -27,12 +28,10 @@ def is_token_available(request):
         return Response({'token_info': 'token available'})
     else: 
         return Response({'message': 'unauthorized'}, status=401)
-
         
 @api_view(['GET'])
 def is_alive(request):
     return Response({'message': 'available'})
-
 
 @api_view(['GET'])
 def get_all_users(request):
@@ -58,9 +57,9 @@ def get_all_users(request):
             return JsonResponse(user_list, safe=False)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
-
 
 #USER ENDPOINTS
 @api_view(['POST'])
@@ -84,11 +83,10 @@ def create_user(request):
             },
             'token': token,
         })
-    except:
+    except Exception as e:
+        print(e)
         user.delete()
         return Response({'message': 'bad request'}, status=400)
-
-
 
 @api_view(['GET'])
 def read_user(request, username):
@@ -109,10 +107,10 @@ def read_user(request, username):
             )
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
         
-
 @api_view(['PUT'])
 def update_user(request):
     try:
@@ -138,9 +136,9 @@ def update_user(request):
             })
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
-
 
 @api_view(['POST'])
 def login_api(request):
@@ -158,9 +156,9 @@ def login_api(request):
             },
             'token': token,
         })
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
-
 
 @api_view(['DELETE'])
 def delete_user(request, username):
@@ -175,9 +173,9 @@ def delete_user(request, username):
             return Response({'user_info': 'User ' + username + ' deleted'})
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
-
 
 @api_view(['GET'])
 def read_user_projects(request, username):
@@ -190,9 +188,9 @@ def read_user_projects(request, username):
                 return HttpResponse(json.dumps(projects))
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
-
 
 @api_view(['GET'])
 def read_user_member_projects(request, username):
@@ -209,5 +207,6 @@ def read_user_member_projects(request, username):
                 return Response({'message': 'unauthorized'}, status=401)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)

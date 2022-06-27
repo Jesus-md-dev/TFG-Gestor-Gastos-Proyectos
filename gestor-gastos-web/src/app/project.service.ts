@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import axios, { AxiosError } from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
-import { Project } from './project';
 import { User } from './user';
 
 @Injectable({
@@ -39,14 +38,8 @@ export class ProjectService {
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }
-      );
-      return new Project(
-        response.data['project_info']['id'],
-        response.data['project_info']['name'],
-        response.data['project_info']['category'],
-        response.data['project_info']['admin'],
-        response.data['project_info']['img']
-      );
+      );      
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;

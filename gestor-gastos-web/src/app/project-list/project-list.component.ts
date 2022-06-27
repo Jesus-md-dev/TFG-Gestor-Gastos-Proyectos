@@ -32,7 +32,7 @@ export class ProjectListComponent {
     ref.componentInstance.onDeleteEmitter.subscribe((data) => {
       this.ownProjects.splice(
         this.ownProjects.findIndex(
-          (element: { id: number }) => element.id === data),
+          (element: { id: number }) => element.id == data),
         1
       );
     });

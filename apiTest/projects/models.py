@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 
 def upload_to(instance, filename):
     return 'project/{filename}'.format(filename=filename)
@@ -12,9 +13,11 @@ class Project (models.Model):
     img = models.ImageField(("Image"), upload_to=upload_to, default='projectdefault.jpg')
 
     def as_json(self):
+        if not self.img:
+            self.img = 'projectdefault.jpg'
+            self.save()
         return dict(id=self.id, name=self.name, category=self.category, 
-            admin=self.admin.username, 
-            img=self.img.url if self.img is not None else None)
+            admin=self.admin.username, img=self.img.url)
 
 
 class ProjectMember (models.Model):

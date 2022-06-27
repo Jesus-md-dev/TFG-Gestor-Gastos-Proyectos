@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Project } from '../project';
-import { LocalStorageService } from '../local-storage.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
+import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
+import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
+import { FileManagerService } from '../file-manager.service';
+import { LocalStorageService } from '../local-storage.service';
+import { Project } from '../project';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
-import { FileManagerService } from '../file-manager.service';
-import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
 
 @Component({
   selector: 'app-project-description',
@@ -50,13 +50,20 @@ export class ProjectDescriptionComponent implements OnInit {
           this.projectId = params['projectId'];
         }
       );
-      ProjectService.loadProjectData(this.projectId).then((response) => {
-        this.project = response as Project;
-        this.formGroup.controls['name'].setValue(this.project.name);
-        this.formGroup.controls['category'].setValue(this.project.category);
-        User.loadUser(this.project.admin).then((response) => {
-          this.user = response;
-        });
+      ProjectService.loadProjectData(this.projectId).then((response) => {   
+        console.log(response['project_info']);  
+        if ('project_info' in response) {
+          this.project = Project.jsontoObject(response['project_info']);
+          this.formGroup.controls['name'].setValue(this.project.name);
+          this.formGroup.controls['category'].setValue(this.project.category);
+          User.loadUser(this.project.admin).then((response) => {
+            this.user = response;
+          });
+        } else {
+          this.snackBar.open('Project can not be found', 'Close', {
+            duration: 3 * 1000,
+          });
+        }
       });
     } catch (error) {}
   }
@@ -67,11 +74,11 @@ export class ProjectDescriptionComponent implements OnInit {
       this.project.category = this.formGroup.controls['category'].value;
       if (this.selectedFile != null) this.project.img = this.selectedFile;
       this.project.update().then((response) => {
-        if (response.hasOwnProperty('project_info')) {
+        if ('project_info' in response) {
           this.snackBar.open('Project updated successfully', 'Close', {
             duration: 3 * 1000,
           });
-        } else if (response.hasOwnProperty('message')) {
+        } else if ('message' in response) {
           this.snackBar.open('Error in parameters', 'Close', {
             duration: 3 * 1000,
           });
