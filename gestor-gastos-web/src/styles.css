@@ -276,3 +276,9 @@ mat-tab-header {
     width: 95%;
   }
 }
+
+@media screen and (max-width: 768px) {
+  table {
+    text-align: center;
+  }
+}

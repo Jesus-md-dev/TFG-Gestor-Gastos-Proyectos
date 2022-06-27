@@ -3,8 +3,8 @@ import { ExpenseService } from './expense.service';
 import { formatDate } from '@angular/common';
 
 export class Expense {
-  id: number | null;
-  project: number | null;
+  id: number;
+  project: number;
   user: string;
   date: Date;
   concept: string;
@@ -15,17 +15,17 @@ export class Expense {
   private _dossierUrl: string;
 
   constructor(
-    id = null,
-    project = null,
+    id = 0,
+    project = 0,
     user = '',
     dossierUrl = '',
     date = new Date(),
     concept = '',
     amount = 0,
     vatpercentage = 0,
-    final_amount = 0,
+    final_amount = null,
     dossier = null
-  ) {
+  ) {    
     this.id = id;
     this.project = project;
     this.user = user;
@@ -33,7 +33,12 @@ export class Expense {
     this.concept = concept;
     this.amount = amount;
     this.vatpercentage = vatpercentage;
-    this.final_amount = final_amount;
+    this.final_amount =
+      final_amount != null
+        ? final_amount
+        : Math.round(
+            ((amount * (100 + vatpercentage)) / 100 + Number.EPSILON) * 100
+          ) / 100;
     this._dossierUrl = GlobalComponent.apiUrl + dossierUrl;
     this._dossier = dossier;
   }
@@ -53,6 +58,20 @@ export class Expense {
     reader.onload = (event: any) => {
       this._dossier = event.target.result;
     };
+  }
+
+  async update() {
+    if (typeof this.id == 'number')
+      return await ExpenseService.update(
+        this.id,
+        this.project,
+        this.user,
+        this.dossier,
+        this.date,
+        this.concept,
+        this.amount,
+        this.vatpercentage
+      );
   }
 
   async delete() {
@@ -83,7 +102,7 @@ export class Expense {
     return expenses;
   }
 
-  static jsontoObject(expense: any) {
+  static jsontoObject(expense: any) {       
     return new Expense(
       expense['id'],
       expense['project'],
@@ -92,7 +111,7 @@ export class Expense {
       new Date(expense['date']),
       expense['concept'],
       expense['amount'],
-      expense['vatpercentage'],
+      expense['vatpercentange'],
       expense['final_amount']
     );
   }

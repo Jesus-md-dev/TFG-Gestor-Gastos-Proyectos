@@ -7,6 +7,7 @@ import { ExpenseService } from '../expense.service';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
 import { FileManagerService } from '../file-manager.service';
+import { Project } from '../project';
 
 @Component({
   selector: 'app-dialog-create-expense',
@@ -20,7 +21,6 @@ export class DialogCreateExpenseComponent implements OnInit {
   fileManagerService = new FileManagerService();
   formGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
-    // TODO max date today
     date: new FormControl('', [
       Validators.required,
       maxDateValidator(new Date()),

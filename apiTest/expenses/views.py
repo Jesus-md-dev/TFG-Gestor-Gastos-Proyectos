@@ -48,10 +48,10 @@ def create_expense(request):
                         'date': expense.date,
                         'concept': expense.concept,
                         'amount': expense.amount,
-                        'vatpercetange': expense.vatpercentage,
+                        'vatpercentange': expense.vatpercentage,
                         'final_amount': expense.final_amount,
-                        'project': expense.project.name,
-                        'username': expense.user.username,
+                        'project': expense.project.id,
+                        'user': expense.user.username,
                     },
                 })
             else: 
@@ -77,10 +77,10 @@ def read_expense(request, id):
                         'date': expense_requested.date,
                         'concept': expense_requested.concept,
                         'amount': expense_requested.amount,
-                        'vatpercetange': expense_requested.vatpercentage,
+                        'vatpercentange': expense_requested.vatpercentage,
                         'final_amount': expense_requested.final_amount,
-                        'project': expense_requested.project.name,
-                        'username': expense_requested.user.username,
+                        'project': expense_requested.project.id,
+                        'user': expense_requested.user.username,
                     },
                 })
             else:
@@ -98,9 +98,11 @@ def update_expense(request):
         user = request.user
         if user.is_authenticated:
             #TODO usuario administra projecto y usuario enviado pertenece projecto
-            if expense_requested.projet.admin == user and True:
-                if 'dossier' in request.data:
-                    expense_requested.dossier = request.data['dossier']
+            if expense_requested.project.admin.username == user.username and True:
+                # if 'dossier' in request.data:
+                #     expense_requested.dossier = request.data['dossier']
+                if 'username' in request.data:
+                    expense_requested.user = User.objects.get(username=request.data['username'])
                 if 'date' in request.data:
                     expense_requested.date = request.data['date']
                 if 'concept' in request.data:
@@ -109,7 +111,6 @@ def update_expense(request):
                     expense_requested.amount = round(float(request.data['amount']), 2)
                 if 'vatpercentage' in request.data:
                     expense_requested.vatpercentage = round(float(request.data['vatpercentage']), 2)
-                
                 expense_requested.final_amount=round(expense_requested.amount + 
                     (expense_requested.amount * expense_requested.vatpercentage / 100), 2)
                 expense_requested.save()
@@ -120,9 +121,9 @@ def update_expense(request):
                         'date': expense_requested.date,
                         'concept': expense_requested.concept,
                         'amount': expense_requested.amount,
-                        'vatpercetange': expense_requested.vatpercentage,
+                        'vatpercentange': expense_requested.vatpercentage,
                         'final_amount': expense_requested.final_amount,
-                        'project': expense_requested.project.name,
+                        'project': expense_requested.project.id,
                         'user': expense_requested.user.username,
                     },
                 })
@@ -130,7 +131,8 @@ def update_expense(request):
                 return Response({'message': 'unauthorized'}, status=401)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 

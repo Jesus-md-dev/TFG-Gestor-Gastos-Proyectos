@@ -17,16 +17,13 @@
       <ng-container>
         <section class="profile-card">
           <mat-card>
-            <img alt="" matCardImage src={{user.img}}>
+            <img class="profile-card-img" alt="" matCardImage src={{user.img}}>
             <mat-card-content>
               <h2>
-                <strong> {{ user.username }} </strong>
+                 <strong>Username: </strong> {{ user.username }}
               </h2>
               <h2>
-                <strong>First Name: </strong> {{ user.first_name }}
-              </h2>
-              <h2>
-                <strong>Last Name: </strong> {{ user.last_name }}
+                <strong>Full name: </strong> {{ user.last_name }}, {{ user.first_name }}
               </h2>
               <h2>
                 <strong>Email: </strong> {{ user.email }}

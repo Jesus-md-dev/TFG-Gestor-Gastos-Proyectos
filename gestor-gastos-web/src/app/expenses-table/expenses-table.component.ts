@@ -1,4 +1,3 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,35 +33,11 @@ export class ExpensesTableComponent implements OnInit {
     'deleteBtn',
   ];
   currentScreenSize: string | undefined;
-  isSmall = false;
 
   constructor(
-    breakpointObserver: BreakpointObserver,
     formBuilder: FormBuilder,
     public dialog: MatDialog
   ) {
-    breakpointObserver
-      .observe([
-        Breakpoints.XSmall,
-        Breakpoints.Small,
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
-      .subscribe((result: { breakpoints: { [x: string]: any } }) => {
-        for (const query of Object.keys(result.breakpoints)) {
-          if (result.breakpoints[query]) {
-            if (query === Breakpoints.Small || query === Breakpoints.XSmall) {
-              this.currentScreenSize = 'Is Small ' + query;
-              this.isSmall = true;
-            } else {
-              this.currentScreenSize = 'Not Small ' + query;
-              this.isSmall = false;
-            }
-          }
-        }
-      });
-
     this.expensesDataSource.filterPredicate = ((data, filter) => {
       let filterJs = JSON.parse(filter);
       const a =

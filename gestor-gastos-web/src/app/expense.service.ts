@@ -99,4 +99,44 @@ export class ExpenseService {
       return e.response?.data;
     }
   }
+
+  static async update(
+    id: number,
+    projectId: number,
+    username: string,
+    dossier: File | null,
+    date: Date,
+    concept: string,
+    amount: number,
+    vatpercentage: number
+  ) {
+    try {
+      const formData = new FormData();
+      if (dossier != null) formData.append('dossier', dossier as File);
+      formData.append('id', id.toString());
+      formData.append('project_id', projectId.toString());
+      formData.append('username', username);
+      formData.append(
+        'date',
+        date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+      );
+      formData.append('concept', concept);
+      formData.append('amount', amount.toString());
+      formData.append('vatpercentage', vatpercentage.toString());
+      const response = await axios.put(
+        GlobalComponent.apiUrl + '/api/update_expense/',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
 }
