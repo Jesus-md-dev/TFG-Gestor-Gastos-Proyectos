@@ -1,10 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
 def upload_to(instance, filename):
     return 'project/{filename}'.format(filename=filename)
-
 
 class Project (models.Model):
     name = models.CharField(max_length=100)
@@ -16,16 +14,8 @@ class Project (models.Model):
         if not self.img:
             self.img = 'projectdefault.jpg'
             self.save()
-        return {
-            'id':self.id,
-            'name':self.name, 
-            'category':self.category, 
-            'admin':self.admin.username, 
-            'img':self.img.url
-        }
-        dict(id=self.id, name=self.name, category=self.category, 
+        return dict(id=self.id, name=self.name, category=self.category, 
             admin=self.admin.username, img=self.img.url)
-
 
 class ProjectMember (models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

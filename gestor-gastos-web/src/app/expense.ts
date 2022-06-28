@@ -1,6 +1,6 @@
-import { GlobalComponent } from './global-component';
-import { ExpenseService } from './expense.service';
 import { formatDate } from '@angular/common';
+import { ExpenseService } from './expense.service';
+import { GlobalComponent } from './global-component';
 
 export class Expense {
   id: number;
@@ -12,7 +12,7 @@ export class Expense {
   vatpercentage: number;
   final_amount: number;
   private _dossier: File | null;
-  private _dossierUrl: string;
+  private _dossierUrl: string | null;
 
   constructor(
     id = 0,
@@ -39,7 +39,7 @@ export class Expense {
         : Math.round(
             ((amount * (100 + vatpercentage)) / 100 + Number.EPSILON) * 100
           ) / 100;
-    this._dossierUrl = GlobalComponent.apiUrl + dossierUrl;
+    this._dossierUrl = dossierUrl != null ? GlobalComponent.apiUrl + dossierUrl : null;
     this._dossier = dossier;
   }
 
@@ -48,7 +48,7 @@ export class Expense {
   }
 
   public get formmatedDate(): string {
-    return formatDate(this.date, 'shortDate', 'es');
+    return formatDate(this.date, 'shortDate', navigator.language);
   }
 
   public set dossier(value: File) {
@@ -84,21 +84,7 @@ export class Expense {
 
   static jsontoList(json: any) {
     let expenses: any = [];
-    json.forEach((expense: any) => {
-      expenses.push(
-        new Expense(
-          expense['id'],
-          expense['project'],
-          expense['user'],
-          expense['dossier'],
-          new Date(expense['date']),
-          expense['concept'],
-          expense['amount'],
-          expense['vatpercentage'],
-          expense['final_amount']
-        )
-      );
-    });
+    json.forEach((expense: any) => { expenses.push(this.jsontoObject(expense)); });
     return expenses;
   }
 
@@ -111,7 +97,7 @@ export class Expense {
       new Date(expense['date']),
       expense['concept'],
       expense['amount'],
-      expense['vatpercentange'],
+      expense['vatpercentage'],
       expense['final_amount']
     );
   }

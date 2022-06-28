@@ -1,10 +1,13 @@
 import json
+
+from django.contrib.auth.models import User
 from django.http import HttpResponse
+from projects.models import Project, ProjectMember
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+
 from expenses.models import Expense
-from projects.models import Project
+from expenses.serializers import ExpenseSerializer
 
 
 @api_view(['GET'])
@@ -24,36 +27,18 @@ def create_expense(request):
     user = request.user
     if user.is_authenticated:
         try: 
-            aux = request.data['project_id']
             project_requested = Project.objects.get(id = request.data['project_id'])
             user_requested = User.objects.get(username = request.data['username'])
-            #TODO usuario enviado pertenece projecto
-
+            ProjectMember.objects.get(project=project_requested, user=user_requested)
             if project_requested.admin == user:
-                amount = float(request.data['amount'])
-                vatpercentage = float(request.data['vatpercentage'])
-                expense = Expense(project=project_requested, 
-                    user=user_requested,
-                    dossier=request.data['dossier'],
-                    date=request.data['date'],
-                    concept=request.data['concept'],
-                    amount=round(amount, 2),
-                    vatpercentage=round(vatpercentage, 2),
-                    final_amount=round(amount + (amount * vatpercentage / 100), 2))
-                expense.save()
-                return Response({
-                    'project_info': {
-                        'id': expense.id,
-                        'dossier': expense.dossier.url,
-                        'date': expense.date,
-                        'concept': expense.concept,
-                        'amount': expense.amount,
-                        'vatpercentange': expense.vatpercentage,
-                        'final_amount': expense.final_amount,
-                        'project': expense.project.id,
-                        'user': expense.user.username,
-                    },
-                })
+                serializer = ExpenseSerializer(data=request.data, context={
+                    'user': user_requested, 
+                    'project': project_requested,
+                    'img': request.data['img'] if 'img' in request.data else None
+                    })
+                serializer.is_valid(raise_exception=True)
+                expense = serializer.save()
+                return Response(expense.as_json())
             else: 
                 return Response({'message': 'unauthorized'}, status=401)
         except Exception as e: 
@@ -70,24 +55,13 @@ def read_expense(request, id):
         expense_requested = Expense.objects.get(id=id)
         if user.is_authenticated:
             if user == expense_requested.user or user == expense_requested.project.admin:
-                return Response({
-                    'expense_info': {
-                        'id': expense_requested.id,
-                        'dossier': expense_requested.dossier.url,
-                        'date': expense_requested.date,
-                        'concept': expense_requested.concept,
-                        'amount': expense_requested.amount,
-                        'vatpercentange': expense_requested.vatpercentage,
-                        'final_amount': expense_requested.final_amount,
-                        'project': expense_requested.project.id,
-                        'user': expense_requested.user.username,
-                    },
-                })
+                return Response({'expense_info': expense_requested.as_json()})
             else:
                 return Response({'message': 'unauthorized'}, status=401)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 
@@ -114,19 +88,7 @@ def update_expense(request):
                 expense_requested.final_amount=round(expense_requested.amount + 
                     (expense_requested.amount * expense_requested.vatpercentage / 100), 2)
                 expense_requested.save()
-                return Response({
-                    'expense_info': {
-                        'id': expense_requested.id,
-                        'dossier': expense_requested.dossier.url,
-                        'date': expense_requested.date,
-                        'concept': expense_requested.concept,
-                        'amount': expense_requested.amount,
-                        'vatpercentange': expense_requested.vatpercentage,
-                        'final_amount': expense_requested.final_amount,
-                        'project': expense_requested.project.id,
-                        'user': expense_requested.user.username,
-                    },
-                })
+                return Response({'expense_info': expense_requested.as_json()})
             else:
                 return Response({'message': 'unauthorized'}, status=401)
         else: 
@@ -165,5 +127,6 @@ def get_project_expenses(request, project_id):
             return HttpResponse(json.dumps(expenses))
         else: 
             return Response({'message': 'unauthorized'}, status=401)
-    except:
+    except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)

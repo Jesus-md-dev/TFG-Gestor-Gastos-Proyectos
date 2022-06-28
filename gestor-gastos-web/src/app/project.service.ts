@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios, { AxiosError } from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
+import { Project } from './project';
 import { User } from './user';
 
 @Injectable({
@@ -115,12 +116,12 @@ export class ProjectService {
     }
   }
 
-  static async addMembers(usernames: string[], projectId: number) {
+  static async addMembers(usernames: string[], project: Project) {
     try {
       const response = await axios.post(
         GlobalComponent.apiUrl + '/api/add_member_project/',
         {
-          project_id: projectId,
+          project_id: project.id,
           usernames: { usernames },
         },
         {

@@ -40,7 +40,7 @@ export class UserService {
           },
         }
       );
-      return Project.jsontoList(response.data);
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;
@@ -144,9 +144,7 @@ export class UserService {
           username,
           password,
         }
-      );
-      console.log(response);
-      
+      );      
       return response.data;
     } catch (error) {
       const e = error as AxiosError;

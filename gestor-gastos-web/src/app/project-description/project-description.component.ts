@@ -51,7 +51,6 @@ export class ProjectDescriptionComponent implements OnInit {
         }
       );
       ProjectService.loadProjectData(this.projectId).then((response) => {   
-        console.log(response['project_info']);  
         if ('project_info' in response) {
           this.project = Project.jsontoObject(response['project_info']);
           this.formGroup.controls['name'].setValue(this.project.name);

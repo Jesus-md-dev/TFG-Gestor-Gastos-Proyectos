@@ -12,6 +12,4 @@ urlpatterns = [
     path('user/<str:username>', views.read_user),
     path('update_user/', views.update_user),
     path('delete_user/<str:username>', views.delete_user),
-    path('projects/<str:username>', views.read_user_projects),
-    path('member_projects/<str:username>', views.read_user_member_projects),
 ]

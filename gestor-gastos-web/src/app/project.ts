@@ -60,15 +60,7 @@ export class Project {
   static jsontoList(json: any) {
     let projects: any = [];
     json.forEach((project: any) => {
-      projects.push(
-        new Project(
-          project['id'],
-          project['name'],
-          project['category'],
-          project['admin'],
-          project['img']
-        )
-      );
+      projects.push(this.jsontoObject(project));
     });
     return projects;
   }
@@ -84,8 +76,7 @@ export class Project {
   }
 
   async addMembers(userlist: string[]) {
-    if (typeof this.id == 'number')
-      return ProjectService.addMembers(userlist, this.id);
+    return ProjectService.addMembers(userlist, this);
   }
 
   async expellMember(pojetc_id: number, member_id: number) {

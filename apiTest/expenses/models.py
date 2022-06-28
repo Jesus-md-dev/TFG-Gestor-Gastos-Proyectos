@@ -1,6 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from projects.models import Project
+
 
 class Expense (models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -13,8 +14,8 @@ class Expense (models.Model):
     final_amount = models.FloatField()
 
     def as_json(self):
-        return dict(id=self.id, project=self.project.name, user=self.user.username, 
-            dossier=self.dossier.url if self.dossier is not None else None, 
+        return dict(id=self.id, project=self.project.id, user=self.user.username, 
+            dossier=self.dossier.url if self.dossier else None, 
             date=str(self.date), concept=self.concept, 
             amount=self.amount, vatpercentage=self.vatpercentage, 
             final_amount=self.final_amount)

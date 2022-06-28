@@ -1,14 +1,9 @@
-import json
-
 from django.contrib.auth.models import User
 from knox.auth import AuthToken
-from projects.models import Project, ProjectMember
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 from .serializers import RegisterSerializer, UserSerializer
-
 
 @api_view(['GET'])
 def is_token_available(request):
@@ -100,38 +95,3 @@ def delete_user(request, username):
         print(e)
         return Response({'message': 'bad request'}, status=400)
 
-@api_view(['GET'])
-def read_user_projects(request, username):
-    try:
-        user = request.user
-        user_requested = User.objects.get(username=username)
-        if user.is_authenticated and user.id == user_requested.id:
-                user_projects = Project.objects.filter(admin=user_requested)
-                projects = []
-                projects['projects_info'] = []
-                [projects['projects_info'].append([project.as_json()]) for project in user_projects]
-                return Response(projects)
-        else: 
-            return Response({'message': 'unauthorized'}, status=401)
-    except Exception as e:
-        print(e)
-        return Response({'message': 'bad request'}, status=400)
-
-@api_view(['GET'])
-def read_user_member_projects(request, username):
-    try:
-        user = request.user
-        user_requested = User.objects.get(username=username)
-        if user.is_authenticated:
-            if user.id == user_requested.id:
-                project_members = ProjectMember.objects.filter(user=user_requested)
-                projects = [project_member.project.as_json() for project_member 
-                    in project_members]
-                return Response(projects)
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
-        else: 
-            return Response({'message': 'unauthorized'}, status=401)
-    except Exception as e:
-        print(e)
-        return Response({'message': 'bad request'}, status=400)

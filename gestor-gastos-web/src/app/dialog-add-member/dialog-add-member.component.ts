@@ -14,7 +14,7 @@ import { UserService } from '../user.service';
 })
 export class DialogAddMemberComponent implements OnInit {
   userlist: string[] = [];
-  project: Project;
+  project: Project = new Project();
   projectMembers: string[];
   formGroup: FormGroup;
   @Output() onSaveEmitter = new EventEmitter();
@@ -24,7 +24,7 @@ export class DialogAddMemberComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snackBar: MatSnackBar
   ) {
-    this.project = data.project;
+    this.project = Project.jsontoObject(data.project['project_info']);
     this.projectMembers = data.projectMembers;
 
     this.formGroup = new FormGroup({
