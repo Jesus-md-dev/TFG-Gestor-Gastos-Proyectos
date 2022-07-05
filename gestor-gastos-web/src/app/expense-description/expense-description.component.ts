@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { maxDateValidator } from 'custom-validators.directive';
-import { Expense } from '../expense';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
+import { Expense } from '../expense';
 import { Project } from '../project';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-expense-description',
@@ -22,6 +22,7 @@ export class ExpenseDescriptionComponent {
   modify: boolean = false;
   expense: Expense = new Expense();
   detailsView: boolean = true;
+  expenseUser: User = new User();
   expenseUsername: string = '';
   users: User[] = [];
   admin: User = new User();
@@ -76,12 +77,14 @@ export class ExpenseDescriptionComponent {
   }
 
   loadExpenseProject() {
-    ProjectService.loadProjectData(this.expense.project).then((response) => {
-      this.project = Project.jsontoObject(response);
-      User.loadUser(this.project.admin).then((response) => {
-        this.admin = User.jsontoObject(response);
-      });
-      this.loadProjectAdmin();
+    Project.load(this.expense.project).then((response) => {
+      if ('project_info' in response) {
+        this.project = Project.jsontoObject(response['project_info']);
+        User.loadUser(this.project.admin).then((response) => {
+          this.admin = User.jsontoObject(response);
+        });
+        this.loadProjectAdmin();
+      }
     });
   }
 
@@ -97,11 +100,13 @@ export class ExpenseDescriptionComponent {
             ? -1
             : 0
         );
-        let expenseUser = this.users.find(
+        let auxUser = this.users.find(
           (user) => user.username == this.expense.user
         );
-        if (expenseUser != undefined) {
-          this.expenseUsername = expenseUser.username;
+        
+        if (auxUser != undefined) {
+          this.expenseUser = auxUser
+          this.expenseUsername = this.expenseUser.username;
           this.formGroup.controls['username'].setValue(this.expenseUsername);
         }
       });
@@ -110,7 +115,6 @@ export class ExpenseDescriptionComponent {
 
   changeView() {
     this.detailsView = !this.detailsView;
-    this.loadExpense();
   }
 
   updateExpense() {

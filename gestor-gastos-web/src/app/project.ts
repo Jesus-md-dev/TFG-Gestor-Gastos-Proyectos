@@ -57,6 +57,18 @@ export class Project {
       );
   }
 
+  async addMembers(userlist: string[]) {
+    return ProjectService.addMembers(userlist, this);
+  }
+
+  async expellMember(pojetc_id: number, member_id: number) {
+    return ProjectService.expellMember(pojetc_id, member_id);
+  }
+
+  static load(projectId: number) {
+    return ProjectService.load(projectId);
+  }
+
   static jsontoList(json: any) {
     let projects: any = [];
     json.forEach((project: any) => {
@@ -65,7 +77,7 @@ export class Project {
     return projects;
   }
 
-  static jsontoObject(project: any) {    
+  static jsontoObject(project: any) {
     return new Project(
       project['id'],
       project['name'],
@@ -73,13 +85,5 @@ export class Project {
       project['admin'],
       project['img']
     );
-  }
-
-  async addMembers(userlist: string[]) {
-    return ProjectService.addMembers(userlist, this);
-  }
-
-  async expellMember(pojetc_id: number, member_id: number) {
-    return ProjectService.expellMember(pojetc_id, member_id);
   }
 }

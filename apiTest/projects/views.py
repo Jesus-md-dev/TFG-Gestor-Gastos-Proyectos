@@ -147,7 +147,7 @@ def delete_project_member(request):
             project_member = ProjectMember.objects.get(project=project, user=member)
             if user == project.admin:
                 project_member.delete()
-                return Response({"expense_info": "project_member deleted"})
+                return Response({"project_member_info": "project_member deleted"})
             else:
                 return Response({'message': 'unauthorized'}, status=401)
         except Exception as e:
@@ -166,7 +166,7 @@ def read_user_member_projects(request, username):
                 project_members = ProjectMember.objects.filter(user=user_requested)
                 projects = [project_member.project.as_json() for project_member 
                     in project_members]
-                return Response(projects)
+                return Response({'projects_info': projects})
             else:
                 return Response({'message': 'unauthorized'}, status=401)
         else: 

@@ -29,11 +29,14 @@ class ExpenseSerializer(serializers.ModelSerializer):
         return expense
 
     def update(self, instance, validated_data): 
-        instance.name = validated_data.get('name')
-        instance.category = validated_data.get('category')
-        if('img' in validated_data and validated_data.get('img') != "null"):
-            if(instance.img.url != "projectdefault.jpg"):
-                instance.img.delete()
-            instance.img = validated_data.get('img')
+        instance.user=self.context.get('user')
+        # TODO
+        # instance.dossier=self.context.get('dossier') if 'dossier' in self.context else None
+        instance.date=validated_data['date']
+        instance.concept=validated_data['concept']
+        instance.amount=validated_data['amount']
+        instance.vatpercentage=validated_data['vatpercentage']
+        instance.final_amount=round(validated_data['amount'] + 
+                (validated_data['amount'] * validated_data['vatpercentage'] / 100), 2)
         instance.save() 
         return instance

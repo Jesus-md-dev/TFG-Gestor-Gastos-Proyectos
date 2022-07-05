@@ -6,12 +6,12 @@
         <section>
             <strong>Project: </strong>
             <a mat-button href="/project/{{project.id}}">
-                {{project.name}}
+                {{project.name}} - {{project.category}}
             </a>
         </section>
         <section>
             <strong>User: </strong>
-            <a mat-button href="/user/{{expense.user}}">{{expense.user}}</a>
+            <a mat-button href="/user/{{expense.user}}">{{expense.user}} - {{expenseUser.first_name}} {{expenseUser.last_name}}</a>
         </section>
         <section>
             <strong>Dossier: </strong>

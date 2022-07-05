@@ -30,7 +30,7 @@ export class ProjectService {
     }
   }
 
-  static async loadProjectData(projectId: number) {
+  static async load(projectId: number) {
     try {
       let response = await axios.get(
         GlobalComponent.apiUrl + '/api/project/' + projectId,

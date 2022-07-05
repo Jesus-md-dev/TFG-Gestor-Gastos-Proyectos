@@ -98,7 +98,7 @@ export class UsersTableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    ProjectService.loadProjectData(this.projectId).then((response) => {
+    Project.load(this.projectId).then((response) => {
       this.project = response;
       this.updateUserList();
     });

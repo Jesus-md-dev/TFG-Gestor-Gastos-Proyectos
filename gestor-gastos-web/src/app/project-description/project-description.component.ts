@@ -10,7 +10,6 @@ import { ExpensesTableComponent } from '../expenses-table/expenses-table.compone
 import { FileManagerService } from '../file-manager.service';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
-import { ProjectService } from '../project.service';
 import { User } from '../user';
 
 @Component({
@@ -50,7 +49,7 @@ export class ProjectDescriptionComponent implements OnInit {
           this.projectId = params['projectId'];
         }
       );
-      ProjectService.loadProjectData(this.projectId).then((response) => {   
+      Project.load(this.projectId).then((response) => {   
         if ('project_info' in response) {
           this.project = Project.jsontoObject(response['project_info']);
           this.formGroup.controls['name'].setValue(this.project.name);

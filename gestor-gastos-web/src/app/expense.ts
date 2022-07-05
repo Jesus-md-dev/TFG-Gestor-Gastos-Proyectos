@@ -3,6 +3,7 @@ import { ExpenseService } from './expense.service';
 import { GlobalComponent } from './global-component';
 
 export class Expense {
+  [x: string]: any;
   id: number;
   project: number;
   user: string;

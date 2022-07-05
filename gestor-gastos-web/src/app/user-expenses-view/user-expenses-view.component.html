@@ -1,0 +1,20 @@
+<section>
+    <h1>My Expenses</h1>
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let item of expensesByProject | keyvalue">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                   <strong>Project</strong> 
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{expensesByProject[$any(item.key)]['projectName']}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-user-expenses-table [expenses]="expensesByProject[$any(item.key)]['expenses']"></app-user-expenses-table>
+            <mat-action-row>
+                <a mat-button color="primary" href="/project/">Next</a>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</section>
+

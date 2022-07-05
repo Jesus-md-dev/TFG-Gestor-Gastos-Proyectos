@@ -17,8 +17,6 @@ export class UserProfileComponent implements OnInit {
   user: any = new User();
   ownProjects: any = [];
   memberProjects: any = [];
-  fileManagerService = new FileManagerService();
-  localStorageService = new LocalStorageService();
   editView: boolean = false;
   formGroup!: FormGroup;
   username: string | undefined;
@@ -27,6 +25,8 @@ export class UserProfileComponent implements OnInit {
   selectedFile: File | null = null;
   selectedFileSrc: string | null = null;
   selectedFileName: String | null = null;
+  fileManagerService = new FileManagerService();
+  localStorageService = new LocalStorageService();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -120,7 +120,9 @@ export class UserProfileComponent implements OnInit {
       );
       const [file] = event.target.files;
       reader.readAsDataURL(file);
-      reader.onload = () => { this.selectedFileSrc = reader.result as string; };
+      reader.onload = () => {
+        this.selectedFileSrc = reader.result as string;
+      };
     }
   }
 }

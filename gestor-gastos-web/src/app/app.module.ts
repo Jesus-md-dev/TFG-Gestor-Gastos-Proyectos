@@ -51,6 +51,8 @@ import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es';
 import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
+import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
+import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-table.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { UsersTableComponent } from './users-table/users-table.component';
     ExpenseViewComponent,
     ExpensesTableComponent,
     UsersTableComponent,
+    UserExpensesViewComponent,
+    UserExpensesTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -133,6 +137,12 @@ import { UsersTableComponent } from './users-table/users-table.component';
       {
         path: 'expense/:expenseId',
         component: ExpenseViewComponent,
+        data: { requiresLogin: true },
+        canActivate: [AccessGuard],
+      },
+      {
+        path: 'expenses',
+        component: UserExpensesViewComponent,
         data: { requiresLogin: true },
         canActivate: [AccessGuard],
       },

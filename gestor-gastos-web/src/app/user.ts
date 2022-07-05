@@ -17,7 +17,7 @@ export class User {
     last_name = '',
     email = '',
     imgUrl = '',
-    img = null,
+    img = null
   ) {
     this.id = id;
     this.username = username;
@@ -37,7 +37,27 @@ export class User {
     this._img = value;
     var reader = new FileReader();
     reader.readAsDataURL(this._img);
-    reader.onload = (event: any) => { this._imgUrl = event.target.result; };
+    reader.onload = (event: any) => {
+      this._imgUrl = event.target.result;
+    };
+  }
+
+  static async create(
+    username: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    password: string
+  ) {
+    return UserService.create(username, first_name, last_name, email, password);
+  }
+
+  async update() {
+    return await UserService.update(this, this._img);
+  }
+
+  async delete() {
+    return await UserService.delete(this.username);
   }
 
   static jsontoList(json: any) {
@@ -69,37 +89,18 @@ export class User {
   }
 
   static async loadUser(username: string) {
-    return await UserService.loadUser(username);
-  }
-
-  static async create(
-    username: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    password: string
-  ) {
-    return UserService.create(username, first_name, last_name, email, password);
+    return await UserService.load(username);
   }
 
   async getProjects() {
-    return await UserService.getUserProjects(this.username);
+    return await UserService.getProjects(this.username);
   }
 
   async getProjectsMember() {
-    return await UserService.getUserProjectsMember(this.username);
+    return await UserService.getProjectsMember(this.username);
   }
 
-  async update() {
-    return await UserService.update(
-      this.username,
-      this.first_name,
-      this.last_name,
-      this._img
-    );
-  }
-
-  async delete() {
-    return await UserService.delete(this.username);
+  async getExpenses() {
+    return await UserService.getExpenses();
   }
 }

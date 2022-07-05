@@ -2,13 +2,13 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { Expense } from '../expense';
 import { ExpenseService } from '../expense.service';
 import { Project } from '../project';
-import { ProjectService } from '../project.service';
 
 @Component({
   selector: 'app-expenses-table',
@@ -32,11 +32,11 @@ export class ExpensesTableComponent implements OnInit {
     'showBtn',
     'deleteBtn',
   ];
-  currentScreenSize: string | undefined;
 
   constructor(
     formBuilder: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.expensesDataSource.filterPredicate = ((data, filter) => {
       let filterJs = JSON.parse(filter);
@@ -61,7 +61,7 @@ export class ExpensesTableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    ProjectService.loadProjectData(this.projectId).then((response) => {
+    Project.load(this.projectId).then((response) => {
       this.project = response;
       this.updateExpenseList();
     });
@@ -88,9 +88,15 @@ export class ExpensesTableComponent implements OnInit {
 
   updateExpenseList() {
     ExpenseService.getProjectExpenses(this.projectId).then((response) => {
-      this.expensesDataSource.data = this.expenses =
-        Expense.jsontoList(response);
-      this.expensesDataSource.sort = this.sort;
+      if ('expenses_info' in response) {
+        this.expensesDataSource.data = this.expenses = Expense.jsontoList(
+          response['expenses_info']
+        );
+        this.expensesDataSource.sort = this.sort;
+      } else
+        this.snackBar.open('Error loading user expenses', 'Close', {
+          duration: 3 * 1000,
+        });
     });
   }
 }
