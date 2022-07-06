@@ -22,6 +22,8 @@ export class ExpensesTableComponent implements OnInit {
   expenses: Expense[] = [];
   project: any = new Project();
   expensesDataSource = new MatTableDataSource<Expense>();
+  finalAmount: number = 0;
+  finalAmountMoth: number = 0;
   displayedColumns: string[] = [
     'user',
     'dossier',
@@ -93,6 +95,13 @@ export class ExpensesTableComponent implements OnInit {
           response['expenses_info']
         );
         this.expensesDataSource.sort = this.sort;
+        let currentDate = new Date();
+        this.expenses.forEach((expense) => {
+          this.finalAmount += expense.final_amount;
+          if (expense.date.getMonth() == currentDate.getMonth()) {
+            this.finalAmountMoth += expense.final_amount;
+          }
+        });
       } else
         this.snackBar.open('Error loading user expenses', 'Close', {
           duration: 3 * 1000,

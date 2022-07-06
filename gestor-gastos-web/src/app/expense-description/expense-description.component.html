@@ -33,13 +33,13 @@
             </mat-accordion>
         </section>
         <section>
-            <strong>Amount: </strong>{{expense.amount}}€
+            <strong>Amount: </strong>{{expense.amount | number: '.2-2'}}€
         </section>
         <section>
-            <strong>VAT Percentage: </strong>{{expense.vatpercentage}}%
+            <strong>VAT Percentage: </strong>{{expense.vatpercentage | number: '.2-2'}}%
         </section>
         <section>
-            <strong>Final Amount: </strong>{{expense.final_amount}}€
+            <strong>Final Amount: </strong>{{expense.final_amount | number: '.2-2'}}€
         </section>
     </section>
     <section class="button-container-space-between" *ngIf="modify">

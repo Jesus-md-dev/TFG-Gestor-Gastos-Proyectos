@@ -1,16 +1,39 @@
 <section class="expended-section">
-    <span><strong>Total Expended:</strong> {{finalAmount | number: '.2-2'}} €</span>
-    <span><strong>Total Expended this month:</strong> {{finalAmountMoth}} €</span>
+    <div class="block-content-center">
+        <strong>Total Expended</strong> <br> {{finalAmount | number: '.2-2'}} €
+    </div>
+    <div class="block-content-center">
+        <strong>Total Expended this month</strong> <br> {{finalAmountMoth | number: '.2-2'}} €
+    </div>
 </section>
+
+<app-vertical-chart [data]="expensesByMonth" [year]="yearSelected.toString()"></app-vertical-chart>
+
 <!-- TODO Sortable -->
 <section class="section-table expense-table">
     <table mat-table [dataSource]="expensesDataSource" matSort mdbTableScroll scrollX="true" scrollY="True">
-        <ng-container matColumnDef="user">
+        <ng-container matColumnDef="amount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{'User' | translate}}
+                {{'Amount' | translate}}
             </th>
             <td mat-cell *matCellDef="let expense">
-                <a href="user/{{expense.user}}">{{expense.user}}</a>
+                {{expense.amount | number: '.2-2'}} &euro;
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="vatpercentage">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{'VAT %' | translate}}
+            </th>
+            <td mat-cell *matCellDef="let expense">
+                {{expense.vatpercentage | number: '.2-2'}} &percnt;
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="final_amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{'Final Amount' | translate}}
+            </th>
+            <td mat-cell *matCellDef="let expense">
+                {{expense.final_amount | number: '.2-2'}} &euro;
             </td>
         </ng-container>
         <ng-container matColumnDef="dossier">
@@ -18,7 +41,9 @@
                 {{'Dossier' | translate}}
             </th>
             <td mat-cell *matCellDef="let expense">
-                <a *ngIf="expense.dossier != null" mat-stroked-button [href]="expense.dossier">Open dossier</a>
+                <a *ngIf="expense.dossier != null" mat-stroked-button [href]="expense.dossier">
+                    Open dossier
+                </a>
             </td>
         </ng-container>
         <ng-container matColumnDef="date">
@@ -28,31 +53,7 @@
             <td mat-cell *matCellDef="let expense">
                 {{expense.formmatedDate}}
             </td>
-        </ng-container>
-        <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{'Amount' | translate}}
-            </th>
-            <td mat-cell *matCellDef="let expense">
-                {{expense.amount}} &euro;
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="vatpercentage">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{'VAT %' | translate}}
-            </th>
-            <td mat-cell *matCellDef="let expense">
-                {{expense.vatpercentage}} &percnt;
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="final_amount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{'Final Amount' | translate}}
-            </th>
-            <td mat-cell *matCellDef="let expense">
-                {{expense.final_amount}} &euro;
-            </td>
-        </ng-container>
+        </ng-container>        
         <ng-container matColumnDef="showBtn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let expense">
@@ -62,6 +63,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons>
+    <mat-paginator [pageSizeOptions]="getPageSizeOptions()" showFirstLastButtons>
     </mat-paginator>
 </section>

@@ -1,12 +1,16 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import localeES from '@angular/common/locales/es';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -28,31 +32,31 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AccessGuard } from './access.guard';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DialogAccountDeleteComponent } from './dialog-account-delete/dialog-account-delete.component';
 import { DialogAddMemberComponent } from './dialog-add-member/dialog-add-member.component';
+import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
+import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
+import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
 import { DialogProjectDeleteComponent } from './dialog-project-delete/dialog-project-delete.component';
+import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
+import { ExpenseViewComponent } from './expense-view/expense-view.component';
+import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { RegisterComponent } from './register/register.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
-import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
-import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
-import { DialogAccountDeleteComponent } from './dialog-account-delete/dialog-account-delete.component';
-import { AccessGuard } from './access.guard';
-import { ExpenseViewComponent } from './expense-view/expense-view.component';
-import { registerLocaleData } from '@angular/common';
-import localeES from '@angular/common/locales/es';
-import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
-import { UsersTableComponent } from './users-table/users-table.component';
-import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-table.component';
+import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UsersTableComponent } from './users-table/users-table.component';
+import { VerticalChartComponent } from './vertical-chart/vertical-chart.component';
+import { HorizontalChartComponent } from './horizontal-chart/horizontal-chart.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +80,8 @@ import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-
     UsersTableComponent,
     UserExpensesViewComponent,
     UserExpensesTableComponent,
+    VerticalChartComponent,
+    HorizontalChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +114,7 @@ import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-
     MatExpansionModule,
     MatDialogModule,
     MatDatepickerModule,
+    NgxChartsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

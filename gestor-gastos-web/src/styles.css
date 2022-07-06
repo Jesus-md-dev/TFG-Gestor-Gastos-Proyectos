@@ -267,6 +267,21 @@ mat-tab-header {
   width: 15em;
 }
 
+.expended-section {
+    margin: 0.5em auto 1em auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.expended-section .block-content-center{
+    width: 50%;
+}
+
+.block-content-center {
+  text-align: center;
+}
+
 @media screen and (max-width: 960px) {
   .section-table {
     width: 100%;

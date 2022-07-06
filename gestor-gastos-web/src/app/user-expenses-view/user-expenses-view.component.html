@@ -12,7 +12,7 @@
             </mat-expansion-panel-header>
             <app-user-expenses-table [expenses]="expensesByProject[$any(item.key)]['expenses']"></app-user-expenses-table>
             <mat-action-row>
-                <a mat-button color="primary" href="/project/">Next</a>
+                <a mat-stroked-button href="/project/{{item.key}}">Go to Project</a>
             </mat-action-row>
         </mat-expansion-panel>
     </mat-accordion>
