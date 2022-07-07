@@ -1,4 +1,3 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { registerLocaleData } from '@angular/common';
@@ -36,6 +35,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AccessGuard } from './access.guard';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ChartExpenesesMonthsComponent } from './chart-expeneses-months/chart-expeneses-months.component';
 import { DialogAccountDeleteComponent } from './dialog-account-delete/dialog-account-delete.component';
 import { DialogAddMemberComponent } from './dialog-add-member/dialog-add-member.component';
 import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
@@ -45,18 +45,18 @@ import { DialogProjectDeleteComponent } from './dialog-project-delete/dialog-pro
 import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
 import { ExpenseViewComponent } from './expense-view/expense-view.component';
 import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
+import { HorizontalChartComponent } from './horizontal-chart/horizontal-chart.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { RegisterComponent } from './register/register.component';
+import { ReportSugestionComponent } from './report-sugestion/report-sugestion.component';
 import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-table.component';
 import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
-import { HorizontalChartComponent } from './horizontal-chart/horizontal-chart.component';
-import { ChartExpenesesMonthsComponent } from './chart-expeneses-months/chart-expeneses-months.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +82,7 @@ import { ChartExpenesesMonthsComponent } from './chart-expeneses-months/chart-ex
     UserExpensesTableComponent,
     HorizontalChartComponent,
     ChartExpenesesMonthsComponent,
+    ReportSugestionComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,6 +160,7 @@ import { ChartExpenesesMonthsComponent } from './chart-expeneses-months/chart-ex
       },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'report&sugestion', component: ReportSugestionComponent },
     ]),
   ],
   providers: [],
