@@ -1,13 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-
-
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-vertical-chart',
   templateUrl: './vertical-chart.component.html',
   styleUrls: ['./vertical-chart.component.css'],
 })
-export class VerticalChartComponent implements OnInit {
+export class VerticalChartComponent {
   @Input()
   data: {
     name: string;
@@ -15,19 +13,10 @@ export class VerticalChartComponent implements OnInit {
   }[] = [];
   @Input()
   year = '';
-
   showXAxis = true;
   showYAxis = true;
-  showXAxisLabel = true;
-  xAxisLabel = this.year;
-  showYAxisLabel = false;
 
   constructor() {}
-
-  ngOnInit(): void {
-    console.log(this.data);
-    this.xAxisLabel = this.year;
-  }
 
   formatEuros(val: number) {
     return val + '€'

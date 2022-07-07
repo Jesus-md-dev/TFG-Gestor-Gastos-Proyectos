@@ -110,4 +110,9 @@ export class UserExpensesTableComponent implements OnInit {
   getPageSizeOptions(): number[] {
     return [5, 10, 15, 20];
   }
+
+  modifyYear(mod: number) {
+    this.yearSelected += mod;
+    this.initializeExpensesYear();
+  }
 }

@@ -6,7 +6,11 @@
         <strong>Total Expended this month</strong> <br> {{finalAmountMoth | number: '.2-2'}} €
     </div>
 </section>
-
+<section>
+    <button mat-stroked-button (click)="modifyYear(-1)" ><mat-icon>keyboard_arrow_left</mat-icon></button>
+    <button mat-stroked-button>{{yearSelected}}</button>
+    <button mat-stroked-button (click)="modifyYear(1)"><mat-icon>keyboard_arrow_right</mat-icon></button>
+</section>
 <app-vertical-chart [data]="expensesByMonth" [year]="yearSelected.toString()"></app-vertical-chart>
 
 <!-- TODO Sortable -->

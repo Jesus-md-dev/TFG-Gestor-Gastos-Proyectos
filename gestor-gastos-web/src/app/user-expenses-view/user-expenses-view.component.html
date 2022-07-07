@@ -4,10 +4,10 @@
         <mat-expansion-panel *ngFor="let item of expensesByProject | keyvalue">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                   <strong>Project</strong> 
+                   <strong>{{expensesByProject[$any(item.key)]['projectName']}}</strong> 
                 </mat-panel-title>
                 <mat-panel-description>
-                    {{expensesByProject[$any(item.key)]['projectName']}}
+                    
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <app-user-expenses-table [expenses]="expensesByProject[$any(item.key)]['expenses']"></app-user-expenses-table>
