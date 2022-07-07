@@ -55,8 +55,8 @@ import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-
 import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
-import { VerticalChartComponent } from './vertical-chart/vertical-chart.component';
 import { HorizontalChartComponent } from './horizontal-chart/horizontal-chart.component';
+import { ChartExpenesesMonthsComponent } from './chart-expeneses-months/chart-expeneses-months.component';
 
 @NgModule({
   declarations: [
@@ -80,8 +80,8 @@ import { HorizontalChartComponent } from './horizontal-chart/horizontal-chart.co
     UsersTableComponent,
     UserExpensesViewComponent,
     UserExpensesTableComponent,
-    VerticalChartComponent,
     HorizontalChartComponent,
+    ChartExpenesesMonthsComponent,
   ],
   imports: [
     BrowserModule,

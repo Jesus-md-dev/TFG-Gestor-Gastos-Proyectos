@@ -29,22 +29,22 @@
         <mat-icon>menu</mat-icon>
       </button> -->
       <span>
-        <button mat-menu-item [routerLink]="['/']">
+        <button mat-button [routerLink]="['/']">
           <mat-icon>home</mat-icon>
-          <span>{{'P.E.M.' | translate}}</span>
+          <span class="main-menu-section-text"> {{'P.E.M.' | translate}}</span>
         </button>
       </span>
       <span *ngIf="isLogged()">
-        <button mat-menu-item [routerLink]="['/projects/' +
+        <button mat-button [routerLink]="['/projects/' +
           this.localStorageService.get('username')]">
           <mat-icon>create_new_folder</mat-icon>
-          <span>{{'Projects' | translate}}</span>
+          <span class="main-menu-section-text"> {{'Projects' | translate}}</span>
         </button>
       </span>
       <span *ngIf="isLogged()">
-        <button mat-menu-item [routerLink]="['/expenses']">
+        <button mat-button [routerLink]="['/expenses']">
           <mat-icon>attach_money</mat-icon>
-          <span>{{'Expenses' | translate}}</span>
+          <span class="main-menu-section-text"> {{'Expenses' | translate}}</span>
         </button>
       </span>
       <span class="spacer"></span>

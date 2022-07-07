@@ -5,12 +5,6 @@ import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { User } from '../user';
 
-interface ProjectExpenses {
-  projectName: string,
-  expenses: Expense[]
-}
-
-
 @Component({
   selector: 'app-user-expenses-view',
   templateUrl: './user-expenses-view.component.html',

@@ -1,0 +1,10 @@
+.mat-form-field {
+    visibility: hidden;
+    height: 0px;
+    margin: 0;
+    padding: 0;
+}
+
+.year-selector button {
+    font-size: larger;
+}

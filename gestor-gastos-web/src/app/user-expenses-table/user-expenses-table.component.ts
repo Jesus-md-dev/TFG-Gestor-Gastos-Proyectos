@@ -19,6 +19,7 @@ export class UserExpensesTableComponent implements OnInit {
   // readonly formControl: FormGroup;
   @Input()
   expenses: Expense[] = [];
+  years: number[] = [];
   expensesByMonth: ExpensesMonth[] = this.initializeMonths();
   finalAmount: number = 0;
   finalAmountMoth: number = 0;
@@ -63,10 +64,21 @@ export class UserExpensesTableComponent implements OnInit {
       }
     });
 
-    this.initializeExpensesYear();    
+    this.initializeExpensesYear();
+    this.initializeYears();
 
     this.expensesDataSource.data = this.expenses;
     this.expensesDataSource.sort = this.sort;
+  }
+
+  initializeYears() {
+    this.years = [];
+    this.expenses.forEach((expense) => {
+      if (this.years.indexOf(expense.date.getFullYear()) === -1) {
+        this.years.push(expense.date.getFullYear());
+      }
+    });
+    this.years.sort((a, b) => (a < b ? 1 : -1));
   }
 
   initializeExpensesYear() {
@@ -111,8 +123,8 @@ export class UserExpensesTableComponent implements OnInit {
     return [5, 10, 15, 20];
   }
 
-  modifyYear(mod: number) {
-    this.yearSelected += mod;
+  selectYear(year: any) {
+    this.yearSelected = Number(year);    
     this.initializeExpensesYear();
   }
 }

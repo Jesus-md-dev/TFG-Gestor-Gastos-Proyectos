@@ -88,6 +88,7 @@ mat-tab-header {
 .main-content {
   text-align: center;
   height: 100%;
+  margin-bottom: 4em;
 }
 
 .mat-drawer-content {
@@ -282,11 +283,12 @@ mat-tab-header {
   text-align: center;
 }
 
-@media screen and (max-width: 960px) {
-  .section-table {
-    width: 100%;
-  }
+.section-table {
+  width: 100%;
+  overflow: auto;
+}
 
+@media screen and (max-width: 960px) {
   .section-content {
     width: 95%;
   }
@@ -295,5 +297,11 @@ mat-tab-header {
 @media screen and (max-width: 768px) {
   table {
     text-align: center;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .main-menu-section-text {
+    display: none;
   }
 }
