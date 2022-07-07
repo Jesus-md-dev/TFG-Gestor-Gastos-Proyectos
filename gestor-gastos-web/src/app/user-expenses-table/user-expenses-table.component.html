@@ -6,15 +6,7 @@
         <strong>Total Expended this month</strong> <br> {{finalAmountMoth | number: '.2-2'}} €
     </div>
 </section>
-<section class="year-selector">
-    <button mat-stroked-button (click)="yearSelect.open()" >{{yearSelected}}</button>
-</section>
-<mat-form-field>
-    <mat-select [(value)]="yearSelected" placeholder="Year" (selectionChange)="selectYear($event.value)" #yearSelect>
-        <mat-option *ngFor="let year of years" value="{{year}}">{{ year }}</mat-option>
-    </mat-select>
-</mat-form-field>
-<app-chart-expeneses-months [data]="expensesByMonth" [year]="yearSelected.toString()"></app-chart-expeneses-months>
+<app-chart-expeneses-months [expenses]="expenses"></app-chart-expeneses-months>
 <!-- TODO Sortable -->
 <section class="section-table">
     <table mat-table [dataSource]="expensesDataSource" matSort mdbTableScroll scrollX="true" scrollY="True">

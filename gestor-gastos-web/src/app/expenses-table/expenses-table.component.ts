@@ -101,7 +101,7 @@ export class ExpensesTableComponent implements OnInit {
           if (expense.date.getMonth() == currentDate.getMonth()) {
             this.finalAmountMoth += expense.final_amount;
           }
-        });
+        });        
       } else
         this.snackBar.open('Error loading user expenses', 'Close', {
           duration: 3 * 1000,

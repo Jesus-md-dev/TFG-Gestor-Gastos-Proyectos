@@ -1,5 +1,14 @@
+<section class="year-selector">
+    <button mat-stroked-button (click)="yearSelect.open()">{{yearSelected}}</button>
+</section>
+<mat-form-field>
+    <mat-select [(value)]="yearSelected" placeholder="Year" (selectionChange)="selectYear($event.value)" #yearSelect>
+        <mat-option *ngFor="let year of years" value="{{year}}">{{ year }}</mat-option>
+    </mat-select>
+</mat-form-field>
+
 <section class="vertical-chart">
-    <ngx-charts-bar-vertical [results]="data" [xAxis]="showXAxis" [yAxis]="showYAxis" [showDataLabel]="true"
+    <ngx-charts-bar-vertical [results]="expensesByMonth" [xAxis]="showXAxis" [yAxis]="showYAxis" [showDataLabel]="true"
         [yAxisTickFormatting]="formatEuros">
     </ngx-charts-bar-vertical>
 </section>

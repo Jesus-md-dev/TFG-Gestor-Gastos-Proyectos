@@ -5,11 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Expense } from '../expense';
 
-interface ExpensesMonth {
-  name: string;
-  value: number;
-}
-
 @Component({
   selector: 'app-user-expenses-table',
   templateUrl: './user-expenses-table.component.html',
@@ -19,8 +14,6 @@ export class UserExpensesTableComponent implements OnInit {
   // readonly formControl: FormGroup;
   @Input()
   expenses: Expense[] = [];
-  years: number[] = [];
-  expensesByMonth: ExpensesMonth[] = this.initializeMonths();
   finalAmount: number = 0;
   finalAmountMoth: number = 0;
   expensesDataSource = new MatTableDataSource<Expense>();
@@ -63,56 +56,8 @@ export class UserExpensesTableComponent implements OnInit {
         this.finalAmountMoth += expense.final_amount;
       }
     });
-
-    this.initializeExpensesYear();
-    this.initializeYears();
-
     this.expensesDataSource.data = this.expenses;
     this.expensesDataSource.sort = this.sort;
-  }
-
-  initializeYears() {
-    this.years = [];
-    this.expenses.forEach((expense) => {
-      if (this.years.indexOf(expense.date.getFullYear()) === -1) {
-        this.years.push(expense.date.getFullYear());
-      }
-    });
-    this.years.sort((a, b) => (a < b ? 1 : -1));
-  }
-
-  initializeExpensesYear() {
-    this.expensesByMonth = this.initializeMonths();
-    let expensesYear = this.expenses.filter((expense) => {
-      return expense.date.getFullYear() === this.yearSelected;
-    });
-    expensesYear = expensesYear.sort((a, b) => (a.date > b.date ? 1 : -1));
-    let expensesYearMonth: number[] = [];
-    expensesYear.forEach((expense) => {
-      if (!(expense.date.getMonth() in expensesYearMonth))
-        expensesYearMonth[expense.date.getMonth()] = 0;
-      expensesYearMonth[expense.date.getMonth()] += expense.final_amount;
-    });
-    expensesYearMonth.forEach((amount, month) => {
-      this.expensesByMonth[month]['value'] = amount;
-    });
-  }
-
-  initializeMonths() {
-    let expensesMonth: ExpensesMonth[] = [];
-    let date = new Date();
-    for (let index = 0; index < 12; index++) {
-      date.setMonth(index);
-      let monthStr: String = date.toLocaleString('default', {
-        month: 'long',
-      });
-      monthStr = monthStr.charAt(0).toUpperCase() + monthStr.slice(1);
-      expensesMonth.push({
-        name: monthStr,
-        value: 0,
-      } as ExpensesMonth);
-    }
-    return expensesMonth;
   }
 
   ngAfterViewInit() {
@@ -121,10 +66,5 @@ export class UserExpensesTableComponent implements OnInit {
 
   getPageSizeOptions(): number[] {
     return [5, 10, 15, 20];
-  }
-
-  selectYear(year: any) {
-    this.yearSelected = Number(year);    
-    this.initializeExpensesYear();
-  }
+  }  
 }
