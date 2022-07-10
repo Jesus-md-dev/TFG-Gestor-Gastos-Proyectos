@@ -26,11 +26,11 @@ export class DialogProjectDeleteComponent {
 
   onDelete(): void {
     this.project.delete().then((response) => {
-      if (response.hasOwnProperty('project_info'))
+      if ('project_info' in response)
         if (typeof this.project.name === 'string')
           this.onDeleteEmitter.emit(this.project.id);
         else {
-          if (response.hasOwnProperty('message'))
+          if ('message' in response)
             this.snackBar.open('Unable to delete project', 'Close', {
               duration: 3 * 1000,
             });

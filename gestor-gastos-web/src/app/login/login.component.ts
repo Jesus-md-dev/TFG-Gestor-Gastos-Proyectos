@@ -25,22 +25,18 @@ export class LoginComponent {
   }
 
   login() {
+    console.log("A");
+    
     UserService.userLogin(
       this.formGroup.controls['username'].value,
       this.formGroup.controls['password'].value
     ).then((response) => {
-      if (
-        response.hasOwnProperty('user_info') &&
-        response.hasOwnProperty('token')
-      ) {
+      if ('user_info' in response && 'token' in response) {
         this.localStorageService.set('token', response['token']);
-        this.localStorageService.set(
-          'username',
-          response['user_info']['username']
-        );
+        this.localStorageService.set('username', response['user_info']['username']);
         window.location.reload();
       } else {
-        if (response.hasOwnProperty('message'))
+        if ('message' in response)
           this.snackBar.open('Username or Password are incorrect', 'Close', {
             duration: 3 * 1000,
           });

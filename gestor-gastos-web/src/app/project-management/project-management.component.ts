@@ -48,7 +48,7 @@ export class ProjectManagementComponent implements OnInit {
         this.formGroup.controls['category'].value,
         this.selectedFile != null ? this.selectedFile : null
       ).then((response) => {
-        if (response.hasOwnProperty('project_info')) {
+        if ('project_info' in response) {
           this.snackBar.open(
             'Project ' + response['project_info']['name'] + ' created',
             'Close',

@@ -70,7 +70,7 @@ export class DialogCreateExpenseComponent implements OnInit {
         this.formGroup.controls['amount'].value,
         this.formGroup.controls['vatpercentage'].value
       ).then((response) => {
-        if (response.hasOwnProperty('message')) {
+        if ('message' in response) {
           this.snackBar.open('Error', 'Close', {
             duration: 3 * 1000,
           });

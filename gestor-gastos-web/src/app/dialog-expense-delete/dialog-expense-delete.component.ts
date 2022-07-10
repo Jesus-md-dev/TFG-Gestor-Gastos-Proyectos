@@ -28,10 +28,10 @@ export class DialogExpenseDeleteComponent {
   onDelete(): void {
     if(this.expense.id != null) {
       ExpenseService.delete(this.expense.id).then((response) => {
-        if (response.hasOwnProperty('expense_info'))
+        if ('expense_info' in response)
           this.onDeleteEmitter.emit();
         else {
-          if (response.hasOwnProperty('message'))
+          if ('message' in response)
             this.snackBar.open('Unable to delete project', 'Close', {
               duration: 3 * 1000,
             });

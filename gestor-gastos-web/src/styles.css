@@ -118,6 +118,7 @@ mat-tab-header {
   position: fixed;
   top: 0;
   width: 100%;
+  margin: auto 0 auto 0;
 }
 
 .toolbar button, .toolbar mat-ripple mat-menu-ripple {
@@ -287,6 +288,15 @@ mat-tab-header {
   overflow: auto;
 }
 
+.section-content {
+  max-width: 60em;
+  width: 95%;
+}
+
+.drawer-btn {
+  display: none;
+}
+
 @media screen and (max-width: 960px) {
   .section-content {
     width: 95%;
@@ -297,10 +307,16 @@ mat-tab-header {
   table {
     text-align: center;
   }
-}
 
-@media screen and (max-width: 425px) {
   .main-menu-section-text {
+    display: none;
+  }
+
+  .drawer-btn {
+    display: block;
+  }
+
+  .toolbar-opt{
     display: none;
   }
 }

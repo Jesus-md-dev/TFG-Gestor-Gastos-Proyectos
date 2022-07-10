@@ -49,7 +49,7 @@ export class UserProfileComponent implements OnInit {
 
     if (this.username != undefined) {
       User.loadUser(this.username).then((response) => {
-        if (response.hasOwnProperty('message')) {
+        if ('message' in response) {
           this.snackBar.open(response['message'], 'Close', {
             duration: 3 * 1000,
           });
@@ -77,7 +77,7 @@ export class UserProfileComponent implements OnInit {
       this.user.last_name = this.formGroup.controls['last_name'].value;
       if (this.selectedFile != null) this.user.img = this.selectedFile;
       this.user.update().then((response: any) => {
-        if (response.hasOwnProperty('user_info')) {
+        if ('user_info' in response) {
           this.user = User.jsontoObject(response['user_info']);
           this.snackBar.open('Edit success', 'Close', {
             duration: 3 * 1000,

@@ -23,7 +23,7 @@ export class AccessGuard implements CanActivate {
         if (response != undefined) {
           this.localStorageService.set('apiAlive', true);
           return ApiConnectionService.isTokenAvailable().then((response) => {
-            if (response.hasOwnProperty('token_info')) return true;
+            if ('token_info' in response) return true;
             else {
               this.localStorageService.remove('token');
               this.localStorageService.remove('username');

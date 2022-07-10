@@ -38,7 +38,7 @@ export class AppComponent {
   ngOnInit(): void {
     User.loadUser(this.localStorageService.get('username') as string).then(
       (response) => {
-        if (response.hasOwnProperty('message')) {
+        if ('message' in response) {
           this.snackBar.open(response['message'], 'Close', {
             duration: 3 * 1000,
           });

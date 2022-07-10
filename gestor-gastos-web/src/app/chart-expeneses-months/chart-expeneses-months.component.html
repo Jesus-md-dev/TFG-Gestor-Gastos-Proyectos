@@ -8,7 +8,11 @@
 </mat-form-field>
 
 <section class="vertical-chart">
-    <ngx-charts-bar-vertical [results]="expensesByMonth" [xAxis]="showXAxis" [yAxis]="showYAxis" [showDataLabel]="true"
+    <ngx-charts-bar-vertical 
+        [results]="expensesByMonth" 
+        [xAxis]="showXAxis" 
+        [yAxis]="showYAxis" 
+        [showDataLabel]="true"
         [yAxisTickFormatting]="formatEuros">
     </ngx-charts-bar-vertical>
 </section>

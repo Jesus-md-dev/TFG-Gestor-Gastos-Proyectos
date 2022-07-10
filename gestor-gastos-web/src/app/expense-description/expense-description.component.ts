@@ -55,7 +55,7 @@ export class ExpenseDescriptionComponent {
   loadExpense() {
     if (this.expenseId != null)
       Expense.load(this.expenseId).then((response) => {
-        if (response.hasOwnProperty('expense_info')) {
+        if ('expense_info' in response) {
           this.expense = Expense.jsontoObject(response['expense_info']);
           this.loadExpenseProject();
           this.formGroup.controls['concept'].setValue(this.expense.concept);
@@ -64,7 +64,7 @@ export class ExpenseDescriptionComponent {
           this.formGroup.controls['vatpercentage'].setValue(
             this.expense.vatpercentage
           );
-        } else if (response.hasOwnProperty('message')) {
+        } else if ('message' in response) {
           this.snackBar.open('Can not load expense data', 'Close', {
             duration: 3 * 1000,
           });
@@ -126,7 +126,7 @@ export class ExpenseDescriptionComponent {
       this.expense.vatpercentage =
         this.formGroup.controls['vatpercentage'].value;
       this.expense.update().then((response: any) => {
-        if (response.hasOwnProperty('expense_info')) {
+        if ('expense_info' in response) {
           this.expense = Expense.jsontoObject(response['expense_info']);
           this.snackBar.open('Edit success', 'Close', {
             duration: 3 * 1000,

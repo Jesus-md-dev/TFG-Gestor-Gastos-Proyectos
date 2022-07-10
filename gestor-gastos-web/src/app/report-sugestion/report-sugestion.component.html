@@ -1,10 +1,10 @@
 <section class="section-content">
     <h1>REPORTS & SUGESTIONS</h1>
-    <form class="custom-form" (ngSubmit)="onSend()" [formGroup]="formGroup">
+    <form (ngSubmit)="onSend()" [formGroup]="formGroup">
         <div>
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Email</mat-label>
-                <input type="email" matInput formControlName="email">
+                <input type="email" aria-label="Email" matInput formControlName="email">
                 <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
                     Email is <strong>required</strong>
                 </mat-error>
@@ -16,14 +16,14 @@
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Message</mat-label>
-                <textarea matInput formControlName="message"></textarea>
+                <textarea aria-label="Message" matInput formControlName="message"></textarea>
                 <mat-error *ngIf="formGroup.controls['message'].hasError('required')">
                     Message is <strong>required</strong>
                 </mat-error>
             </mat-form-field>
         </div>
         <div>
-            <button [disabled]="formGroup.invalid" mat-raised-button color="accent">
+            <button type="button" [disabled]="formGroup.invalid" mat-raised-button color="accent">
                 {{'Send' | translate}}
             </button>
         </div>

@@ -53,9 +53,9 @@ export class RegisterComponent {
         this.formGroup.controls['email'].value,
         this.formGroup.controls['password'].value
       ).then( (response) => {
-          if (response.hasOwnProperty('user_info')) this.router.navigate(['/login']);
+          if ('user_info' in response) this.router.navigate(['/login']);
           else{
-            if (response.hasOwnProperty('message'))
+            if ('message' in response)
               this.snackBar.open('Email or username already used', 'Close', {
                 duration: 3 * 1000
               });

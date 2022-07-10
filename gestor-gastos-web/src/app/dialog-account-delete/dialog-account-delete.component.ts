@@ -26,9 +26,9 @@ export class DialogAccountDeleteComponent {
 
   onDelete(): void {
     this.user.delete().then((response) => {
-      if (response.hasOwnProperty('user_info'))
+      if ('user_info' in response)
           this.onDeleteEmitter.emit();
-      else if (response.hasOwnProperty('message'))
+      else if ('message' in response)
         this.snackBar.open('Unable to delete this account', 'Close', {
           duration: 3 * 1000,
         });

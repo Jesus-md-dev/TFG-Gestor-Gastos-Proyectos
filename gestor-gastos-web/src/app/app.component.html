@@ -1,61 +1,65 @@
 <mat-drawer-container autosize *ngIf="getUrl() ; else elseNotLogged">
-  <!-- <mat-drawer #drawer mode="side">
+  <mat-drawer #drawer mode="side">
     <mat-toolbar color="primary">
-      <a [routerLink]="['/']">
-        <h3>P.E.M.</h3>
+      <a mat-button [routerLink]="['/']">
+        <mat-icon>home</mat-icon>
+        {{'P.E.M.' | translate}}
       </a>
     </mat-toolbar>
     <div class="drawer-col">
-      <button mat-menu-item [routerLink]="['/user/' +
-        this.localStorageService.get('username')]">
-        <mat-icon>account_circle</mat-icon>
-        <span>{{'Profile' | translate}}</span>
-      </button>
-      <button mat-menu-item [routerLink]="['/projects/' +
-        this.localStorageService.get('username')]">
-        <mat-icon>create_new_folder</mat-icon>
-        <span>{{'Projects' | translate}}</span>
-      </button>
-      <button mat-menu-item [routerLink]="['']">
-        <mat-icon>attach_money</mat-icon>
-        <span>{{'Expenses' | translate}}</span>
-      </button>
-    </div>
-  </mat-drawer> -->
-  <div class="main-content">
-    <mat-toolbar color="primary" class="toolbar, button-row-spacer">
-      <!-- <button mat-icon-button aria-label="Example icon-button with menu icon"
-        (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button> -->
-      <span>
-        <button mat-button [routerLink]="['/']">
-          <mat-icon>home</mat-icon>
-          <span class="main-menu-section-text"> {{'P.E.M.' | translate}}</span>
-        </button>
-      </span>
       <span *ngIf="isLogged()">
-        <button mat-button [routerLink]="['/projects/' +
+        <a mat-menu-item [routerLink]="['/projects/' + 
           this.localStorageService.get('username')]">
           <mat-icon>create_new_folder</mat-icon>
-          <span class="main-menu-section-text"> {{'Projects' | translate}}</span>
-        </button>
+          {{'Projects' | translate}}
+        </a>
       </span>
       <span *ngIf="isLogged()">
-        <button mat-button [routerLink]="['/expenses']">
+        <a mat-menu-item [routerLink]="['/expenses']">
           <mat-icon>attach_money</mat-icon>
-          <span class="main-menu-section-text"> {{'Expenses' | translate}}</span>
-        </button>
+          {{'Expenses' | translate}}
+        </a>
       </span>
-      <span>
-        <button mat-button [routerLink]="['/report&sugestion']">
-          <span class="main-menu-section-text"> {{'R&S' | translate}}</span>
-        </button>
+      <a mat-menu-item [routerLink]="['/report&sugestion']">
+        <mat-icon>report</mat-icon>
+        {{'Reports' | translate}}
+      </a>
+    </div>
+  </mat-drawer>
+  <div class="main-content">
+    <mat-toolbar color="primary" class="toolbar, button-row-spacer">
+      <span class="drawer-btn">
+        <a mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </a>
+      </span>
+      <span class="toolbar-opt">
+        <a mat-button [routerLink]="['/']">
+          <mat-icon>home</mat-icon>
+          <span class="main-menu-section-text"> {{'P.E.M.' | translate}}</span>
+        </a>
+        <span *ngIf="isLogged()">
+          <a mat-button [routerLink]="['/projects/' +
+                  this.localStorageService.get('username')]">
+            <mat-icon>create_new_folder</mat-icon>
+            <span class="main-menu-section-text"> {{'Projects' | translate}}</span>
+          </a>
+        </span>
+        <span *ngIf="isLogged()">
+          <a mat-button [routerLink]="['/expenses']">
+            <mat-icon>attach_money</mat-icon>
+            <span class="main-menu-section-text"> {{'Expenses' | translate}}</span>
+          </a>
+        </span>
+        <a mat-button [routerLink]="['/report&sugestion']">
+          <mat-icon>report</mat-icon>
+          {{'Reports' | translate}}
+        </a>
       </span>
       <span class="spacer"></span>
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <ng-container *ngIf="isLogged(); else elseIcon">
-          <img class="img-avatar" src={{user.img}} height="100%" width="100%">
+          <img alt="Avatar Image" class="img-avatar" src={{user.img}} height="100%" width="100%">
         </ng-container>
         <ng-template #elseIcon>
           <mat-icon>account_circle</mat-icon>
@@ -77,9 +81,9 @@
         </ng-template>
       </mat-menu>
       <span class="spacer-1em"></span>
-      <button class="lang-button" mat-stroked-button (click)="switchLang()">
+      <!-- <button mat-stroked-button (click)="switchLang()">
         {{cur_lang}}
-      </button>
+      </button> -->
     </mat-toolbar>
     <router-outlet></router-outlet>
   </div>
