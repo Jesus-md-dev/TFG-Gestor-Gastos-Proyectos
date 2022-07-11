@@ -23,7 +23,7 @@
             </mat-form-field>
         </div>
         <div>
-            <button type="button" [disabled]="formGroup.invalid" mat-raised-button color="accent">
+            <button type="button" [disabled]="formGroup.invalid" (click)="onSend()" mat-raised-button color="accent">
                 {{'Send' | translate}}
             </button>
         </div>

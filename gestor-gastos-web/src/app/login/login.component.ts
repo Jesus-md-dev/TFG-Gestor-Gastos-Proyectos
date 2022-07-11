@@ -24,9 +24,7 @@ export class LoginComponent {
       this.router.navigate(['/']);
   }
 
-  login() {
-    console.log("A");
-    
+  login() {    
     UserService.userLogin(
       this.formGroup.controls['username'].value,
       this.formGroup.controls['password'].value
