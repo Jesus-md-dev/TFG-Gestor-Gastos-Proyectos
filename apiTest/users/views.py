@@ -32,7 +32,6 @@ def create_user(request):
                 'token': token
                 })
     except Exception as e:
-        print(e)
         user.delete()
         return Response({'message': 'bad request'}, status=400)
 
@@ -46,7 +45,6 @@ def read_user(request, username):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
         
 @api_view(['PUT'])
@@ -63,7 +61,6 @@ def update_user(request):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['POST'])
@@ -75,7 +72,6 @@ def login_api(request):
         _, token = AuthToken.objects.create(user)
         return Response({'user_info': user.profile.as_json(),'token': token})
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -92,6 +88,5 @@ def delete_user(request, username):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 

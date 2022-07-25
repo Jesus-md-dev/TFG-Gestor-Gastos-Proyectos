@@ -16,7 +16,6 @@ def create_project(request):
         else:
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-            print(e)
             return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -29,7 +28,6 @@ def read_project(request, id):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
@@ -45,7 +43,6 @@ def update_project(request):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -63,7 +60,6 @@ def delete_project(request, id):
         else:
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -78,7 +74,6 @@ def read_user_projects(request, username):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['POST'])
@@ -109,7 +104,6 @@ def add_project_member(request):
         else:
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -134,7 +128,6 @@ def read_project_member(request, project_id):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -151,7 +144,6 @@ def delete_project_member(request):
             else:
                 return Response({'message': 'unauthorized'}, status=401)
         except Exception as e:
-            print(e) 
             return Response({'message': 'bad request'}, status=400)
     else:
         return Response({'message': 'unauthorized'}, status=401)
@@ -172,5 +164,4 @@ def read_user_member_projects(request, username):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from projects.models import Project
 
@@ -10,7 +11,9 @@ class Expense (models.Model):
     date = models.DateField()
     concept = models.CharField(max_length=100)
     amount = models.FloatField()
-    vatpercentage = models.FloatField()
+    vatpercentage = models.FloatField(
+        validators=[MinValueValidator(0.0), 
+        MaxValueValidator(100.0)])
     final_amount = models.FloatField()
 
     def as_json(self):

@@ -1,7 +1,4 @@
-from wsgiref import validate
-
-from django.contrib.auth.models import User
-from rest_framework import serializers, validators
+from rest_framework import serializers
 
 from expenses.models import Expense
 

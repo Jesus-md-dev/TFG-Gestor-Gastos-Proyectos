@@ -28,7 +28,6 @@ def create_expense(request):
             else: 
                 return Response({'message': 'unauthorized'}, status=401)
         except Exception as e: 
-            print('%s' % type(e))
             return Response({'message': 'bad request'}, status=400)
     else:
         return Response({'message': 'unauthorized'}, status=401)
@@ -46,7 +45,6 @@ def read_expense(request, id):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
@@ -71,7 +69,6 @@ def update_expense(request):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -103,7 +100,6 @@ def get_project_expenses(request, project_id):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -117,5 +113,4 @@ def get_own_expenses(request):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
         return Response({'message': 'bad request'}, status=400)

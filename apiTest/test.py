@@ -72,5 +72,3 @@ label2 = Label("car", 20, 20, 5, 11)
 image_bboxes = {"image1.jpg": [label1, label2]}
 
 image_label_col = ImageLabelCollection(image_bboxes)
-print(image_label_col)
-print(json.dumps(image_label_col, default=default))
