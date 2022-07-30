@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
+import { DialogCreateIncomeComponent } from '../dialog-create-income/dialog-create-income.component';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
 import { FileManagerService } from '../file-manager.service';
@@ -49,7 +50,7 @@ export class ProjectDescriptionComponent implements OnInit {
           this.projectId = params['projectId'];
         }
       );
-      Project.load(this.projectId).then((response) => {   
+      Project.load(this.projectId).then((response) => {
         if ('project_info' in response) {
           this.project = Project.jsontoObject(response['project_info']);
           this.formGroup.controls['name'].setValue(this.project.name);
@@ -97,6 +98,19 @@ export class ProjectDescriptionComponent implements OnInit {
 
   createExpense() {
     const ref = this.dialog.open(DialogCreateExpenseComponent, {
+      data: {
+        projectId: this.projectId,
+        admin: this.user,
+      },
+    });
+
+    ref.componentInstance.onCreateEmmiter.subscribe((data) => {
+      this.expensesTable.updateExpenseList();
+    });
+  }
+
+  createIncome() {
+    const ref = this.dialog.open(DialogCreateIncomeComponent, {
       data: {
         projectId: this.projectId,
         admin: this.user,

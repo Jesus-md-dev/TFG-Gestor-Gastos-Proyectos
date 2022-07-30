@@ -8,9 +8,14 @@
   </section>
   <mat-tab-group>
     <mat-tab label="Expenses">
-      <button mat-raised-button color="accent" (click)="createExpense()">
-        Create New Expense
-      </button>
+      <section class="button-container-space-between">
+        <button mat-raised-button color="accent" (click)="createExpense()">
+          Add New Expense
+        </button>
+        <button mat-raised-button color="accent" (click)="createIncome()">
+          Add New Income
+        </button>
+      </section>
       <app-expenses-table [projectId]="projectId"></app-expenses-table>
     </mat-tab>
     <mat-tab label="Owner">
@@ -37,36 +42,41 @@
       <app-users-table [projectId]="projectId"></app-users-table>
     </mat-tab>
     <mat-tab *ngIf="project.admin == user.username" label="Configuration">
-      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
-      <section class="file-upload">
-        <img *ngIf="selectedFile" [src]="selectedFileSrc">
-        <br>{{selectedFileName || "Upload image"}}
-        <button mat-mini-fab color="accent" (click)="fileUpload.click()">
-          <mat-icon>attach_file</mat-icon>
-        </button>
+      <section class="config-card">
+        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+        <section class="file-upload">
+          <img *ngIf="selectedFile" [src]="selectedFileSrc">
+          <br>{{selectedFileName || "Upload image"}}
+          <button mat-mini-fab color="accent" (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </section>
+        <form class="custom-form" [formGroup]="formGroup">
+          <section>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Name</mat-label>
+              <input type="text" matInput formControlName="name" />
+              <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
+                Name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </section>
+          <section>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Category</mat-label>
+              <input type="text" matInput formControlName="category">
+              <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
+                Category is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </section>
+        </form>
+        <section class="button-container-space-between">
+          <button type="submit" mat-raised-button color="accent" (click)="modifyProject()">{{"Save Changes" |
+            translate}}</button>
+          <button mat-raised-button color="warn" (click)="deleteProject()">{{"Delete" | translate}}</button>
+        </section>
       </section>
-      <form class="custom-form" (ngSubmit)="modifyProject()" [formGroup]="formGroup">
-        <section>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Name</mat-label>
-            <input type="text" matInput formControlName="name" />
-            <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
-              Name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </section>
-        <section>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Category</mat-label>
-            <input type="text" matInput formControlName="category">
-            <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
-              Category is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </section>
-        <button type="submit" mat-raised-button color="accent">{{"Save Changes" | translate}}</button>
-      </form>
-      <button mat-raised-button color="warn" (click)="deleteProject()">{{"Delete" | translate}}</button>
     </mat-tab>
   </mat-tab-group>
 </section>

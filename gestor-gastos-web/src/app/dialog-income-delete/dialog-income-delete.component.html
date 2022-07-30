@@ -1,0 +1,8 @@
+<section mat-dialog-content>
+    <p>You are going to delete this income:</p>
+    <app-income-description [incomeId]="income.id"></app-income-description>
+</section>
+<section mat-dialog-actions class="button-container-space-between">
+    <button mat-raised-button (click)="onCancel()" color="accent">Cancel</button>
+    <button mat-raised-button (click)="onDelete()" color="warn">Continue</button>
+</section>

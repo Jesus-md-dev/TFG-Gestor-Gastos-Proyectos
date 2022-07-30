@@ -102,4 +102,8 @@ export class Expense {
       expense['final_amount']
     );
   }
+
+  public isIncome() {
+    return this.user == '';
+  }
 }

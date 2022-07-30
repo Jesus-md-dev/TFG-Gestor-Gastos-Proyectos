@@ -6,8 +6,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
+import { DialogIncomeDeleteComponent } from '../dialog-income-delete/dialog-income-delete.component';
 import { Expense } from '../expense';
 import { ExpenseService } from '../expense.service';
+import { Income } from '../income';
+import { IncomeService } from '../income.service';
 import { Project } from '../project';
 
 @Component({
@@ -20,6 +23,7 @@ export class ExpensesTableComponent implements OnInit {
   @Input()
   projectId: any;
   expenses: Expense[] = [];
+  incomes: Expense[] = [];
   project: any = new Project();
   expensesDataSource = new MatTableDataSource<Expense>();
   finalAmount: number = 0;
@@ -84,6 +88,17 @@ export class ExpensesTableComponent implements OnInit {
     });
   }
 
+  deleteIncome(expense: Income) {
+    const ref = this.dialog.open(DialogIncomeDeleteComponent, {
+      data: {
+        income: expense,
+      },
+    });
+    ref.componentInstance.onDeleteEmitter.subscribe((data) => {
+      this.updateExpenseList();
+    });
+  }
+
   getPageSizeOptions(): number[] {
     return [5, 10, 15, 20];
   }
@@ -91,17 +106,36 @@ export class ExpensesTableComponent implements OnInit {
   updateExpenseList() {
     ExpenseService.getProjectExpenses(this.projectId).then((response) => {
       if ('expenses_info' in response) {
-        this.expensesDataSource.data = this.expenses = Expense.jsontoList(
-          response['expenses_info']
-        );
+        this.expenses = Expense.jsontoList(response['expenses_info']);
+        this.expensesDataSource.data = this.expenses;
         this.expensesDataSource.sort = this.sort;
+        IncomeService.getProjectIncomes(this.projectId).then((response) => {
+          if ('incomes_info' in response) {
+            this.incomes = Expense.jsontoList(response['incomes_info']);
+            this.expensesDataSource.data = this.incomes
+              .concat(this.expenses)
+              .sort((a, b) => (a.date < b.date ? 1 : -1));
+            console.log(this.expensesDataSource.data);
+            this.expensesDataSource.sort = this.sort;
+            let currentDate = new Date();
+            this.incomes.forEach((income) => {
+              this.finalAmount += income.amount;
+              if (income.date.getMonth() == currentDate.getMonth()) {
+                this.finalAmountMoth += income.amount;
+              }
+            });
+          } else
+            this.snackBar.open('Error loading user incomes', 'Close', {
+              duration: 3 * 1000,
+            });
+        });
         let currentDate = new Date();
         this.expenses.forEach((expense) => {
-          this.finalAmount += expense.final_amount;
+          this.finalAmount -= expense.final_amount;
           if (expense.date.getMonth() == currentDate.getMonth()) {
-            this.finalAmountMoth += expense.final_amount;
+            this.finalAmountMoth -= expense.final_amount;
           }
-        });        
+        });
       } else
         this.snackBar.open('Error loading user expenses', 'Close', {
           duration: 3 * 1000,

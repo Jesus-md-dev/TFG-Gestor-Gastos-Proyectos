@@ -3,34 +3,27 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { maxDateValidator } from 'custom-validators.directive';
-import { ExpenseService } from '../expense.service';
 import { FileManagerService } from '../file-manager.service';
-import { ProjectService } from '../project.service';
+import { IncomeService } from '../income.service';
 import { User } from '../user';
 
 @Component({
-  selector: 'app-dialog-create-expense',
-  templateUrl: './dialog-create-expense.component.html',
-  styleUrls: ['./dialog-create-expense.component.css'],
+  selector: 'app-dialog-create-income',
+  templateUrl: './dialog-create-income.component.html',
+  styleUrls: ['./dialog-create-income.component.css'],
 })
-export class DialogCreateExpenseComponent implements OnInit {
+export class DialogCreateIncomeComponent {
   projectId: number;
   admin: User;
   users: User[] = [];
   fileManagerService = new FileManagerService();
   formGroup: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required]),
     date: new FormControl('', [
       Validators.required,
       maxDateValidator(new Date()),
     ]),
     concept: new FormControl('', [Validators.required]),
     amount: new FormControl('', [Validators.required]),
-    vatpercentage: new FormControl('', [
-      Validators.required,
-      Validators.max(100),
-      Validators.min(0),
-    ]),
   });
   @Output() onCreateEmmiter = new EventEmitter();
   selectedFile: File | null = null;
@@ -42,7 +35,7 @@ export class DialogCreateExpenseComponent implements OnInit {
   };
 
   constructor(
-    public dialogRef: MatDialogRef<DialogCreateExpenseComponent>,
+    public dialogRef: MatDialogRef<DialogCreateIncomeComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -50,24 +43,18 @@ export class DialogCreateExpenseComponent implements OnInit {
     this.admin = data.admin;
   }
 
-  ngOnInit(): void {
-    this.loadUserList();
-  }
-
   onClose(): void {
     this.dialogRef.close();
   }
 
-  createExpense(): void {
+  createIncome(): void {
     if (this.formGroup.valid) {
-      ExpenseService.create(
+      IncomeService.create(
         this.projectId,
-        this.formGroup.controls['username'].value,
         this.selectedFile,
         this.formGroup.controls['date'].value,
         this.formGroup.controls['concept'].value,
         this.formGroup.controls['amount'].value,
-        this.formGroup.controls['vatpercentage'].value
       ).then((response) => {
         if ('message' in response) {
           this.snackBar.open('Error', 'Close', {
@@ -85,20 +72,6 @@ export class DialogCreateExpenseComponent implements OnInit {
     }
   }
 
-  loadUserList() {
-    ProjectService.getProjectMembers(this.projectId).then((response) => {
-      this.users = response;
-      this.users.push(this.admin);
-      this.users.sort((a, b) =>
-        a.username.toLowerCase() > b.username.toLowerCase()
-          ? 1
-          : b.username.toLowerCase() > a.username.toLowerCase()
-          ? -1
-          : 0
-      );
-    });
-  }
-
   onFileSelected(event: any) {
     const reader = new FileReader();
     if (event.target.files) {
@@ -109,4 +82,3 @@ export class DialogCreateExpenseComponent implements OnInit {
     }
   }
 }
-

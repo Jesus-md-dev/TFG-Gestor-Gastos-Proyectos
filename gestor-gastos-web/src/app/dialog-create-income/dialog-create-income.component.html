@@ -1,0 +1,49 @@
+<section>
+    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+    <section class="file-upload">
+        <br>{{selectedFileName || "Upload dossier"}}
+        <button mat-mini-fab color="accent" (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+        </button>
+    </section>
+</section>
+<form class="custom-form" (ngSubmit)="createIncome()" [formGroup]="formGroup">
+    <section>
+        <mat-form-field appearance="fill">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="formGroup.controls['date'].hasError('required')">
+                Date is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="formGroup.controls['date'].hasError('maxDate')">
+                The date cannot be in the future
+            </mat-error>
+        </mat-form-field>
+    </section>
+    <section>
+        <mat-form-field appearance="fill">
+            <mat-label>Concept</mat-label>
+            <textarea matInput formControlName="concept"></textarea>
+            <mat-error *ngIf="formGroup.controls['concept'].hasError('required')">
+                Concept is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </section>
+    <section>
+        <mat-form-field appearance="fill">
+            <mat-label>Amount</mat-label>
+            <input matInput type="number" formControlName="amount">
+            <span matSuffix>€&nbsp;</span>
+            <mat-error *ngIf="formGroup.controls['amount'].hasError('required')">
+                Amount is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </section>
+    <section class="button-container-space-between">
+        <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
+        <button mat-raised-button (click)="onClose()">Close</button>
+    </section>
+</form>

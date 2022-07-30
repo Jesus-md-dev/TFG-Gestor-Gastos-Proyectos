@@ -39,13 +39,16 @@ import { ChartExpenesesMonthsComponent } from './chart-expeneses-months/chart-ex
 import { DialogAccountDeleteComponent } from './dialog-account-delete/dialog-account-delete.component';
 import { DialogAddMemberComponent } from './dialog-add-member/dialog-add-member.component';
 import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-create-expense.component';
+import { DialogCreateIncomeComponent } from './dialog-create-income/dialog-create-income.component';
 import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
+import { DialogIncomeDeleteComponent } from './dialog-income-delete/dialog-income-delete.component';
 import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
 import { DialogProjectDeleteComponent } from './dialog-project-delete/dialog-project-delete.component';
 import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
 import { ExpenseViewComponent } from './expense-view/expense-view.component';
 import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
 import { HorizontalChartComponent } from './horizontal-chart/horizontal-chart.component';
+import { IncomeDescriptionComponent } from './income-description/income-description.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
@@ -57,6 +60,7 @@ import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-
 import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
+import { IncomeViewComponent } from './income-view/income-view.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +87,10 @@ import { UsersTableComponent } from './users-table/users-table.component';
     HorizontalChartComponent,
     ChartExpenesesMonthsComponent,
     ReportSugestionComponent,
+    DialogCreateIncomeComponent,
+    DialogIncomeDeleteComponent,
+    IncomeDescriptionComponent,
+    IncomeViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -145,6 +153,12 @@ import { UsersTableComponent } from './users-table/users-table.component';
       {
         path: 'expense/:expenseId',
         component: ExpenseViewComponent,
+        data: { requiresLogin: true },
+        canActivate: [AccessGuard],
+      },
+      {
+        path: 'income/:incomeId',
+        component: IncomeViewComponent,
         data: { requiresLogin: true },
         canActivate: [AccessGuard],
       },

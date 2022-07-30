@@ -7,7 +7,6 @@
                    <strong>{{expensesByProject[$any(item.key)]['projectName']}}</strong> 
                 </mat-panel-title>
                 <mat-panel-description>
-                    
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <app-user-expenses-table [expenses]="expensesByProject[$any(item.key)]['expenses']"></app-user-expenses-table>

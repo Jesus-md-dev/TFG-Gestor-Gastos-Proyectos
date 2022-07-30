@@ -2,3 +2,8 @@
   object-fit: cover;
   height: 15em;
 }
+
+.config-card { 
+  margin: 0 auto 1em auto;
+  width: 20em;
+}
