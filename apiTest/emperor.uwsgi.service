@@ -1,0 +1,9 @@
+[Unit]
+Description=uwsgi emperor for site
+After=network.target
+[Service]
+User=admin
+Restart=always
+ExecStart=/home/ubuntu/venv/bin/uwsgi --emperor /home/ubuntu/venv/vasallos --uid www-data --gid www-data
+[Install]
+WantedBy=multi-user.target

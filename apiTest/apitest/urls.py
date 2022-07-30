@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('projects.urls')),
     path('api/', include('expenses.urls')),
+    path('api/', include('incomes.urls')),
     path('api/', include('emailController.urls')),
 ]
 
