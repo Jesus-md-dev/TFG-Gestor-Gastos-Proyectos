@@ -135,4 +135,5 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 
-venv/
+media/project
+media/user
