@@ -8,7 +8,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(ProjectMember)
 class ProjectMemberAdmin(admin.ModelAdmin):
-    list_display = ('id', 'get_project_name', 'user', 'is_ip')
+    list_display = ('id', 'get_project_name', 'user', 'is_manager')
 
     def get_project_name(self, obj):
         return obj.project.name

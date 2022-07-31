@@ -39,7 +39,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 # class ProjectMemberSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = ProjectMember
-#         fields = ['project', 'user', 'is_ip']
+#         fields = ['project', 'user', 'is_manager']
 
 #     def create(self, validated_data):
 #         if 'img' in validated_data:

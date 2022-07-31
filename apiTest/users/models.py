@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -20,18 +21,10 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
-    def as_json(self):
-        if not self.img: #TODO if file does not exists
-            self.img = 'projectdefault.jpg'
+    def as_json(self): 
+        if not self.img or not default_storage.exists(self.img.name):
+            self.img = 'userdefault.jpg'
             self.save()
-        # return {
-        #     'id':self.user.id, 
-        #     'username':self.user.username, 
-        #     'email':self.user.email, 
-        #     'first_name':self.user.first_name, 
-        #     'last_name':self.user.last_name, 
-        #     'img':self.img.url
-        # } 
         return dict(id=self.user.id, username=self.user.username, email=self.user.email, 
             first_name=self.user.first_name, last_name=self.user.last_name, 
             img=self.img.url)
