@@ -3,7 +3,6 @@ import axios, { AxiosError } from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
 import { Project } from './project';
-import { User } from './user';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +22,7 @@ export class ProjectService {
           },
         }
       );
-      return User.jsontoList(response['data']);
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;

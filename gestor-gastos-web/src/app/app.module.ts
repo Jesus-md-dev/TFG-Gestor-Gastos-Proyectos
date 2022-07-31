@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -49,6 +50,7 @@ import { ExpenseViewComponent } from './expense-view/expense-view.component';
 import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
 import { HorizontalChartComponent } from './horizontal-chart/horizontal-chart.component';
 import { IncomeDescriptionComponent } from './income-description/income-description.component';
+import { IncomeViewComponent } from './income-view/income-view.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
@@ -56,11 +58,12 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { RegisterComponent } from './register/register.component';
 import { ReportSugestionComponent } from './report-sugestion/report-sugestion.component';
+import { TestComponent } from './test/test.component';
 import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-table.component';
 import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
-import { IncomeViewComponent } from './income-view/income-view.component';
+
 
 @NgModule({
   declarations: [
@@ -91,6 +94,7 @@ import { IncomeViewComponent } from './income-view/income-view.component';
     DialogIncomeDeleteComponent,
     IncomeDescriptionComponent,
     IncomeViewComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
@@ -124,6 +128,7 @@ import { IncomeViewComponent } from './income-view/income-view.component';
     MatDialogModule,
     MatDatepickerModule,
     NgxChartsModule,
+    MatCheckboxModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -175,6 +180,7 @@ import { IncomeViewComponent } from './income-view/income-view.component';
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'report&sugestion', component: ReportSugestionComponent },
+      { path: 'test', component: TestComponent },
     ]),
   ],
   providers: [],

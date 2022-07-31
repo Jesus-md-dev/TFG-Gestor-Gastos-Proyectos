@@ -30,8 +30,6 @@ export class ReportSugestionComponent implements OnInit {
       axios
         .post(GlobalComponent.apiUrl + '/api/send_email/', formData)
         .then((response) => {
-          console.log(response);
-          
           if ('succed' in response.data) {
             this.snackBar.open('Report sended', 'Close', {
               duration: 3 * 1000,

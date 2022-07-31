@@ -20,18 +20,6 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<form [formGroup]="formControl">
-  {{'Search' | translate}}:
-  <mat-form-field>
-    <input matInput formControlName="user">
-    <mat-placeholder>{{'Username' | translate}}</mat-placeholder>
-  </mat-form-field>
-  <!-- <mat-form-field>
-    <input matInput formControlName="date">
-    <mat-placeholder>{{'Date' | translate}}</mat-placeholder>
-  </mat-form-field> -->
-</form>
-
 <section class="section-table expense-table">
   <table mat-table [dataSource]="expensesDataSource" matSort mdbTableScroll
     scrollX="true" scrollY="True">

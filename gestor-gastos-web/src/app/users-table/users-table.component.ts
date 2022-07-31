@@ -3,11 +3,13 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
 import { DialogMemberDeleteComponent } from '../dialog-member-delete/dialog-member-delete.component';
 import { Project } from '../project';
+import { ProjectMemberService } from '../project-member.service';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
 
@@ -23,24 +25,27 @@ export class UsersTableComponent implements OnInit {
   users: User[] = [];
   project: any = new Project();
   usersDataSource = new MatTableDataSource<User>();
+  filterData: { username: string } = { username: '' };
+  filterSelectObj = [];
+  currentScreenSize: string | undefined;
+  isSmall = false;
+  isManager: { [key: string]: boolean } = {};
   displayedColumns: string[] = [
+    'manager',
     'image',
     'username',
     'last_name',
     'first_name',
     'email',
     'expensesBtn',
-    'expellBtn'
+    'expellBtn',
   ];
-  filterData: { username: string } = { username: '' };
-  filterSelectObj = [];
-  currentScreenSize: string | undefined;
-  isSmall = false;
 
   constructor(
     breakpointObserver: BreakpointObserver,
     formBuilder: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     breakpointObserver
       .observe([
@@ -99,8 +104,10 @@ export class UsersTableComponent implements OnInit {
 
   ngOnInit(): void {
     Project.load(this.projectId).then((response) => {
-      this.project = response;
-      this.updateUserList();
+      if ('project_info' in response) {
+        this.project = response['project_info'];
+        this.updateUserList();
+      }
     });
   }
 
@@ -141,8 +148,58 @@ export class UsersTableComponent implements OnInit {
 
   updateUserList() {
     ProjectService.getProjectMembers(this.projectId).then((response) => {
-      this.usersDataSource.data = this.users = response;
-      this.usersDataSource.sort = this.sort;
+      console.log(response)
+      if ('members_info' in response) {
+        this.usersDataSource.data = this.users = User.jsontoList(
+          response['members_info']
+        );
+        this.usersDataSource.sort = this.sort;
+        const membersList: [] = response['members_info'];
+        membersList.forEach((member) => {
+          this.isManager[member['username']] = member['is_manager'];
+        });
+        console.log(this.isManager);
+      } else
+        this.snackBar.open('Error loading members', 'Close', {
+          duration: 3 * 1000,
+        });
     });
+  }
+
+  onChangeCheckbox(e: any, username: string) {
+    if (e.checked) this.promoteMember(username);
+    else this.demoteMember(username);
+  }
+
+  promoteMember(username: string) {
+    ProjectMemberService.promoteProjectMembers(this.projectId, username).then(
+      (response)=> {
+        if ('project_member_info' in response) {
+          this.isManager[username] = true;
+          this.snackBar.open(username + ' promoted to manager', 'Close', {
+            duration: 3 * 1000,
+          });
+        }
+        else
+          this.snackBar.open('Error promoting member', 'Close', {
+            duration: 3 * 1000,
+          });
+    });
+  }
+
+  demoteMember(username: string) {
+    ProjectMemberService.demoteProjectMembers(this.projectId, username).then(
+      (response) => {
+        if ('project_member_info' in response) {
+          this.isManager[username] = false;
+          this.snackBar.open(username + ' demoted', 'Close', {
+            duration: 3 * 1000,
+          });
+        } else
+          this.snackBar.open('Error demoting member', 'Close', {
+            duration: 3 * 1000,
+          });
+      }
+    );
   }
 }

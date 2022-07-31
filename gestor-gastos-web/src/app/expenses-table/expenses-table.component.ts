@@ -19,7 +19,6 @@ import { Project } from '../project';
   styleUrls: ['./expenses-table.component.css'],
 })
 export class ExpensesTableComponent implements OnInit {
-  readonly formControl: FormGroup;
   @Input()
   projectId: any;
   expenses: Expense[] = [];
@@ -40,27 +39,9 @@ export class ExpensesTableComponent implements OnInit {
   ];
 
   constructor(
-    formBuilder: FormBuilder,
     public dialog: MatDialog,
     private snackBar: MatSnackBar
-  ) {
-    this.expensesDataSource.filterPredicate = ((data, filter) => {
-      let filterJs = JSON.parse(filter);
-      const a =
-        !filterJs.user || data.user.toLowerCase().includes(filterJs.user);
-      // const b = !filterJs.date || data.date?.toLowerCase().includes(filterJs.date);
-      return a;
-    }) as (data: Expense, filter: string) => boolean;
-
-    this.formControl = formBuilder.group({
-      user: '',
-    });
-
-    this.formControl.valueChanges.subscribe((value) => {
-      const filter = JSON.stringify(value);
-      this.expensesDataSource.filter = filter.toLowerCase();
-    });
-  }
+  ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -115,7 +96,6 @@ export class ExpensesTableComponent implements OnInit {
             this.expensesDataSource.data = this.incomes
               .concat(this.expenses)
               .sort((a, b) => (a.date < b.date ? 1 : -1));
-            console.log(this.expensesDataSource.data);
             this.expensesDataSource.sort = this.sort;
             let currentDate = new Date();
             this.incomes.forEach((income) => {

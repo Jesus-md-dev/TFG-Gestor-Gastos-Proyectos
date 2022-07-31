@@ -18,6 +18,9 @@
       </section>
       <app-expenses-table [projectId]="projectId"></app-expenses-table>
     </mat-tab>
+    <mat-tab label="Members">
+      <app-users-table [projectId]="projectId"></app-users-table>
+    </mat-tab>
     <mat-tab label="Owner">
       <ng-container>
         <section class="profile-card">
@@ -37,9 +40,6 @@
           </mat-card>
         </section>
       </ng-container>
-    </mat-tab>
-    <mat-tab label="Members">
-      <app-users-table [projectId]="projectId"></app-users-table>
     </mat-tab>
     <mat-tab *ngIf="project.admin == user.username" label="Configuration">
       <section class="config-card">

@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Project } from '../project';
+import { ProjectService } from '../project.service';
 import { User } from '../user';
 
 @Component({
@@ -10,8 +11,8 @@ import { User } from '../user';
   styleUrls: ['./dialog-member-delete.component.css'],
 })
 export class DialogMemberDeleteComponent {
-  project: Project;
-  user: User;
+  project: Project = new Project();
+  user: User = new User(); 
   @Output() onDeleteEmitter = new EventEmitter();
 
   constructor(
@@ -19,7 +20,7 @@ export class DialogMemberDeleteComponent {
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.project = data.project;
+    this.project = data.project as Project;
     this.user = data.user;
   }
 
@@ -29,9 +30,11 @@ export class DialogMemberDeleteComponent {
 
   onDelete(): void {
     if (this.project.id != null && this.user.id != null) {
-      this.project.expellMember(this.project.id, this.user.id).then((response) => {
-        if (!('message' in response)) this.onDeleteEmitter.emit();
-      });
+      console.log(this.project);
+      ProjectService.expellMember(this.project.id, this.user.id)
+        .then((response) => {
+          if ('project_member_info' in response) this.onDeleteEmitter.emit();
+        });
     }
     this.dialogRef.close();
   }

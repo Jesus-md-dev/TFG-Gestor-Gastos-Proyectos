@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { existOnListValidator, isProjectAdminValidator } from 'custom-validators.directive';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { Project } from '../project';
+import { ProjectService } from '../project.service';
 import { UserService } from '../user.service';
 
 @Component({
@@ -24,7 +25,7 @@ export class DialogAddMemberComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snackBar: MatSnackBar
   ) {
-    this.project = Project.jsontoObject(data.project['project_info']);
+    this.project = data.project;
     this.projectMembers = data.projectMembers;
 
     this.formGroup = new FormGroup({
@@ -67,16 +68,21 @@ export class DialogAddMemberComponent implements OnInit {
   }
 
   onSave(): void {
-    this.project.addMembers(this.userlist).then((response) => {
-      if ('message' in response) {
-        this.snackBar.open('Some users already belong to the project', 'Close', {
-          duration: 3 * 1000,
-        })
+    ProjectService.addMembers(this.userlist, this.project).then(
+      (response) => {
+        if ('message' in response) {
+          this.snackBar.open(
+            'Some users already belong to the project',
+            'Close',
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.onSaveEmitter.emit();
+        }
       }
-      else{
-        this.onSaveEmitter.emit();
-      }
-    });
+    );
     this.dialogRef.close();
   }
 }
