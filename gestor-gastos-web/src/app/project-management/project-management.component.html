@@ -1,45 +1,43 @@
-<section class="main-content">
-  <section class="project-form">
-    <mat-expansion-panel [(expanded)]="expansionPanel">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Create Project
-        </mat-panel-title>
-        <mat-panel-description>
-          <mat-icon>create_new_folder</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
-      <section class="file-upload">
-        <img *ngIf="selectedFile" [src]="selectedFileSrc">
-        <br>{{selectedFileName || "Upload image"}}
-        <button mat-mini-fab color="accent" (click)="fileUpload.click()">
-          <mat-icon>attach_file</mat-icon>
-        </button>
+<section class="project-form">
+  <mat-expansion-panel [(expanded)]="expansionPanel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Create Project
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon>create_new_folder</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+    <section class="file-upload">
+      <img *ngIf="selectedFile" [src]="selectedFileSrc">
+      <br>{{selectedFileName || "Upload image"}}
+      <button mat-mini-fab color="accent" (click)="fileUpload.click()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </section>
+    <form class="custom-form" (ngSubmit)="createProject()" [formGroup]="formGroup">
+      <section>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput formControlName="name" />
+          <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
+            Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
       </section>
-      <form class="custom-form" (ngSubmit)="createProject()" [formGroup]="formGroup">
-        <section>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Name</mat-label>
-            <input type="text" matInput formControlName="name" />
-            <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
-              Name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </section>
-        <section>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Category</mat-label>
-            <input type="text" matInput formControlName="category">
-            <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
-              Category is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </section>
-        <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
-      </form>
-    </mat-expansion-panel>
-  </section>
-  <app-project-list [ownProjects]="projects"></app-project-list>
+      <section>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Category</mat-label>
+          <input type="text" matInput formControlName="category">
+          <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
+            Category is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </section>
+      <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
+    </form>
+  </mat-expansion-panel>
 </section>
+<app-project-list [ownProjects]="projects" [memberProjects]="memberProjects"></app-project-list>
 

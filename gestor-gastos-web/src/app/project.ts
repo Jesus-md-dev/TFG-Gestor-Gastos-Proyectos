@@ -39,6 +39,14 @@ export class Project {
     };
   }
 
+  isAdmin(username: string | null) {
+    console.log(
+      this.admin + ' - ' + username + ' -> ' + username == this.admin
+    );
+
+    return username == this.admin;
+  }
+
   static async create(name: string, category: string, img: File | null) {
     return ProjectService.create(name, category, img);
   }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import axios, { AxiosError } from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
-import { Project } from './project';
 import { User } from './user';
 
 @Injectable({
@@ -38,13 +37,15 @@ export class UserService {
     }
   }
 
-  static async update(user: User, img: File | null) {
+  static async update(user: User, img: File | null, password: string) {
     try {
       const formData = new FormData();
       if (img != null) formData.append('img', img as File);
       formData.append('username', user.username);
       formData.append('first_name', user.first_name);
       formData.append('last_name', user.last_name);
+      formData.append('email', user.email);
+      if (password != null) formData.append('password', password);
       const response = await axios.put(
         GlobalComponent.apiUrl + '/api/update_user/',
         formData,
@@ -123,7 +124,7 @@ export class UserService {
           },
         }
       );
-      return Project.jsontoList(response.data);
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;

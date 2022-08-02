@@ -16,6 +16,7 @@ export class AppComponent {
   cur_lang: string;
   localStorageService = new LocalStorageService();
   user: User = new User();
+  currentYear = new Date().getFullYear();
 
   constructor(
     public translate: TranslateService,

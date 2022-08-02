@@ -87,15 +87,20 @@ export class DialogCreateExpenseComponent implements OnInit {
 
   loadUserList() {
     ProjectService.getProjectMembers(this.projectId).then((response) => {
-      this.users = response;
-      this.users.push(this.admin);
-      this.users.sort((a, b) =>
-        a.username.toLowerCase() > b.username.toLowerCase()
-          ? 1
-          : b.username.toLowerCase() > a.username.toLowerCase()
-          ? -1
-          : 0
-      );
+      if ('members_info' in response) {
+        this.users = User.jsontoList(response['members_info']);
+        this.users.push(this.admin);
+        this.users.sort((a, b) =>
+          a.username.toLowerCase() > b.username.toLowerCase()
+            ? 1
+            : b.username.toLowerCase() > a.username.toLowerCase()
+            ? -1
+            : 0
+        );
+      } else
+        this.snackBar.open('Error loading members', 'Close', {
+          duration: 3 * 1000,
+        });
     });
   }
 

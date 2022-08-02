@@ -9,6 +9,7 @@ import { DialogCreateIncomeComponent } from '../dialog-create-income/dialog-crea
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
 import { FileManagerService } from '../file-manager.service';
+import { GlobalComponent } from '../global-component';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { User } from '../user';
@@ -26,9 +27,10 @@ export class ProjectDescriptionComponent implements OnInit {
   project: Project = new Project();
   fileManagerService = new FileManagerService();
   localStorageService = new LocalStorageService();
+  username = this.localStorageService.get('username');
   routeSub: Subscription = new Subscription();
   projectId: any;
-  user: User = new User();
+  admin: User = new User();
   selectedFile: File | null = null;
   selectedFileSrc: string | null = null;
   selectedFileName: String | null = null;
@@ -56,7 +58,7 @@ export class ProjectDescriptionComponent implements OnInit {
           this.formGroup.controls['name'].setValue(this.project.name);
           this.formGroup.controls['category'].setValue(this.project.category);
           User.loadUser(this.project.admin).then((response) => {
-            this.user = response;
+            this.admin = response;
           });
         } else {
           this.snackBar.open('Project can not be found', 'Close', {
@@ -100,7 +102,7 @@ export class ProjectDescriptionComponent implements OnInit {
     const ref = this.dialog.open(DialogCreateExpenseComponent, {
       data: {
         projectId: this.projectId,
-        admin: this.user,
+        admin: this.admin,
       },
     });
 
@@ -113,7 +115,7 @@ export class ProjectDescriptionComponent implements OnInit {
     const ref = this.dialog.open(DialogCreateIncomeComponent, {
       data: {
         projectId: this.projectId,
-        admin: this.user,
+        admin: this.admin,
       },
     });
 
@@ -125,15 +127,20 @@ export class ProjectDescriptionComponent implements OnInit {
   onFileSelected(event: any) {
     const reader = new FileReader();
     if (event.target.files) {
-      this.selectedFile = event.target.files[0];
-      this.selectedFileName = this.fileManagerService.fixFileName(
-        event.target.files[0]['name']
-      );
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.selectedFileSrc = reader.result as string;
-      };
+      if (event.target.files[0].size <= 1048576) {
+        this.selectedFile = event.target.files[0];
+        this.selectedFileName = this.fileManagerService.fixFileName(
+          event.target.files[0]['name']
+        );
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.selectedFileSrc = reader.result as string;
+        };
+      } else
+        this.snackBar.open('Max file size 1 MiB', 'Close', {
+          duration: 3 * 1000,
+        });
     }
   }
 }

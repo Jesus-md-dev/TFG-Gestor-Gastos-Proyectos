@@ -2,6 +2,9 @@
   <section class="profile-card">
     <mat-card>
       <img class="profile-card-img" alt="" matCardImage src={{user.img}}>
+      <h1 class="align-left">
+        {{ user.username }}:
+      </h1>
       <mat-card-content>
         <h2>
           {{ user.first_name }}
@@ -25,13 +28,15 @@
       </section>
     </mat-card>
   </section>
-
 </ng-container>
 
 <ng-template #editCard>
   <section class="profile-card">
     <mat-card>
       <img class="profile-card-img" alt="" matCardImage src={{user.img}}>
+      <h1 class="align-left">
+        {{ user.username }}:
+      </h1>
       <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
       <section class="file-upload">
         <img *ngIf="selectedFile" class="preview-img-avatar" [src]="selectedFileSrc">
@@ -59,9 +64,35 @@
               </mat-error>
             </mat-form-field>
           </section>
-          <h2>
-            {{ user.email }}
-          </h2>
+          <section>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput formControlName="email">
+              <mat-error>
+                Email is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </section>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password">
+            <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Repeat Password</mat-label>
+            <input type="password" matInput formControlName="passwordRepeat">
+            <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('confirmedValidator')">
+              Passwords are not equal
+            </mat-error>
+          </mat-form-field>
+
         <section class="button-container-space-between">
           <button mat-raised-button color="accent" type="submit">Save</button>
           <button mat-raised-button color="secondary" (click)="changeView()">

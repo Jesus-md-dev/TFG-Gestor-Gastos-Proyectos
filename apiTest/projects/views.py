@@ -25,11 +25,14 @@ def read_project(request, id):
     try:
         user = request.user
         project_requested = Project.objects.get(id=id)
-        if user.is_authenticated and user == project_requested.admin:
-            return Response({'project_info': project_requested.as_json()})
+        if user.is_authenticated: 
+            if user == project_requested.admin or ProjectMember.objects.filter(project=project_requested, user=user, is_manager=True).exists():
+                return Response({'project_info': project_requested.as_json()})
+            return Response({'message': 'unauthorized'}, status=401)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
@@ -111,14 +114,16 @@ def read_project_members(request, project_id):
     try:
         user = request.user
         project_requested = Project.objects.get(id = project_id)
-        if user.is_authenticated and user == project_requested.admin:
-            user_list = []
-            members = ProjectMember.objects.filter(project=project_requested)
-            for member in members:
-                user_json = member.user.profile.as_json()
-                user_json['is_manager'] = member.is_manager
-                user_list.append(user_json)
-            return Response({'members_info': user_list})
+        if user.is_authenticated:
+            if user == project_requested.admin or ProjectMember.objects.filter(project=project_requested, user=user).exists():
+                user_list = []
+                members = ProjectMember.objects.filter(project=project_requested)
+                for member in members:
+                    user_json = member.user.profile.as_json()
+                    user_json['is_manager'] = member.is_manager
+                    user_list.append(user_json)
+                return Response({'members_info': user_list})
+            return Response({'message': 'unauthorized'}, status=401)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:

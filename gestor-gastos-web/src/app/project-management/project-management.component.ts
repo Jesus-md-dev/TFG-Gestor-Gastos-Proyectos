@@ -19,6 +19,7 @@ export class ProjectManagementComponent implements OnInit {
   });
   user: any = new User();
   projects: any = [];
+  memberProjects: Project[] = [];
   fileManagerService = new FileManagerService();
   localStorageService = new LocalStorageService();
   selectedFile: File | null = null;
@@ -34,9 +35,13 @@ export class ProjectManagementComponent implements OnInit {
       User.loadUser(username).then((response) => {
         this.user = response;
         this.user.getProjects().then((response: any) => {
-          if ('projects_info' in response) 
+          if ('projects_info' in response)
             this.projects = Project.jsontoList(response['projects_info']);
         });
+        this.user.getProjectsMember().then((response: any) => {
+          if('projects_info' in response)
+            this.memberProjects = Project.jsontoList(response['projects_info']);
+        })
       });
     }
   }
@@ -69,15 +74,20 @@ export class ProjectManagementComponent implements OnInit {
   onFileSelected(event: any) {
     const reader = new FileReader();
     if (event.target.files) {
-      this.selectedFile = event.target.files[0];
-      this.selectedFileName = this.fileManagerService.fixFileName(
-        event.target.files[0]['name']
-      );
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.selectedFileSrc = reader.result as string;
-      };
+      if (event.target.files[0].size <= 1048576) {
+        this.selectedFile = event.target.files[0];
+        this.selectedFileName = this.fileManagerService.fixFileName(
+          event.target.files[0]['name']
+        );
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.selectedFileSrc = reader.result as string;
+        };
+      } else
+        this.snackBar.open('Max file size 1 MiB', 'Close', {
+          duration: 3 * 1000,
+        });
     }
   }
 

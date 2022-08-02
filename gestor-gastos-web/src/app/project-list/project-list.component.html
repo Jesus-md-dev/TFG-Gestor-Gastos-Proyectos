@@ -1,7 +1,7 @@
 <mat-tab-group dynamicHeight *ngIf="hasProjects()">
   <mat-tab label="My Own Projects">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
-      <section fxFlex="15%" fxFlex.lg="20%" fxFlex.md="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of ownProjects"
+      <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of ownProjects"
         class="card-grid">
         <mat-card class="project-item">
           <img class="project-img-card" alt="" matCardImage src={{project.img}}>
@@ -29,7 +29,8 @@
           <section class="project-name-card">{{project.name}}</section>
           <mat-card-content>
             <h2>{{project.category}}</h2>
-            <button mat-raised-button color="accent">{{"My Expenses" | translate}}</button>
+            <a mat-raised-button [routerLink]="['/project/' + project.id]"
+                color="accent">{{"Show" | translate}}</a>
           </mat-card-content>
         </mat-card>
       </section>

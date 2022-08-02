@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-import { LocalStorageService } from '../local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { DialogAccountDeleteComponent } from '../dialog-account-delete/dialog-account-delete.component';
 import { FileManagerService } from '../file-manager.service';
+import { LocalStorageService } from '../local-storage.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-user-profile',
@@ -35,10 +35,36 @@ export class UserProfileComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog
   ) {
-    this.formGroup = this.formBuilder.group({
-      first_name: ['', [Validators.required]],
-      last_name: ['', [Validators.required]],
-    });
+    this.formGroup = this.formBuilder.group(
+      {
+        first_name: ['', [Validators.required]],
+        last_name: ['', [Validators.required]],
+        email: ['', [Validators.required]],
+        password: [''],
+        passwordRepeat: [''],
+      },
+      {
+        validator: this.ConfirmedValidator('password', 'passwordRepeat'),
+      }
+    );
+  }
+
+  ConfirmedValidator(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors['confirmedValidator']
+      ) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmedValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
   }
 
   ngOnInit() {
@@ -58,6 +84,7 @@ export class UserProfileComponent implements OnInit {
           this.user = response;
           this.formGroup.controls['first_name'].setValue(this.user.first_name);
           this.formGroup.controls['last_name'].setValue(this.user.last_name);
+          this.formGroup.controls['email'].setValue(this.user.email);
           if (this.owner) {
             this.user.getProjects().then((response: any) => {
               this.ownProjects = response;
@@ -75,8 +102,9 @@ export class UserProfileComponent implements OnInit {
     if (this.formGroup.valid) {
       this.user.first_name = this.formGroup.controls['first_name'].value;
       this.user.last_name = this.formGroup.controls['last_name'].value;
+      this.user.email = this.formGroup.controls['email'].value;
       if (this.selectedFile != null) this.user.img = this.selectedFile;
-      this.user.update().then((response: any) => {
+      this.user.update(this.formGroup.controls['password'].value).then((response: any) => {
         if ('user_info' in response) {
           this.user = User.jsontoObject(response['user_info']);
           this.snackBar.open('Edit success', 'Close', {
@@ -114,15 +142,20 @@ export class UserProfileComponent implements OnInit {
   onFileSelected(event: any) {
     const reader = new FileReader();
     if (event.target.files) {
-      this.selectedFile = event.target.files[0];
-      this.selectedFileName = this.fileManagerService.fixFileName(
-        event.target.files[0]['name']
-      );
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.selectedFileSrc = reader.result as string;
-      };
+      if (event.target.files[0].size <= 1048576) {
+        this.selectedFile = event.target.files[0];
+        this.selectedFileName = this.fileManagerService.fixFileName(
+          event.target.files[0]['name']
+        );
+        const [file] = event.target.files;
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.selectedFileSrc = reader.result as string;
+        };
+      } else
+        this.snackBar.open('Max file size 1 MiB', 'Close', {
+          duration: 3 * 1000,
+        });
     }
   }
 }

@@ -1,4 +1,4 @@
-<button mat-raised-button color="accent" (click)="addMembers()">Add Member</button>
+<button *ngIf="project.isAdmin(username)" mat-raised-button color="accent" (click)="addMembers()">Add Member</button>
 
 <section>
   <form [formGroup]="formControl">
@@ -22,10 +22,6 @@
   </form>
 </section>
 
-
-
-
-
 <section class="section-table user-table">
   <table mat-table [dataSource]="usersDataSource" matSort mdbTableScroll scrollX="true" scrollY="True">
     <ng-container matColumnDef="manager">
@@ -33,7 +29,7 @@
         Manager
       </th>
       <td mat-cell *matCellDef="let user">
-        <mat-checkbox (change)="onChangeCheckbox($event, user.username)" [checked]="isManager[user.username]"></mat-checkbox>
+        <mat-checkbox (change)="onChangeCheckbox($event, user.username)" [checked]="isManager[user.username]" [disabled]="!project.isAdmin(username)"></mat-checkbox>
       </td>
     </ng-container>
   
@@ -44,7 +40,6 @@
         <button aria-label="Profile" mat-icon-button [routerLink]="['/user',user.username]">
           <img class="profile-img" src={{user.img}} height="100%" width="100%">
         </button>
-        <!-- {{user.img}} -->
       </td>
     </ng-container>
   
@@ -89,8 +84,8 @@
     </ng-container>
   
     <ng-container matColumnDef="expellBtn">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let user">
+      <th mat-header-cell [hidden]="!project.isAdmin(username)" *matHeaderCellDef></th>
+      <td mat-cell [hidden]="!project.isAdmin(username)" *matCellDef="let user">
         <button mat-raised-button color="warn" (click)="expellMember(user)">{{"Expell" | translate}}
         </button>
       </td>

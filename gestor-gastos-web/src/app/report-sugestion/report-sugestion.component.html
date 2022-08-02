@@ -1,31 +1,29 @@
-<section class="section-content">
-    <h1>REPORTS & SUGESTIONS</h1>
-    <form (ngSubmit)="onSend()" [formGroup]="formGroup">
-        <div>
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Email</mat-label>
-                <input type="email" aria-label="Email" matInput formControlName="email">
-                <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
-                    Email is <strong>required</strong>
-                </mat-error>
-                <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
-                    This is not a valid email
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field appearance="fill">
-                <mat-label>Message</mat-label>
-                <textarea aria-label="Message" matInput formControlName="message"></textarea>
-                <mat-error *ngIf="formGroup.controls['message'].hasError('required')">
-                    Message is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div>
-            <button type="button" [disabled]="formGroup.invalid" (click)="onSend()" mat-raised-button color="accent">
-                {{'Send' | translate}}
-            </button>
-        </div>
-    </form>
-</section>
+<h1>REPORTS & SUGESTIONS</h1>
+<form (ngSubmit)="onSend()" [formGroup]="formGroup">
+    <div>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" aria-label="Email" matInput formControlName="email">
+            <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
+                Email is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
+                This is not a valid email
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Message</mat-label>
+            <textarea aria-label="Message" matInput formControlName="message"></textarea>
+            <mat-error *ngIf="formGroup.controls['message'].hasError('required')">
+                Message is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div>
+        <button type="button" [disabled]="formGroup.invalid" (click)="onSend()" mat-raised-button color="accent">
+            {{'Send' | translate}}
+        </button>
+    </div>
+</form>

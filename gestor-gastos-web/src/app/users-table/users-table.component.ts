@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
 import { DialogMemberDeleteComponent } from '../dialog-member-delete/dialog-member-delete.component';
+import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { ProjectMemberService } from '../project-member.service';
 import { ProjectService } from '../project.service';
@@ -22,8 +23,10 @@ export class UsersTableComponent implements OnInit {
   readonly formControl: FormGroup;
   @Input()
   projectId: any;
+  localStorageService = new LocalStorageService();
+  username = this.localStorageService.get('username');
   users: User[] = [];
-  project: any = new Project();
+  project: Project = new Project();
   usersDataSource = new MatTableDataSource<User>();
   filterData: { username: string } = { username: '' };
   filterSelectObj = [];
@@ -105,7 +108,7 @@ export class UsersTableComponent implements OnInit {
   ngOnInit(): void {
     Project.load(this.projectId).then((response) => {
       if ('project_info' in response) {
-        this.project = response['project_info'];
+        this.project = Project.jsontoObject(response['project_info']);
         this.updateUserList();
       }
     });
@@ -148,7 +151,6 @@ export class UsersTableComponent implements OnInit {
 
   updateUserList() {
     ProjectService.getProjectMembers(this.projectId).then((response) => {
-      console.log(response)
       if ('members_info' in response) {
         this.usersDataSource.data = this.users = User.jsontoList(
           response['members_info']
@@ -158,7 +160,6 @@ export class UsersTableComponent implements OnInit {
         membersList.forEach((member) => {
           this.isManager[member['username']] = member['is_manager'];
         });
-        console.log(this.isManager);
       } else
         this.snackBar.open('Error loading members', 'Close', {
           duration: 3 * 1000,
@@ -173,18 +174,18 @@ export class UsersTableComponent implements OnInit {
 
   promoteMember(username: string) {
     ProjectMemberService.promoteProjectMembers(this.projectId, username).then(
-      (response)=> {
+      (response) => {
         if ('project_member_info' in response) {
           this.isManager[username] = true;
           this.snackBar.open(username + ' promoted to manager', 'Close', {
             duration: 3 * 1000,
           });
-        }
-        else
+        } else
           this.snackBar.open('Error promoting member', 'Close', {
             duration: 3 * 1000,
           });
-    });
+      }
+    );
   }
 
   demoteMember(username: string) {

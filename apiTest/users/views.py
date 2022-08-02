@@ -56,11 +56,17 @@ def update_user(request):
     try:
         user_requested = User.objects.get(username=request.data['username'])
         user = request.user
+        context = {}
         if user.is_authenticated and user.id == user_requested.id:
+            if('img' in request.data):
+                context['img'] = request.data['img']
+            if('password' in request.data):
+                context['password'] = request.data['password']
             serializer = UserSerializer(user_requested, request.data, 
-                context={'img': request.data['img']})
+                context=context)
             serializer.is_valid(raise_exception=True)
             user_requested = serializer.save()
+            user_requested.save()
             return Response({'user_info': user.profile.as_json()})
         else: 
             return Response({'message': 'unauthorized'}, status=401)

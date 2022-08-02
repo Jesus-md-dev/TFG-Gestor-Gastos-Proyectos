@@ -85,6 +85,8 @@ export class ExpensesTableComponent implements OnInit {
   }
 
   updateExpenseList() {
+    this.finalAmount = 0;
+    this.finalAmountMoth = 0;
     ExpenseService.getProjectExpenses(this.projectId).then((response) => {
       if ('expenses_info' in response) {
         this.expenses = Expense.jsontoList(response['expenses_info']);

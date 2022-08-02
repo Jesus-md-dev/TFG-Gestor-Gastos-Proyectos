@@ -12,37 +12,43 @@ import { User } from '../user';
 export class RegisterComponent {
   formGroup!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar,
-    private router: Router) {
-      this.formGroup = this.formBuilder.group(
-        {
-          username: ['', [Validators.required]],
-          first_name: ['', [Validators.required]],
-          last_name: ['', [Validators.required]],
-          email: ['', [Validators.required, Validators.email]],
-          password: ['', [Validators.required]],
-          passwordRepeat: ['', [Validators.required]],
-        },
-        {
-          validator: this.ConfirmedValidator('password', 'passwordRepeat'),
-        }
-      );
-    }
+  constructor(
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {
+    this.formGroup = this.formBuilder.group(
+      {
+        username: ['', [Validators.required]],
+        first_name: ['', [Validators.required]],
+        last_name: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required]],
+        passwordRepeat: ['', [Validators.required]],
+      },
+      {
+        validator: this.ConfirmedValidator('password', 'passwordRepeat'),
+      }
+    );
+  }
 
   ConfirmedValidator(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
-    const control = formGroup.controls[controlName];
-    const matchingControl = formGroup.controls[matchingControlName];
-     if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
-          return;
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors['confirmedValidator']
+      ) {
+        return;
       }
       if (control.value !== matchingControl.value) {
-          matchingControl.setErrors({ confirmedValidator: true });
+        matchingControl.setErrors({ confirmedValidator: true });
       } else {
-          matchingControl.setErrors(null);
+        matchingControl.setErrors(null);
       }
+    };
   }
-}
 
   register() {
     if (this.formGroup.valid) {
@@ -52,16 +58,15 @@ export class RegisterComponent {
         this.formGroup.controls['last_name'].value,
         this.formGroup.controls['email'].value,
         this.formGroup.controls['password'].value
-      ).then( (response) => {
-          if ('user_info' in response) this.router.navigate(['/login']);
-          else{
-            if ('message' in response)
-              this.snackBar.open('Email or username already used', 'Close', {
-                duration: 3 * 1000
-              });
-          }
+      ).then((response) => {
+        if ('user_info' in response) this.router.navigate(['/login']);
+        else {
+          if ('message' in response)
+            this.snackBar.open('Email or username already used', 'Close', {
+              duration: 3 * 1000,
+            });
         }
-      );
+      });
     }
   }
 }

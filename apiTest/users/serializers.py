@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers, validators
+
 from users.models import Profile
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,18 +40,30 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name')
+        fields = ('first_name', 'last_name', 'email')
+
+    extra_kwargs = {
+            "email": {
+                "required": True,
+                "allow_blank": False,
+                "validators": [
+                    validators.UniqueValidator(
+                        User.objects.all(), "A user with that Email already exists"
+                    )
+                ]
+            }
+        }
 
     def update(self, instance, validated_data): 
-        # instance.username = validated_data.get('username')
-        # instance.password = validated_data.get('password')
-        # instance.email = validated_data.get('email')
+        instance.email = validated_data.get('email')
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
+        if('password' in self.context and self.context.get('password') != ""):
+            instance.set_password(self.context.get('password'))
         if('img' in self.context and self.context.get('img') != "null"):
-                if(instance.profile.img.url != "userdefault.jpg"):
-                    instance.profile.img.delete()
-                instance.profile.img = self.context.get('img')
+            if(instance.profile.img.url != "userdefault.jpg"):
+                instance.profile.img.delete()
+            instance.profile.img = self.context.get('img')
         instance.save() 
         return instance
 

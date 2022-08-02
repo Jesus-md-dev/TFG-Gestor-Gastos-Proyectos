@@ -28,11 +28,11 @@ export class ProjectListComponent {
     const ref = this.dialog.open(DialogProjectDeleteComponent, {
       data: { project: project },
     });
-
     ref.componentInstance.onDeleteEmitter.subscribe((data) => {
       this.ownProjects.splice(
         this.ownProjects.findIndex(
-          (element: { id: number }) => element.id == data),
+          (element: { id: number }) => element.id == data
+        ),
         1
       );
     });

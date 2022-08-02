@@ -30,7 +30,6 @@ export class DialogMemberDeleteComponent {
 
   onDelete(): void {
     if (this.project.id != null && this.user.id != null) {
-      console.log(this.project);
       ProjectService.expellMember(this.project.id, this.user.id)
         .then((response) => {
           if ('project_member_info' in response) this.onDeleteEmitter.emit();

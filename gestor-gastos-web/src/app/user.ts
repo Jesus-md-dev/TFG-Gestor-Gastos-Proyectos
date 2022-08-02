@@ -52,8 +52,8 @@ export class User {
     return UserService.create(username, first_name, last_name, email, password);
   }
 
-  async update() {
-    return await UserService.update(this, this._img);
+  async update(password: string) {
+    return await UserService.update(this, this._img, password);
   }
 
   async delete() {

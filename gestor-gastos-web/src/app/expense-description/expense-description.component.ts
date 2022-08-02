@@ -91,24 +91,29 @@ export class ExpenseDescriptionComponent {
   loadProjectAdmin() {
     if (this.project.id != null) {
       ProjectService.getProjectMembers(this.project.id).then((response) => {
-        this.users = User.jsontoList(response);
-        this.users.push(this.admin);
-        this.users.sort((a, b) =>
-          a.username.toLowerCase() > b.username.toLowerCase()
-            ? 1
-            : b.username.toLowerCase() > a.username.toLowerCase()
-            ? -1
-            : 0
-        );
-        let auxUser = this.users.find(
-          (user) => user.username == this.expense.user
-        );
-        
-        if (auxUser != undefined) {
-          this.expenseUser = auxUser
-          this.expenseUsername = this.expenseUser.username;
-          this.formGroup.controls['username'].setValue(this.expenseUsername);
-        }
+        if ('members_info' in response) {
+          this.users = User.jsontoList(response['members_info']);
+          this.users.push(this.admin);
+          this.users.sort((a, b) =>
+            a.username.toLowerCase() > b.username.toLowerCase()
+              ? 1
+              : b.username.toLowerCase() > a.username.toLowerCase()
+              ? -1
+              : 0
+          );
+          let auxUser = this.users.find(
+            (user) => user.username == this.expense.user
+          );
+
+          if (auxUser != undefined) {
+            this.expenseUser = auxUser;
+            this.expenseUsername = this.expenseUser.username;
+            this.formGroup.controls['username'].setValue(this.expenseUsername);
+          }
+        } else
+          this.snackBar.open('Error loading members', 'Close', {
+            duration: 3 * 1000,
+          });
       });
     }
   }
