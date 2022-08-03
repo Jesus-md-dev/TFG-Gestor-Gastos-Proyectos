@@ -12,15 +12,15 @@ export class ProjectListComponent {
   @Input()
   ownProjects: any = [];
   @Input()
-  memberProjects: any = [];
+  managedProjects: any = [];
 
   constructor(public dialog: MatDialog) {}
 
   hasProjects() {
     if (Array.isArray(this.ownProjects))
       if (this.ownProjects.length != 0) return true;
-    if (Array.isArray(this.memberProjects))
-      if (this.memberProjects.length != 0) return true;
+    if (Array.isArray(this.managedProjects))
+      if (this.managedProjects.length != 0) return true;
     return false;
   }
 

@@ -19,7 +19,7 @@ export class ProjectManagementComponent implements OnInit {
   });
   user: any = new User();
   projects: any = [];
-  memberProjects: Project[] = [];
+  managedProjects: Project[] = [];
   fileManagerService = new FileManagerService();
   localStorageService = new LocalStorageService();
   selectedFile: File | null = null;
@@ -40,7 +40,7 @@ export class ProjectManagementComponent implements OnInit {
         });
         this.user.getProjectsMember().then((response: any) => {
           if('projects_info' in response)
-            this.memberProjects = Project.jsontoList(response['projects_info']);
+            this.managedProjects = Project.jsontoList(response['projects_info']);
         })
       });
     }

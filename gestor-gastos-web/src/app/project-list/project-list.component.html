@@ -20,9 +20,9 @@
       </section>
     </section>
   </mat-tab>
-  <mat-tab label="Projects I Belong">
+  <mat-tab label="Projects I Manage">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
-      <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of memberProjects"
+      <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of managedProjects"
         class="card-grid">
         <mat-card>
           <img class="project-img-card" alt="" matCardImage src={{project.img}}>

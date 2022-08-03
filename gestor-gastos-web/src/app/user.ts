@@ -96,6 +96,10 @@ export class User {
     return await UserService.getProjects(this.username);
   }
 
+  async getProjectsManaged() {
+    return await UserService.getProjectsManaged(this.username);
+  }
+
   async getProjectsMember() {
     return await UserService.getProjectsMember(this.username);
   }

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import axios from 'axios';
+import { ApiConnectionService } from './api-connection.service';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
 import { User } from './user';
@@ -28,13 +29,27 @@ export class AppComponent {
       ? navigator.language
       : 'en';
     translate.setDefaultLang(this.cur_lang);
+    this.router.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) { 
+        console.log("Navigation") 
+        ApiConnectionService.isApiAlive().then((response) => {
+          if (response != undefined) 
+            this.localStorageService.set('apiAlive', true);
+          else {
+            this.localStorageService.set('apiAlive', false);
+            this.localStorageService.remove('token');
+            this.localStorageService.remove('username');            
+          }
+        });
+      }
+    });
   }
 
-  switchLang() {
-    if (this.cur_lang === 'es') this.cur_lang = 'en';
-    else this.cur_lang = 'es';
-    this.translate.use(this.cur_lang);
-  }
+  // switchLang() {
+  //   if (this.cur_lang === 'es') this.cur_lang = 'en';
+  //   else this.cur_lang = 'es';
+  //   this.translate.use(this.cur_lang);
+  // }
 
   ngOnInit(): void {
     User.loadUser(this.localStorageService.get('username') as string).then(
@@ -48,11 +63,7 @@ export class AppComponent {
       }
     );
   }
-
-  getUrl() {
-    return this.router.url != '/login' && this.router.url != '/register';
-  }
-
+  
   login() {
     this.router.navigate(['/login']);
   }

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { DialogIncomeDeleteComponent } from '../dialog-income-delete/dialog-income-delete.component';
 import { Expense } from '../expense';
@@ -39,6 +39,7 @@ export class ExpensesTableComponent implements OnInit {
   ];
 
   constructor(
+    private router: Router,
     public dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -118,10 +119,22 @@ export class ExpensesTableComponent implements OnInit {
             this.finalAmountMoth -= expense.final_amount;
           }
         });
-      } else
-        this.snackBar.open('Error loading user expenses', 'Close', {
+      } else if (
+        'message' in response &&
+        response['message'] == 'unauthorized'
+      ) {
+        this.snackBar.open('Not authorized ' + response['message'], 'Close', {
           duration: 3 * 1000,
         });
+        this.router.navigate(['/']);
+      } else
+        this.snackBar.open(
+          'Error loading expenses ' + response['message'],
+          'Close',
+          {
+            duration: 3 * 1000,
+          }
+        );
     });
   }
 }

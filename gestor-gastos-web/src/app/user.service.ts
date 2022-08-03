@@ -131,6 +131,23 @@ export class UserService {
     }
   }
 
+  static async getProjectsManaged(username: string) {
+    try {
+      const response = await axios.get(
+        GlobalComponent.apiUrl + '/api/managed_projects/' + username,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
   static async getExpenses() {
     try {
       const response = await axios.get(

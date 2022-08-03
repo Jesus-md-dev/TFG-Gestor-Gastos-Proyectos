@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogAccountDeleteComponent } from '../dialog-account-delete/dialog-account-delete.component';
 import { FileManagerService } from '../file-manager.service';
 import { LocalStorageService } from '../local-storage.service';
+import { Project } from '../project';
 import { User } from '../user';
 
 @Component({
@@ -16,7 +17,7 @@ import { User } from '../user';
 export class UserProfileComponent implements OnInit {
   user: any = new User();
   ownProjects: any = [];
-  memberProjects: any = [];
+  managedProjects: any = [];
   editView: boolean = false;
   formGroup!: FormGroup;
   username: string | undefined;
@@ -87,10 +88,16 @@ export class UserProfileComponent implements OnInit {
           this.formGroup.controls['email'].setValue(this.user.email);
           if (this.owner) {
             this.user.getProjects().then((response: any) => {
-              this.ownProjects = response;
+              if ('projects_info' in response)
+                this.ownProjects = Project.jsontoList(
+                  response['projects_info']
+                );
             });
-            this.user.getProjectsMember().then((response: any) => {
-              this.memberProjects = response;
+            this.user.getProjectsManaged().then((response: any) => {
+              if ('projects_info' in response)
+                this.managedProjects = Project.jsontoList(
+                  response['projects_info']
+                );
             });
           }
         }
