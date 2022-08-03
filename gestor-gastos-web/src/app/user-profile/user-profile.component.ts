@@ -15,9 +15,10 @@ import { User } from '../user';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  user: any = new User();
-  ownProjects: any = [];
-  managedProjects: any = [];
+  user: User = new User();
+  ownProjects: Project[] = [];
+  managedProjects: Project[] = [];
+  memberProjects: Project[] = [];
   editView: boolean = false;
   formGroup!: FormGroup;
   username: string | undefined;
@@ -87,7 +88,7 @@ export class UserProfileComponent implements OnInit {
           this.formGroup.controls['last_name'].setValue(this.user.last_name);
           this.formGroup.controls['email'].setValue(this.user.email);
           if (this.owner) {
-            this.user.getProjects().then((response: any) => {
+            this.user.getOwnedProjects().then((response: any) => {
               if ('projects_info' in response)
                 this.ownProjects = Project.jsontoList(
                   response['projects_info']
@@ -96,6 +97,12 @@ export class UserProfileComponent implements OnInit {
             this.user.getProjectsManaged().then((response: any) => {
               if ('projects_info' in response)
                 this.managedProjects = Project.jsontoList(
+                  response['projects_info']
+                );
+            });
+            this.user.getProjectsMember().then((response: any) => {
+              if ('projects_info' in response)
+                this.memberProjects = Project.jsontoList(
                   response['projects_info']
                 );
             });
@@ -111,17 +118,19 @@ export class UserProfileComponent implements OnInit {
       this.user.last_name = this.formGroup.controls['last_name'].value;
       this.user.email = this.formGroup.controls['email'].value;
       if (this.selectedFile != null) this.user.img = this.selectedFile;
-      this.user.update(this.formGroup.controls['password'].value).then((response: any) => {
-        if ('user_info' in response) {
-          this.user = User.jsontoObject(response['user_info']);
-          this.snackBar.open('Edit success', 'Close', {
-            duration: 3 * 1000,
-          });
-          this.changeView();
-        } else {
-          this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
-        }
-      });
+      this.user
+        .update(this.formGroup.controls['password'].value)
+        .then((response: any) => {
+          if ('user_info' in response) {
+            this.user = User.jsontoObject(response['user_info']);
+            this.snackBar.open('Edit success', 'Close', {
+              duration: 3 * 1000,
+            });
+            this.changeView();
+          } else {
+            this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
+          }
+        });
     }
   }
 

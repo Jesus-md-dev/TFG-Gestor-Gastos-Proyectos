@@ -192,7 +192,7 @@ def read_user_member_projects(request, username):
         user_requested = User.objects.get(username=username)
         if user.is_authenticated:
             if user.id == user_requested.id:
-                project_members = ProjectMember.objects.filter(user=user_requested)
+                project_members = ProjectMember.objects.filter(user=user_requested, is_manager=False)
                 projects = [project_member.project.as_json() for project_member 
                     in project_members]
                 return Response({'projects_info': projects})
@@ -219,6 +219,19 @@ def read_user_managed_projects(request, username):
                 return Response({'message': 'unauthorized'}, status=401)
         else: 
             return Response({'message': 'unauthorized'}, status=401)
+    except Exception as e:
+        print(e)
+        return Response({'message': 'bad request'}, status=400)
+
+@api_view(['GET'])
+def user_is_manager(request, project_id):
+    try:
+        user = request.user
+        if user.is_authenticated:
+            project_requested = Project.objects.get(id = project_id)
+            if(ProjectMember.objects.filter(project=project_requested, user=user, is_manager=True).exists()):
+                return Response({'is_manager': True}, status=200)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
         return Response({'message': 'bad request'}, status=400)

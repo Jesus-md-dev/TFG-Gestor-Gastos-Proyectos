@@ -58,12 +58,9 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { RegisterComponent } from './register/register.component';
 import { ReportSugestionComponent } from './report-sugestion/report-sugestion.component';
-import { TestComponent } from './test/test.component';
-import { UserExpensesTableComponent } from './user-expenses-table/user-expenses-table.component';
 import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
-
 
 @NgModule({
   declarations: [
@@ -86,7 +83,6 @@ import { UsersTableComponent } from './users-table/users-table.component';
     ExpensesTableComponent,
     UsersTableComponent,
     UserExpensesViewComponent,
-    UserExpensesTableComponent,
     HorizontalChartComponent,
     ChartExpenesesMonthsComponent,
     ReportSugestionComponent,
@@ -94,7 +90,6 @@ import { UsersTableComponent } from './users-table/users-table.component';
     DialogIncomeDeleteComponent,
     IncomeDescriptionComponent,
     IncomeViewComponent,
-    TestComponent,
   ],
   imports: [
     BrowserModule,
@@ -180,7 +175,6 @@ import { UsersTableComponent } from './users-table/users-table.component';
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'report&sugestion', component: ReportSugestionComponent },
-      { path: 'test', component: TestComponent },
     ]),
   ],
   providers: [],

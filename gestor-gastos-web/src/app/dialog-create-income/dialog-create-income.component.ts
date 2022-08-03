@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { maxDateValidator } from 'custom-validators.directive';
 import { FileManagerService } from '../file-manager.service';
 import { IncomeService } from '../income.service';
-import { User } from '../user';
 
 @Component({
   selector: 'app-dialog-create-income',
@@ -14,8 +13,6 @@ import { User } from '../user';
 })
 export class DialogCreateIncomeComponent {
   projectId: number;
-  admin: User;
-  users: User[] = [];
   fileManagerService = new FileManagerService();
   formGroup: FormGroup = new FormGroup({
     date: new FormControl('', [
@@ -38,10 +35,7 @@ export class DialogCreateIncomeComponent {
     public dialogRef: MatDialogRef<DialogCreateIncomeComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.projectId = data.projectId;
-    this.admin = data.admin;
-  }
+  ) { this.projectId = data.projectId; }
 
   onClose(): void {
     this.dialogRef.close();

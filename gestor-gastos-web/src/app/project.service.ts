@@ -38,7 +38,7 @@ export class ProjectService {
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }
-      );      
+      );
       return response.data;
     } catch (error) {
       const e = error as AxiosError;
@@ -154,6 +154,23 @@ export class ProjectService {
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;
+    }
+  }
+
+  static async imManager(project: Project) {
+    try {
+      const response = await axios.get(
+        GlobalComponent.apiUrl + '/api/is_manager/' + project.id,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response;
     }
   }
 }

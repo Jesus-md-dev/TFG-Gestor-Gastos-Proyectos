@@ -97,7 +97,7 @@ export class UserService {
     }
   }
 
-  static async getProjects(username: string) {
+  static async getOwnedProjects(username: string) {
     try {
       const response = await axios.get(
         GlobalComponent.apiUrl + '/api/projects/' + username,

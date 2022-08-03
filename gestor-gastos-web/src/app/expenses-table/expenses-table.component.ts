@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { DialogIncomeDeleteComponent } from '../dialog-income-delete/dialog-income-delete.component';
 import { Expense } from '../expense';
 import { Income } from '../income';
+import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 
 @Component({
@@ -17,11 +16,14 @@ import { Project } from '../project';
   styleUrls: ['./expenses-table.component.css'],
 })
 export class ExpensesTableComponent implements OnChanges {
-  @Input()
-  expenses: Expense[] = [];
-  @Input()
-  incomes: Expense[] = [];
+  @Input() expenses: Expense[] = [];
+  @Input() incomes: Expense[] = [];
+  @Input() userView: boolean = false;
+  @Input() projectId: any;
+  project: any = new Project();
+  isAuthorized: boolean = false;
   expensesDataSource = new MatTableDataSource<Expense>();
+  localStorageService = new LocalStorageService();
   finalAmount: number = 0;
   finalAmountMoth: number = 0;
   displayedColumns: string[] = [
@@ -42,9 +44,23 @@ export class ExpensesTableComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     for (let property in changes) {
-      if (property === 'expenses') this.expenses = changes[property].currentValue;
+      if (property === 'expenses')
+        this.expenses = changes[property].currentValue;
       if (property === 'incomes') this.incomes = changes[property].currentValue;
     }
+
+    Project.load(this.projectId).then((response) => {
+      if ('project_info' in response) {
+        this.project = Project.jsontoObject(response['project_info']);
+        if (this.project.admin == this.localStorageService.get('username')) 
+          this.isAuthorized = true;
+        else
+          this.project.imManager().then((response: any) => {
+            if (response.status == 200) this.isAuthorized = true;
+          });
+      }
+    });
+
     this.updateExpenseList();
   }
 
@@ -78,7 +94,9 @@ export class ExpensesTableComponent implements OnChanges {
     });
   }
 
-  getPageSizeOptions(): number[] { return [5, 10, 15, 20]; }
+  getPageSizeOptions(): number[] {
+    return [5, 10, 15, 20];
+  }
 
   updateExpenseList() {
     this.finalAmount = 0;

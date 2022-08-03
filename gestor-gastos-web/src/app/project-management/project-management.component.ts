@@ -18,8 +18,9 @@ export class ProjectManagementComponent implements OnInit {
     category: new FormControl('', [Validators.required]),
   });
   user: any = new User();
-  projects: any = [];
+  projects: Project[] = [];
   managedProjects: Project[] = [];
+  memberProjects: Project[] = [];
   fileManagerService = new FileManagerService();
   localStorageService = new LocalStorageService();
   selectedFile: File | null = null;
@@ -34,7 +35,7 @@ export class ProjectManagementComponent implements OnInit {
     if (username != undefined) {
       User.loadUser(username).then((response) => {
         this.user = response;
-        this.user.getProjects().then((response: any) => {
+        this.user.getOwnedProjects().then((response: any) => {
           if ('projects_info' in response)
             this.projects = Project.jsontoList(response['projects_info']);
         });
@@ -43,6 +44,10 @@ export class ProjectManagementComponent implements OnInit {
             this.managedProjects = Project.jsontoList(
               response['projects_info']
             );
+        });
+        this.user.getProjectsMember().then((response: any) => {
+          if ('projects_info' in response)
+            this.memberProjects = Project.jsontoList(response['projects_info']);
         });
       });
     }

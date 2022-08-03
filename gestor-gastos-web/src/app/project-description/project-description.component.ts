@@ -39,8 +39,6 @@ export class ProjectDescriptionComponent implements OnInit {
   expenses: Expense[] = [];
   incomes: Expense[] = [];
 
-  test = 1;
-
   @ViewChild(ExpensesTableComponent)
   expensesTable!: ExpensesTableComponent;
 
@@ -152,7 +150,6 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   updateExpenseList() {
-    this.test = Math.random() * (10 - 0) + 0;
     ExpenseService.getProjectExpenses(this.projectId).then((response) => {
       if ('expenses_info' in response) {
         this.expenses = Expense.jsontoList(response['expenses_info']);

@@ -42,10 +42,12 @@
             <strong>Final Amount: </strong>{{expense.final_amount | number: '.2-2'}}€
         </section>
     </section>
-    <section class="button-container-space-between" *ngIf="modify">
-        <button mat-raised-button color="accent" (click)="changeView()">Edit</button>
-        <button mat-raised-button color="warn" (click)="deleteExpense(expense)">Delete</button>
-    </section>
+    <div *ngIf="isAuthorized">
+        <section class="button-container-space-between" *ngIf="modify">
+            <button mat-raised-button color="accent" (click)="changeView()">Edit</button>
+            <button mat-raised-button color="warn" (click)="deleteExpense(expense)">Delete</button>
+        </section>
+    </div>
 </section>
 
 <ng-template #elseTemplate>
@@ -120,10 +122,12 @@
                     </mat-error>
                 </mat-form-field>
             </section>
-            <section class="button-container-space-between" *ngIf="modify">
-                <button mat-raised-button color="accent" type="submit" (click)="updateExpense()">Save</button>
-                <button mat-raised-button color="warn" (click)="changeView()">Cancel</button>
-            </section>
+            <div *ngIf="isAuthorized">
+                <section class="button-container-space-between" *ngIf="modify">
+                    <button mat-raised-button color="accent" type="submit" (click)="updateExpense()">Save</button>
+                    <button mat-raised-button color="warn" (click)="changeView()">Cancel</button>
+                </section>
+            </div>
         </form>
         
     </section>

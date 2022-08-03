@@ -4,12 +4,22 @@
         <mat-expansion-panel *ngFor="let item of expensesByProject | keyvalue">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                   <strong>{{expensesByProject[$any(item.key)]['projectName']}}</strong> 
+                   <strong>{{expensesByProject[$any(item.key)]['project_info'].name}}</strong> 
                 </mat-panel-title>
                 <mat-panel-description>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <app-user-expenses-table [expenses]="expensesByProject[$any(item.key)]['expenses']"></app-user-expenses-table>
+            <section class="img-project">
+                <img class="img-project" [src]="expensesByProject[$any(item.key)]['project_info'].img" alt="">
+                <section class="project-name">
+                    <h1> {{expensesByProject[$any(item.key)]['project_info'].name}} </h1>
+                    <h2> Category: {{expensesByProject[$any(item.key)]['project_info'].category}}</h2>
+                </section>
+            </section>
+            <app-expenses-table [projectId]="$any(item.key)" 
+            [expenses]="expensesByProject[$any(item.key)]['expenses']" 
+            [userView]="true">
+            </app-expenses-table>
             <mat-action-row>
                 <a mat-stroked-button href="/project/{{item.key}}">Go to Project</a>
             </mat-action-row>

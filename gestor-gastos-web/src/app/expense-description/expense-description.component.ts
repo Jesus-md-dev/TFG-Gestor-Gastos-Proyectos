@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { maxDateValidator } from 'custom-validators.directive';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { Expense } from '../expense';
+import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { ProjectService } from '../project.service';
 import { User } from '../user';
@@ -20,6 +21,8 @@ export class ExpenseDescriptionComponent {
   expenseId: number | null = null;
   @Input()
   modify: boolean = false;
+  isAuthorized: boolean = false;
+  localStorageService = new LocalStorageService();
   expense: Expense = new Expense();
   detailsView: boolean = true;
   expenseUser: User = new User();
@@ -83,6 +86,12 @@ export class ExpenseDescriptionComponent {
         User.loadUser(this.project.admin).then((response) => {
           this.admin = User.jsontoObject(response);
         });
+        if (this.project.admin == this.localStorageService.get('username'))
+          this.isAuthorized = true;
+        else
+          this.project.imManager().then((response: any) => {
+            if (response.status == 200) this.isAuthorized = true;
+          });
         this.loadProjectAdmin();
       }
     });
@@ -141,7 +150,6 @@ export class ExpenseDescriptionComponent {
           this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
         }
       });
-    } else {
     }
   }
 

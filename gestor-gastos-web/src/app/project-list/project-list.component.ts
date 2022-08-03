@@ -13,6 +13,8 @@ export class ProjectListComponent {
   ownProjects: any = [];
   @Input()
   managedProjects: any = [];
+  @Input()
+  memberProjects: any = [];
 
   constructor(public dialog: MatDialog) {}
 

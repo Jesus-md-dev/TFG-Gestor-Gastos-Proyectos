@@ -16,4 +16,5 @@ urlpatterns = [
     path('delete_project_member/', views.delete_project_member),
     path('promote_project_member/', views.promote_project_member),
     path('demote_project_member/', views.demote_project_member),
+    path('is_manager/<int:project_id>', views.user_is_manager)
 ]

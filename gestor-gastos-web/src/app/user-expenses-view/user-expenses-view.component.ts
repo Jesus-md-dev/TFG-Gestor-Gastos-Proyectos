@@ -12,7 +12,7 @@ import { User } from '../user';
 })
 export class UserExpensesViewComponent implements OnInit {
   user: User = new User();
-  expensesByProject: any = [];
+  expensesByProject: any = {};
   localStorageService = new LocalStorageService();
 
   constructor(private snackBar: MatSnackBar) {}
@@ -23,12 +23,13 @@ export class UserExpensesViewComponent implements OnInit {
       for (const key in this.expensesByProject) {
         Project.load(Number(key)).then((response) => {
           if('project_info' in response) {
-            this.expensesByProject[key]['projectName'] = response['project_info'].name
-          } else {
+            this.expensesByProject[key]['project_info'] = Project.jsontoObject(
+              response['project_info']
+            );
+          } else
             this.snackBar.open('Unable to load project ' + key + ' name', 'Close', {
               duration: 3 * 1000,
             });
-          }
         });
       }
     });
@@ -41,7 +42,7 @@ export class UserExpensesViewComponent implements OnInit {
   groupExpensesByProject(expenses: Expense[]) {
     if (expenses.length > 0) {
       expenses = expenses.reduce(function (expenses, expense) {
-        expenses[expense.project] = expenses[expense.project] || {projectName: "", expenses: []};
+        expenses[expense.project] = expenses[expense.project] || {expenses: []};
         expenses[expense.project].expenses.push(expense);
         return expenses;
       }, Object.create(null));

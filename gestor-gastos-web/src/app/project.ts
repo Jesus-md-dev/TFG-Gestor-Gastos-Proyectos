@@ -69,6 +69,10 @@ export class Project {
     return ProjectService.expellMember(pojetc_id, member_id);
   }
 
+  async imManager() {
+    return ProjectService.imManager(this);
+  }
+
   static load(projectId: number) {
     return ProjectService.load(projectId);
   }
@@ -77,7 +81,7 @@ export class Project {
     let projects: any = [];
     json.forEach((project: any) => {
       projects.push(this.jsontoObject(project));
-    });
+    }); 
     return projects;
   }
 
