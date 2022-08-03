@@ -40,10 +40,6 @@ export class Project {
   }
 
   isAdmin(username: string | null) {
-    console.log(
-      this.admin + ' - ' + username + ' -> ' + username == this.admin
-    );
-
     return username == this.admin;
   }
 

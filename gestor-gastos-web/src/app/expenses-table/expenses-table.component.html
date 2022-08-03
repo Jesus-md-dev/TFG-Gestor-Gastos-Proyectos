@@ -110,7 +110,6 @@
     <ng-container matColumnDef="deleteBtn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let expense">
-        
         <ng-container *ngIf="expense.isIncome(); else elseExpense">
           <button mat-raised-button color="warn" (click)="deleteIncome(expense)">{{"Delete" | translate}}</button>
         </ng-container>

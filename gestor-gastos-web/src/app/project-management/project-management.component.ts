@@ -38,10 +38,12 @@ export class ProjectManagementComponent implements OnInit {
           if ('projects_info' in response)
             this.projects = Project.jsontoList(response['projects_info']);
         });
-        this.user.getProjectsMember().then((response: any) => {
-          if('projects_info' in response)
-            this.managedProjects = Project.jsontoList(response['projects_info']);
-        })
+        this.user.getProjectsManaged().then((response: any) => {
+          if ('projects_info' in response)
+            this.managedProjects = Project.jsontoList(
+              response['projects_info']
+            );
+        });
       });
     }
   }

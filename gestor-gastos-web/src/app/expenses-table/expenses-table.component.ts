@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,9 +8,7 @@ import { Router } from '@angular/router';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { DialogIncomeDeleteComponent } from '../dialog-income-delete/dialog-income-delete.component';
 import { Expense } from '../expense';
-import { ExpenseService } from '../expense.service';
 import { Income } from '../income';
-import { IncomeService } from '../income.service';
 import { Project } from '../project';
 
 @Component({
@@ -18,12 +16,11 @@ import { Project } from '../project';
   templateUrl: './expenses-table.component.html',
   styleUrls: ['./expenses-table.component.css'],
 })
-export class ExpensesTableComponent implements OnInit {
+export class ExpensesTableComponent implements OnChanges {
   @Input()
-  projectId: any;
   expenses: Expense[] = [];
+  @Input()
   incomes: Expense[] = [];
-  project: any = new Project();
   expensesDataSource = new MatTableDataSource<Expense>();
   finalAmount: number = 0;
   finalAmountMoth: number = 0;
@@ -38,22 +35,22 @@ export class ExpensesTableComponent implements OnInit {
     'deleteBtn',
   ];
 
-  constructor(
-    private router: Router,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
+  @Output('parentUpdateExpenseList')
+  parentUpdateExpenseList: EventEmitter<any> = new EventEmitter();
+
+  constructor(public dialog: MatDialog) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let property in changes) {
+      if (property === 'expenses') this.expenses = changes[property].currentValue;
+      if (property === 'incomes') this.incomes = changes[property].currentValue;
+    }
+    this.updateExpenseList();
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   @ViewChild(MatSort) sort!: MatSort;
-
-  ngOnInit(): void {
-    Project.load(this.projectId).then((response) => {
-      this.project = response;
-      this.updateExpenseList();
-    });
-  }
 
   ngAfterViewInit() {
     this.expensesDataSource.paginator = this.paginator;
@@ -66,7 +63,7 @@ export class ExpensesTableComponent implements OnInit {
       },
     });
     ref.componentInstance.onDeleteEmitter.subscribe((data) => {
-      this.updateExpenseList();
+      this.parentUpdateExpenseList.emit();
     });
   }
 
@@ -77,64 +74,33 @@ export class ExpensesTableComponent implements OnInit {
       },
     });
     ref.componentInstance.onDeleteEmitter.subscribe((data) => {
-      this.updateExpenseList();
+      this.parentUpdateExpenseList.emit();
     });
   }
 
-  getPageSizeOptions(): number[] {
-    return [5, 10, 15, 20];
-  }
+  getPageSizeOptions(): number[] { return [5, 10, 15, 20]; }
 
   updateExpenseList() {
     this.finalAmount = 0;
     this.finalAmountMoth = 0;
-    ExpenseService.getProjectExpenses(this.projectId).then((response) => {
-      if ('expenses_info' in response) {
-        this.expenses = Expense.jsontoList(response['expenses_info']);
-        this.expensesDataSource.data = this.expenses;
-        this.expensesDataSource.sort = this.sort;
-        IncomeService.getProjectIncomes(this.projectId).then((response) => {
-          if ('incomes_info' in response) {
-            this.incomes = Expense.jsontoList(response['incomes_info']);
-            this.expensesDataSource.data = this.incomes
-              .concat(this.expenses)
-              .sort((a, b) => (a.date < b.date ? 1 : -1));
-            this.expensesDataSource.sort = this.sort;
-            let currentDate = new Date();
-            this.incomes.forEach((income) => {
-              this.finalAmount += income.amount;
-              if (income.date.getMonth() == currentDate.getMonth()) {
-                this.finalAmountMoth += income.amount;
-              }
-            });
-          } else
-            this.snackBar.open('Error loading user incomes', 'Close', {
-              duration: 3 * 1000,
-            });
-        });
-        let currentDate = new Date();
-        this.expenses.forEach((expense) => {
-          this.finalAmount -= expense.final_amount;
-          if (expense.date.getMonth() == currentDate.getMonth()) {
-            this.finalAmountMoth -= expense.final_amount;
-          }
-        });
-      } else if (
-        'message' in response &&
-        response['message'] == 'unauthorized'
-      ) {
-        this.snackBar.open('Not authorized ' + response['message'], 'Close', {
-          duration: 3 * 1000,
-        });
-        this.router.navigate(['/']);
-      } else
-        this.snackBar.open(
-          'Error loading expenses ' + response['message'],
-          'Close',
-          {
-            duration: 3 * 1000,
-          }
-        );
+    let currentDate = new Date();
+    this.incomes.forEach((income) => {
+      this.finalAmount += income.amount;
+      if (income.date.getMonth() == currentDate.getMonth()) {
+        this.finalAmountMoth += income.amount;
+      }
     });
+
+    this.expenses.forEach((expense) => {
+      this.finalAmount -= expense.final_amount;
+      if (expense.date.getMonth() == currentDate.getMonth()) {
+        this.finalAmountMoth -= expense.final_amount;
+      }
+    });
+
+    this.expensesDataSource.data = this.incomes
+      .concat(this.expenses)
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
+    this.expensesDataSource.sort = this.sort;
   }
 }

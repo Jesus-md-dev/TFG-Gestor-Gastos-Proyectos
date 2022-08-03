@@ -7,9 +7,11 @@ import { Subscription } from 'rxjs';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
 import { DialogCreateIncomeComponent } from '../dialog-create-income/dialog-create-income.component';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
+import { Expense } from '../expense';
+import { ExpenseService } from '../expense.service';
 import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
 import { FileManagerService } from '../file-manager.service';
-import { GlobalComponent } from '../global-component';
+import { IncomeService } from '../income.service';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { User } from '../user';
@@ -34,6 +36,10 @@ export class ProjectDescriptionComponent implements OnInit {
   selectedFile: File | null = null;
   selectedFileSrc: string | null = null;
   selectedFileName: String | null = null;
+  expenses: Expense[] = [];
+  incomes: Expense[] = [];
+
+  test = 1;
 
   @ViewChild(ExpensesTableComponent)
   expensesTable!: ExpensesTableComponent;
@@ -66,6 +72,7 @@ export class ProjectDescriptionComponent implements OnInit {
           });
         }
       });
+      this.updateExpenseList();
     } catch (error) {}
   }
 
@@ -107,7 +114,7 @@ export class ProjectDescriptionComponent implements OnInit {
     });
 
     ref.componentInstance.onCreateEmmiter.subscribe((data) => {
-      this.expensesTable.updateExpenseList();
+      this.updateExpenseList();
     });
   }
 
@@ -120,7 +127,7 @@ export class ProjectDescriptionComponent implements OnInit {
     });
 
     ref.componentInstance.onCreateEmmiter.subscribe((data) => {
-      this.expensesTable.updateExpenseList();
+      this.updateExpenseList();
     });
   }
 
@@ -142,5 +149,33 @@ export class ProjectDescriptionComponent implements OnInit {
           duration: 3 * 1000,
         });
     }
+  }
+
+  updateExpenseList() {
+    this.test = Math.random() * (10 - 0) + 0;
+    ExpenseService.getProjectExpenses(this.projectId).then((response) => {
+      if ('expenses_info' in response) {
+        this.expenses = Expense.jsontoList(response['expenses_info']);
+        IncomeService.getProjectIncomes(this.projectId).then((response) => {
+          if ('incomes_info' in response) {
+            this.incomes = Expense.jsontoList(response['incomes_info']);
+          } else
+            this.snackBar.open('Error loading user incomes', 'Close', {
+              duration: 3 * 1000,
+            });
+        });
+      } else if (
+        'message' in response &&
+        response['message'] == 'unauthorized'
+      ) {
+        this.snackBar.open('Not authorized ', 'Close', {
+          duration: 3 * 1000,
+        });
+        this.router.navigate(['/']);
+      } else
+        this.snackBar.open('Error loading expenses', 'Close', {
+          duration: 3 * 1000,
+        });
+    });
   }
 }
