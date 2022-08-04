@@ -1,5 +1,5 @@
 <section>
-    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+    <input aria-label="Dossier" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
     <section class="file-upload">
         <br>{{selectedFileName || "Upload dossier"}}
         <button mat-mini-fab color="accent" (click)="fileUpload.click()">
@@ -11,7 +11,7 @@
     <section>
         <mat-form-field appearance="fill">
             <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="date">
+            <input aria-label="Date" matInput [matDatepicker]="picker" formControlName="date">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -26,7 +26,7 @@
     <section>
         <mat-form-field appearance="fill">
             <mat-label>Concept</mat-label>
-            <textarea matInput formControlName="concept"></textarea>
+            <textarea aria-label="Concept" matInput formControlName="concept"></textarea>
             <mat-error *ngIf="formGroup.controls['concept'].hasError('required')">
                 Concept is <strong>required</strong>
             </mat-error>
@@ -35,7 +35,7 @@
     <section>
         <mat-form-field appearance="fill">
             <mat-label>Amount</mat-label>
-            <input matInput type="number" formControlName="amount">
+            <input aria-label="Amount" matInput type="number" formControlName="amount">
             <span matSuffix>€&nbsp;</span>
             <mat-error *ngIf="formGroup.controls['amount'].hasError('required')">
                 Amount is <strong>required</strong>
@@ -44,6 +44,6 @@
     </section>
     <section class="button-container-space-between">
         <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
-        <button mat-raised-button (click)="onClose()">Close</button>
+        <button type="reset" mat-raised-button (click)="onClose()">Close</button>
     </section>
 </form>

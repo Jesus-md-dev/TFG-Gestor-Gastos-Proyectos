@@ -7,10 +7,16 @@
   </div>
 </section>
 
-<app-chart-expeneses-months [expenses]="expenses"></app-chart-expeneses-months>
-
-<mat-accordion *ngIf="!userView">
-  <mat-expansion-panel>
+<mat-accordion >
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'Monthly expenses' | translate}}:
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-chart-expeneses-months [expenses]="expenses"></app-chart-expeneses-months>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="!userView">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{'Top member expenses' | translate}}:

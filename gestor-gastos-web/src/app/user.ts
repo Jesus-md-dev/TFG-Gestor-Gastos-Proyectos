@@ -104,7 +104,7 @@ export class User {
     return await UserService.getProjectsMember(this.username);
   }
 
-  async getExpenses() {
-    return await UserService.getExpenses();
+  async getExpenses(projectId: number | null = null) {
+    return await UserService.getExpenses(projectId);
   }
 }

@@ -17,7 +17,7 @@
       <span *ngIf="isLogged()">
         <a mat-menu-item [routerLink]="['/expenses']">
           <mat-icon>attach_money</mat-icon>
-          {{'Expenses' | translate}}
+          {{'My Expenses' | translate}}
         </a>
       </span>
       <a mat-menu-item [routerLink]="['/report&sugestion']">
@@ -48,7 +48,7 @@
         <span *ngIf="isLogged()">
           <a mat-button [routerLink]="['/expenses']">
             <mat-icon>attach_money</mat-icon>
-            <span class="main-menu-section-text"> {{'Expenses' | translate}}</span>
+            <span class="main-menu-section-text"> {{'My Expenses' | translate}}</span>
           </a>
         </span>
         <a mat-button [routerLink]="['/report&sugestion']">
@@ -92,13 +92,13 @@
   <footer color="primary" class="footer">
     <section class="footer-icons">
       <a mat-icon-button href="https://angular.io/">
-        <img src="assets/images/angular-icon.svg" height="100%" width="100%">
+        <img alt="Angular Icon" src="assets/images/angular-icon.svg" height="100%" width="100%">
       </a>
       <a mat-icon-button href="https://github.com/Jezusito/TFG-Gestor-Gastos-Proyectos">
-        <img src="assets/images/GitHub-Mark-120px-plus.png" height="100%" width="100%">
+        <img alt="GitHub Icon" src="assets/images/GitHub-Mark-120px-plus.png" height="100%" width="100%">
       </a>
       <a mat-icon-button href="https://www.djangoproject.com/">
-        <img src="assets/images/django_logo_icon_145332.svg" height="100%" width="100%">
+        <img alt="Django Icon" src="assets/images/django_logo_icon_145332.svg" height="100%" width="100%">
       </a>
     </section>
     <section>

@@ -1,5 +1,8 @@
+import { KeyValue } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Expense } from '../expense';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
@@ -14,22 +17,35 @@ export class UserExpensesViewComponent implements OnInit {
   user: User = new User();
   expensesByProject: any = {};
   localStorageService = new LocalStorageService();
+  firstKey: string = '-1';
+  projectId: number | null = null;
+  routeSub: Subscription = new Subscription();
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.routeSub = this.route.params.subscribe(
+      (params: { [x: string]: any }) => {
+        this.projectId = params['projectId'];
+      }
+    );
     this.loadExpensesByProject().then((response) => {
       this.expensesByProject = response;
+      this.firstKey = Object.keys(response)[0];
       for (const key in this.expensesByProject) {
         Project.load(Number(key)).then((response) => {
-          if('project_info' in response) {
+          if ('project_info' in response) {
             this.expensesByProject[key]['project_info'] = Project.jsontoObject(
               response['project_info']
             );
           } else
-            this.snackBar.open('Unable to load project ' + key + ' name', 'Close', {
-              duration: 3 * 1000,
-            });
+            this.snackBar.open(
+              'Unable to load project ' + key + ' name',
+              'Close',
+              {
+                duration: 3 * 1000,
+              }
+            );
         });
       }
     });
@@ -42,7 +58,9 @@ export class UserExpensesViewComponent implements OnInit {
   groupExpensesByProject(expenses: Expense[]) {
     if (expenses.length > 0) {
       expenses = expenses.reduce(function (expenses, expense) {
-        expenses[expense.project] = expenses[expense.project] || {expenses: []};
+        expenses[expense.project] = expenses[expense.project] || {
+          expenses: [],
+        };
         expenses[expense.project].expenses.push(expense);
         return expenses;
       }, Object.create(null));
@@ -51,7 +69,7 @@ export class UserExpensesViewComponent implements OnInit {
   }
 
   loadExpensesByProject() {
-    return this.user.getExpenses().then((response) => {
+    return this.user.getExpenses(this.projectId).then((response) => {
       if ('expenses_info' in response) {
         let expenses = Expense.jsontoList(response['expenses_info']);
         return this.groupExpensesByProject(expenses);
@@ -63,4 +81,11 @@ export class UserExpensesViewComponent implements OnInit {
       }
     });
   }
+
+  keyDescOrder = (
+    a: KeyValue<number, string>,
+    b: KeyValue<number, string>
+  ): number => {
+    return a.key > b.key ? -1 : 1;
+  };
 }

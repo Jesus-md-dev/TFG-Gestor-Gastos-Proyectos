@@ -106,7 +106,7 @@ mat-tab-header {
 }
 
 .mat-drawer-content {
-  background-color: #e9f1ed;
+  background-color: #bbcfc1;
 }
 
 .drawer-col button,
@@ -165,15 +165,7 @@ mat-tab-header {
     1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
 
-.section-content {
-  margin: 1em auto 1em auto;
-  min-height: 100%;
-  width: 90%;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 15px;
-  padding-bottom: 1em;
-}
+
 
 .button-container-space-between {
   margin: 1em auto 0 auto;
@@ -307,8 +299,13 @@ mat-tab-header {
 .section-content {
   padding: 1em;
   margin: 1em auto 1em auto;
+  min-height: 100%;
   max-width: 60em;
-  width: 95%;
+  width: 80%;
+  background-color: #f1f1f1d7;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px;
+  padding-bottom: 1em;
 }
 
 .drawer-btn {
@@ -317,7 +314,7 @@ mat-tab-header {
 
 @media screen and (max-width: 960px) {
   .section-content {
-    width: 95%;
+    width: 90%;
   }
 }
 

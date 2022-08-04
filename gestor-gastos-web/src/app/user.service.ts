@@ -148,16 +148,31 @@ export class UserService {
     }
   }
 
-  static async getExpenses() {
+  static async getExpenses(projectId: number | null = null) {
     try {
-      const response = await axios.get(
-        GlobalComponent.apiUrl + '/api/expenses/',
-        {
-          headers: {
-            Authorization: 'Token ' + this.localStorageService.get('token'),
-          },
-        }
-      );
+      console.log(projectId)
+      let response = null
+      if (projectId != null) 
+        response = await axios.get(
+          GlobalComponent.apiUrl + '/api/expenses/',
+          {
+            params: {
+              project_id: projectId.toString()
+            },
+            headers: {
+              Authorization: 'Token ' + this.localStorageService.get('token'),
+            },
+          }
+        );
+      else
+         response = await axios.get(
+           GlobalComponent.apiUrl + '/api/expenses/',
+           {
+             headers: {
+               Authorization: 'Token ' + this.localStorageService.get('token'),
+             },
+           }
+         ); 
       return response.data;
     } catch (error) {
       const e = error as AxiosError;

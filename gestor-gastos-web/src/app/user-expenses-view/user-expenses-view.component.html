@@ -1,10 +1,10 @@
 <section class="user-expenses-view">
     <h1>My Expenses</h1>
     <mat-accordion>
-        <mat-expansion-panel *ngFor="let item of expensesByProject | keyvalue">
+        <mat-expansion-panel *ngFor="let item of expensesByProject | keyvalue; first as isFirst" [expanded]="isFirst">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                   <strong>{{expensesByProject[$any(item.key)]['project_info'].name}}</strong> 
+                   <strong>{{expensesByProject[$any(item.key)]['project_info'].name}}</strong>
                 </mat-panel-title>
                 <mat-panel-description>
                 </mat-panel-description>
