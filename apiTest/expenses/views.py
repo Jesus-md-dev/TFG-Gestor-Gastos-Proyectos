@@ -95,7 +95,12 @@ def get_own_expenses(request):
     try:
         user = request.user
         if user.is_authenticated:
-            expenses = Expense.objects.filter(user=user)
+            print(request.query_params)
+            if request.query_params.get('project_id') != None:
+                project = Project.objects.get(id=request.query_params.get('project_id'))
+                expenses = Expense.objects.filter(user=user, project=project)
+            else: 
+                expenses = Expense.objects.filter(user=user)
             expenses = [expense.as_json() for expense in expenses]
             return Response({'expenses_info': expenses})
         return Response({'message': 'unauthorized'}, status=401)

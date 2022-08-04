@@ -16,6 +16,7 @@ def send_email(request):
             fail_silently=False,
         )
         return Response({"succed": "Email Sended"})
-    except:
-        return Response({"message": "Error sending email"})
+    except Exception as e:
+        print(e) 
+        return Response({'message': 'bad request'}, status=400)
     
