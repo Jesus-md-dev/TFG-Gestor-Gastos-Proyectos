@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
+import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 
 @Component({
@@ -15,6 +16,7 @@ export class ProjectListComponent {
   managedProjects: any = [];
   @Input()
   memberProjects: any = [];
+  localStorageService = new LocalStorageService();
 
   constructor(public dialog: MatDialog) {}
 

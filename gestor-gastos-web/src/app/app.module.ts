@@ -169,7 +169,7 @@ import { UsersTableComponent } from './users-table/users-table.component';
         canActivate: [AccessGuard],
       },
       {
-        path: 'expenses/:projectId',
+        path: 'expenses/:username/:projectId',
         component: UserExpensesViewComponent,
         data: { requiresLogin: true },
         canActivate: [AccessGuard],

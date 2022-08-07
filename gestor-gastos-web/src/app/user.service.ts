@@ -148,15 +148,15 @@ export class UserService {
     }
   }
 
-  static async getExpenses(projectId: number | null = null) {
+  static async getUserExpenses(username: string, projectId: number | null = null) {
     try {
-      console.log(projectId)
       let response = null
       if (projectId != null) 
         response = await axios.get(
           GlobalComponent.apiUrl + '/api/expenses/',
           {
             params: {
+              username: username,
               project_id: projectId.toString()
             },
             headers: {

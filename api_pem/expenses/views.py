@@ -91,18 +91,26 @@ def get_project_expenses(request, project_id):
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
-def get_own_expenses(request):
+def get_user_expenses(request):
     try:
         user = request.user
         if user.is_authenticated:
-            print(request.query_params)
             if request.query_params.get('project_id') != None:
                 project = Project.objects.get(id=request.query_params.get('project_id'))
-                expenses = Expense.objects.filter(user=user, project=project)
+                if request.query_params.get('username') != user.username:
+                    if user == project.admin or ProjectMember.objects.filter(project=project, user=user, is_manager=True).exists():
+                        user_requested = User.objects.get(username=request.query_params.get('username'))
+                        expenses = Expense.objects.filter(user=user_requested, project=project)
+                        expenses = [expense.as_json() for expense in expenses]
+                        return Response({'expenses_info': expenses})
+                else: 
+                    expenses = Expense.objects.filter(user=user, project=project)
+                    expenses = [expense.as_json() for expense in expenses]
+                    return Response({'expenses_info': expenses})
             else: 
                 expenses = Expense.objects.filter(user=user)
-            expenses = [expense.as_json() for expense in expenses]
-            return Response({'expenses_info': expenses})
+                expenses = [expense.as_json() for expense in expenses]
+                return Response({'expenses_info': expenses})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)

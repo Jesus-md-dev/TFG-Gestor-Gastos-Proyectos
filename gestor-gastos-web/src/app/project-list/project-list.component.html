@@ -44,7 +44,7 @@
           <section class="project-name-card">{{project.name}}</section>
           <mat-card-content>
             <h2>{{project.category}}</h2>
-            <a mat-raised-button [routerLink]="['/expenses/' + project.id]" color="accent">{{"My Expenses" | translate}}</a>
+            <a mat-raised-button [routerLink]="['/expenses/' + localStorageService.get('username') + '/' + project.id]" color="accent">{{"My Expenses" | translate}}</a>
           </mat-card-content>
         </mat-card>
       </section>

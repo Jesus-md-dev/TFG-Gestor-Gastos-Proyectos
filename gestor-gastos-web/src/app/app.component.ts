@@ -31,7 +31,6 @@ export class AppComponent {
     translate.setDefaultLang(this.cur_lang);
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) { 
-        console.log("Navigation") 
         ApiConnectionService.isApiAlive().then((response) => {
           if (response != undefined) 
             this.localStorageService.set('apiAlive', true);

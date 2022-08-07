@@ -1,5 +1,7 @@
 <section class="user-expenses-view">
-    <h1>My Expenses</h1>
+    <div *ngIf="noExpenses">
+        <h1>{{'There is no expenses' | translate}}</h1>
+    </div>
     <mat-accordion>
         <mat-expansion-panel *ngFor="let item of expensesByProject | keyvalue; first as isFirst" [expanded]="isFirst">
             <mat-expansion-panel-header>
@@ -26,4 +28,3 @@
         </mat-expansion-panel>
     </mat-accordion>
 </section>
-

@@ -79,7 +79,7 @@
     <ng-container matColumnDef="expensesBtn">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let user">
-        <button mat-raised-button color="accent">{{"Expenses" | translate}}</button>
+        <a mat-raised-button [routerLink]="['/expenses/' + user.username + '/' + project.id]" color="accent">{{"Expenses" | translate}}</a>
       </td>
     </ng-container>
   

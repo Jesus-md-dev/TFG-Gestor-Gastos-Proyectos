@@ -8,5 +8,5 @@ urlpatterns = [
     path('update_expense/', views.update_expense),
     path('delete_expense/<int:id>', views.delete_expense),
     path('expenses/<int:project_id>', views.get_project_expenses),
-    path('expenses/', views.get_own_expenses),
+    path('expenses/', views.get_user_expenses),
 ]

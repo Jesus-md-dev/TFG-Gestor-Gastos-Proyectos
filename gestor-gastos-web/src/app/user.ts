@@ -105,6 +105,6 @@ export class User {
   }
 
   async getExpenses(projectId: number | null = null) {
-    return await UserService.getExpenses(projectId);
+    return await UserService.getUserExpenses(this.username, projectId);
   }
 }
