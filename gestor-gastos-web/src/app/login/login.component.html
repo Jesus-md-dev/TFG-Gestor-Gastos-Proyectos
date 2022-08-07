@@ -1,19 +1,19 @@
-<mat-card-title>Login</mat-card-title>
+<mat-card-title>{{"Login"|translate}}</mat-card-title>
 <form (ngSubmit)="login()" [formGroup]="formGroup">
 
     <mat-form-field appearance="fill">
-      <mat-label>Username</mat-label>
+      <mat-label>{{"Username"|translate}}</mat-label>
       <input type="text" matInput formControlName="username" />
       <mat-error *ngIf="formGroup.controls['username'].hasError('required')">
-        Username is <strong>required</strong>
+        {{"Username is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Password</mat-label>
+      <mat-label>{{"Password"|translate}}</mat-label>
       <input type="password" matInput formControlName="password">
       <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
-        Password is <strong>required</strong>
+        {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
 

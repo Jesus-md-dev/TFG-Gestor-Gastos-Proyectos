@@ -19,11 +19,11 @@
       <section class="button-container-space-between">
         <button mat-raised-button color="accent" (click)="changeView()"
           *ngIf="this.owner">
-          Edit
+          {{"Edit"|translate}}
         </button>
         <button mat-raised-button color="warn" (click)="deleteAccount()"
           *ngIf="this.owner">
-          Delete Account
+          {{"Delete"|translate}} {{"Account"|translate}}
         </button>
       </section>
     </mat-card>
@@ -48,55 +48,55 @@
       <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
           <section>
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>First Name</mat-label>
+              <mat-label>{{"First Name"|translate}}</mat-label>
               <input type="text" matInput formControlName="first_name">
               <mat-error>
-                First Name is <strong>required</strong>
+                {{"First Name is"|translate}} <strong>{{"required"|translate}}</strong>
               </mat-error>
             </mat-form-field>
           </section>
           <section>
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Last Name</mat-label>
+              <mat-label>{{"Last Name"|translate}}</mat-label>
               <input type="text" matInput formControlName="last_name">
               <mat-error>
-                Last Name is <strong>required</strong>
+                {{"Last Name is"|translate}} <strong>{{"required"|translate}}</strong>
               </mat-error>
             </mat-form-field>
           </section>
           <section>
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Email</mat-label>
+              <mat-label>{{"Email"|translate}}</mat-label>
               <input type="email" matInput formControlName="email">
               <mat-error>
-                Email is <strong>required</strong>
+                {{"Email is"|translate}} <strong>{{"required"|translate}}</strong>
               </mat-error>
             </mat-form-field>
           </section>
 
           <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Password</mat-label>
+            <mat-label>{{"Password"|translate}}</mat-label>
             <input type="password" matInput formControlName="password">
             <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
-              Password is <strong>required</strong>
+              {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
           </mat-form-field>
           
           <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Repeat Password</mat-label>
+            <mat-label>{{"Repeat Password"|translate}}</mat-label>
             <input type="password" matInput formControlName="passwordRepeat">
             <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
-              Password is <strong>required</strong>
+              {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
             <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('confirmedValidator')">
-              Passwords are not equal
+              {{"Passwords are not equal"|translate}}
             </mat-error>
           </mat-form-field>
 
         <section class="button-container-space-between">
-          <button mat-raised-button color="accent" type="submit">Save</button>
+          <button mat-raised-button color="accent" type="submit">{{"Save"|translate}}</button>
           <button mat-raised-button color="secondary" (click)="changeView()">
-            Cancel
+            {{"Cancel"|translate}}
           </button>
         </section>
       </form>

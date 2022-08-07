@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
 import { DialogCreateIncomeComponent } from '../dialog-create-income/dialog-create-income.component';
@@ -43,6 +44,7 @@ export class ProjectDescriptionComponent implements OnInit {
   expensesTable!: ExpensesTableComponent;
 
   constructor(
+    private translate: TranslateService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -142,10 +144,13 @@ export class ProjectDescriptionComponent implements OnInit {
         reader.onload = () => {
           this.selectedFileSrc = reader.result as string;
         };
-      } else
-        this.snackBar.open('Max file size 1 MiB', 'Close', {
+      } else {
+    
+        this.snackBar.open(this.translate.instant('Max file size 1 MiB'), 'Close', {
           duration: 3 * 1000,
         });
+      }
+        
     }
   }
 

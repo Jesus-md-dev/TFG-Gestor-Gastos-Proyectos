@@ -1,7 +1,7 @@
 <section mat-dialog-content>
-  <p>You are going to expell <strong>{{data.user.username}}</strong></p>
+  <p>{{"You are going to"|translate}} {{"expell"|translate}} <strong>{{data.user.username}}</strong></p>
 </section>
 <section mat-dialog-actions class="button-container-space-between">
-  <button mat-raised-button (click)="onCancel()" color="accent">Cancel</button>
-  <button mat-raised-button (click)="onDelete()" color="warn">Continue</button>
+  <button mat-raised-button (click)="onCancel()" color="accent">{{"Cancel"|translate}}</button>
+  <button mat-raised-button (click)="onDelete()" color="warn">{{"Continue"|translate}}</button>
 </section>

@@ -1,9 +1,9 @@
 <section class="expended-section">
   <div class="block-content-center">
-    <strong>Monthly balance</strong> <br> {{finalAmount | number: '.2-2'}} €
+    <strong>{{"Monthly balance"|translate}}</strong> <br> {{finalAmount | number: '.2-2'}} €
   </div>
   <div class="block-content-center">
-    <strong>Project balance</strong> <br> {{finalAmountMoth | number: '.2-2'}} €
+    <strong>{{"Project balance"|translate}}</strong> <br> {{finalAmountMoth | number: '.2-2'}} €
   </div>
 </section>
 
@@ -51,7 +51,7 @@
           -
         </ng-container>
         <ng-template #elseDossier>
-          <a mat-stroked-button [href]="expense.dossier">Open dossier</a>
+          <a mat-stroked-button [href]="expense.dossier">{{"Open dossier"|translate}}</a>
         </ng-template>
       </td>
     </ng-container>
@@ -117,10 +117,14 @@
       <th mat-header-cell [hidden]="!isAuthorized || userView" *matHeaderCellDef mat-sort-header></th>
       <td mat-cell [hidden]="!isAuthorized || userView" *matCellDef="let expense">
         <ng-container *ngIf="expense.isIncome(); else elseExpense">
-          <button mat-raised-button [disabled]="!isAuthorized" color="warn" (click)="deleteIncome(expense)">{{"Delete" | translate}}</button>
+          <button mat-raised-button [disabled]="!isAuthorized" color="warn" (click)="deleteIncome(expense)">
+            {{"Delete" | translate}}
+          </button>
         </ng-container>
         <ng-template #elseExpense>
-          <button mat-raised-button [disabled]="!isAuthorized" color="warn" (click)="deleteExpense(expense)">{{"Delete" | translate}}</button>
+          <button mat-raised-button [disabled]="!isAuthorized" color="warn" (click)="deleteExpense(expense)">
+            {{"Delete" | translate}}
+          </button>
         </ng-template>
       </td>
     </ng-container>

@@ -10,40 +10,40 @@
 <form class="custom-form" (ngSubmit)="createIncome()" [formGroup]="formGroup">
     <section>
         <mat-form-field appearance="fill">
-            <mat-label>Date</mat-label>
+            <mat-label>{{"Date"|translate}}</mat-label>
             <input aria-label="Date" matInput [matDatepicker]="picker" formControlName="date">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="formGroup.controls['date'].hasError('required')">
-                Date is <strong>required</strong>
+                {{"Date is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
             <mat-error *ngIf="formGroup.controls['date'].hasError('maxDate')">
-                The date cannot be in the future
+                {{"The date cannot be in the future"|translate}}
             </mat-error>
         </mat-form-field>
     </section>
     <section>
         <mat-form-field appearance="fill">
-            <mat-label>Concept</mat-label>
+            <mat-label>{{"Concept"|translate}}</mat-label>
             <textarea aria-label="Concept" matInput formControlName="concept"></textarea>
             <mat-error *ngIf="formGroup.controls['concept'].hasError('required')">
-                Concept is <strong>required</strong>
+                {{"Concept is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
         </mat-form-field>
     </section>
     <section>
         <mat-form-field appearance="fill">
-            <mat-label>Amount</mat-label>
+            <mat-label>{{"Amount"|translate}}</mat-label>
             <input aria-label="Amount" matInput type="number" formControlName="amount">
             <span matSuffix>€&nbsp;</span>
             <mat-error *ngIf="formGroup.controls['amount'].hasError('required')">
-                Amount is <strong>required</strong>
+                {{"Amount is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
         </mat-form-field>
     </section>
     <section class="button-container-space-between">
         <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
-        <button type="reset" mat-raised-button (click)="onClose()">Close</button>
+        <button type="reset" mat-raised-button (click)="onClose()">{{"Close"|translate}}</button>
     </section>
 </form>

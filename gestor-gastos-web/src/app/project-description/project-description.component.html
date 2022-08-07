@@ -2,17 +2,17 @@
   <img class="img-project" [src]=[project.img] alt="">
   <section class="project-name">
     <h1> {{project.name}} </h1>
-    <h2> Category: {{project.category}}</h2>
+    <h2> {{"Category"|translate}}: {{project.category}}</h2>
   </section>
 </section>
 <mat-tab-group>
   <mat-tab label="Expenses">
     <section class="button-container-space-between add-button">
       <button mat-raised-button color="accent" (click)="createExpense()">
-        Add New Expense
+        {{"Add New"|translate}} {{"Expense"|translate}}
       </button>
       <button mat-raised-button color="accent" (click)="createIncome()">
-        Add New Income
+        {{"Add New"|translate}} {{"Income"|translate}}
       </button>
     </section>
     <app-expenses-table [expenses]="expenses" [incomes]="incomes"  
@@ -28,13 +28,13 @@
           <img class="profile-card-img" alt="" matCardImage src={{admin.img}}>
           <mat-card-content>
             <h2>
-                <strong>Username: </strong> {{ admin.username }}
+                <strong>{{"Username"|translate}}: </strong> {{ admin.username }}
             </h2>
             <h2>
-              <strong>Full name: </strong> {{ admin.last_name }}, {{ admin.first_name }}
+              <strong>{{"Full name"|translate}}: </strong> {{ admin.last_name }}, {{ admin.first_name }}
             </h2>
             <h2>
-              <strong>Email: </strong> {{ admin.email }}
+              <strong>{{"Email"|translate}}: </strong> {{ admin.email }}
             </h2>
           </mat-card-content>
         </mat-card>
@@ -54,19 +54,19 @@
       <form class="custom-form" [formGroup]="formGroup">
         <section>
           <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Name</mat-label>
+            <mat-label>{{"Name"|translate}}</mat-label>
             <input type="text" matInput formControlName="name" />
             <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
-              Name is <strong>required</strong>
+              {{"Name is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
           </mat-form-field>
         </section>
         <section>
           <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Category</mat-label>
+            <mat-label>{{"Category"|translate}}</mat-label>
             <input type="text" matInput formControlName="category">
             <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
-              Category is <strong>required</strong>
+              {{"Category is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
           </mat-form-field>
         </section>

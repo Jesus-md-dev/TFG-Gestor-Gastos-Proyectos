@@ -2,7 +2,7 @@
   <mat-expansion-panel [(expanded)]="expansionPanel">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Create Project
+        {{"Create"|translate}} {{"Project"|translate}}
       </mat-panel-title>
       <mat-panel-description>
         <mat-icon>create_new_folder</mat-icon>
@@ -19,19 +19,19 @@
     <form class="custom-form" (ngSubmit)="createProject()" [formGroup]="formGroup">
       <section>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Name</mat-label>
+          <mat-label>{{"Name"|translate}}</mat-label>
           <input type="text" matInput formControlName="name" />
           <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
-            Name is <strong>required</strong>
+            {{"Name is"|translate}} <strong>{{"required"|translate}}</strong>
           </mat-error>
         </mat-form-field>
       </section>
       <section>
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Category</mat-label>
+          <mat-label>{{"Category"|translate}}</mat-label>
           <input type="text" matInput formControlName="category">
           <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
-            Category is <strong>required</strong>
+            {{"Category is"|translate}} <strong>{{"required"|translate}}</strong>
           </mat-error>
         </mat-form-field>
       </section>

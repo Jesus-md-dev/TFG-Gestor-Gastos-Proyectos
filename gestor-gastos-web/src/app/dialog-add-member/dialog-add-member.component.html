@@ -2,16 +2,16 @@
   <mat-form-field>
     <input matInput placeholder="Username" formControlName="username">
     <mat-error *ngIf="formGroup.controls['username'].hasError('isOnList')">
-      User already added.
+      {{"User already added"|translate}}
     </mat-error>
     <mat-error *ngIf="formGroup.controls['username'].hasError('isOnProject')">
-      User belong to the project.
+      {{"User belong to the project"|translate}}
     </mat-error>
     <mat-error *ngIf="formGroup.controls['username'].hasError('isProjectAdmin')">
-      This user is admin project.
+      {{"This user is admin project"|translate}}
     </mat-error>
   </mat-form-field>
-  <button type="submit" mat-button>Add</button>
+  <button type="submit" mat-button>{{"Add"|translate}}</button>
 </form>
 <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
   <section *ngFor="let username of userlist">
@@ -24,6 +24,6 @@
   </section>
 </cdk-virtual-scroll-viewport>
 <section class="button-container-space-between">
-  <button mat-raised-button (click)="onSave()" color="accent">Save</button>
-  <button mat-raised-button (click)="onClick()">Close</button>
+  <button mat-raised-button (click)="onSave()" color="accent">{{"Save"|translate}}</button>
+  <button mat-raised-button (click)="onClick()">{{"Close"|translate}}</button>
 </section>

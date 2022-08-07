@@ -1,57 +1,57 @@
-<mat-card-title>Register</mat-card-title>
+<mat-card-title>{{"Register"|translate}}</mat-card-title>
 <form class="custom-form" (ngSubmit)="register()" [formGroup]="formGroup">
 
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Username</mat-label>
+      <mat-label>{{"Username"|translate}}</mat-label>
       <input type="text" matInput formControlName="username" />
       <mat-error>
-        Username is <strong>required</strong>
+        {{"Username is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>First Name</mat-label>
+      <mat-label>{{"First Name"|translate}}</mat-label>
       <input type="text" matInput formControlName="first_name">
       <mat-error *ngIf="formGroup.controls['first_name'].hasError('required')">
-        First Name is <strong>required</strong>
+        {{"First Name is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Last Name</mat-label>
+      <mat-label>{{"Last Name"|translate}}</mat-label>
       <input type="text" matInput formControlName="last_name">
       <mat-error *ngIf="formGroup.controls['last_name'].hasError('required')">
-        Last Name is <strong>required</strong>
+        {{"Last Name is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Email</mat-label>
+      <mat-label>{{"Email"|translate}}</mat-label>
       <input type="email" matInput formControlName="email">
       <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
-        Email is <strong>required</strong>
+        {{"Email is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
       <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
-        This is not a valid email
+        {{"This is not a valid email"|translate}}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Password</mat-label>
+      <mat-label>{{"Password"|translate}}</mat-label>
       <input type="password" matInput formControlName="password">
       <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
-        Password is <strong>required</strong>
+        {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Repeat Password</mat-label>
+      <mat-label>{{"Repeat"|translate}} {{"Password"|translate}}</mat-label>
       <input type="password" matInput formControlName="passwordRepeat">
       <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
-        Password is <strong>required</strong>
+        {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
       <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('confirmedValidator')">
-        Passwords are not equal
+        {{"Passwords are not equal"|translate}}
       </mat-error>
     </mat-form-field>
 
