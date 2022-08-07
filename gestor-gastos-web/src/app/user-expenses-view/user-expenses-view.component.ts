@@ -33,7 +33,6 @@ export class UserExpensesViewComponent implements OnInit {
       }
     );
     this.loadExpensesByProject().then((response) => {
-      console.log(response)
       this.expensesByProject = response;
       this.firstKey = Object.keys(response)[0];
       for (const key in this.expensesByProject) {

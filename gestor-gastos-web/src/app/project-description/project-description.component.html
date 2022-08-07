@@ -6,7 +6,7 @@
   </section>
 </section>
 <mat-tab-group>
-  <mat-tab label="Expenses">
+  <mat-tab label="{{'Expenses'|translate}}">
     <section class="button-container-space-between add-button">
       <button mat-raised-button color="accent" (click)="createExpense()">
         {{"Add New"|translate}} {{"Expense"|translate}}
@@ -18,10 +18,10 @@
     <app-expenses-table [expenses]="expenses" [incomes]="incomes"  
     (parentUpdateExpenseList)="updateExpenseList()"></app-expenses-table>
   </mat-tab>
-  <mat-tab label="Members">
+  <mat-tab label="{{'Members'|translate}}">
     <app-users-table [projectId]="projectId"></app-users-table>
   </mat-tab>
-  <mat-tab label="Owner">
+  <mat-tab label="{{'Owner'|translate}}">
     <ng-container>
       <section class="profile-card">
         <mat-card>
@@ -41,12 +41,16 @@
       </section>
     </ng-container>
   </mat-tab>
-  <mat-tab *ngIf="project.isAdmin(username)" label="Configuration">
+  <mat-tab *ngIf="project.isAdmin(username)" label="{{'Configuration'|translate}}">
     <section class="config-card">
-      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+      <input aria-label="file" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
       <section class="file-upload">
-        <img *ngIf="selectedFile" [src]="selectedFileSrc">
-        <br>{{selectedFileName || "Upload image"}}
+        <img alt="project image" *ngIf="selectedFile" [src]="selectedFileSrc">
+        <br>
+        {{selectedFileName}}
+        <span *ngIf="selectedFileName == null">
+          {{"Upload image"|translate}}
+        </span>
         <button mat-mini-fab color="accent" (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
         </button>
@@ -55,7 +59,7 @@
         <section>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>{{"Name"|translate}}</mat-label>
-            <input type="text" matInput formControlName="name" />
+            <input aria-label="name" type="text" matInput formControlName="name" />
             <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
               {{"Name is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
@@ -64,7 +68,7 @@
         <section>
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>{{"Category"|translate}}</mat-label>
-            <input type="text" matInput formControlName="category">
+            <input aria-label="category" type="text" matInput formControlName="category">
             <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
               {{"Category is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>

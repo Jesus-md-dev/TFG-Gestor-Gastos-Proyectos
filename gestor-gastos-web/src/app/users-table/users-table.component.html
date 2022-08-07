@@ -1,4 +1,6 @@
-<button *ngIf="project.isAdmin(username)" mat-raised-button color="accent" (click)="addMembers()">Add Member</button>
+<button *ngIf="project.isAdmin(username)" mat-raised-button color="accent" (click)="addMembers()">
+  {{"Add"|translate}} {{"Member"|translate}}
+</button>
 
 <section>
   <form [formGroup]="formControl">
@@ -29,7 +31,8 @@
         {{"Manager"|translate}}
       </th>
       <td mat-cell *matCellDef="let user">
-        <mat-checkbox (change)="onChangeCheckbox($event, user.username)" [checked]="isManager[user.username]" [disabled]="!project.isAdmin(username)"></mat-checkbox>
+        <mat-checkbox (change)="onChangeCheckbox($event, user.username)" [checked]="isManager[user.username]" 
+        [disabled]="!project.isAdmin(username)"></mat-checkbox>
       </td>
     </ng-container>
   

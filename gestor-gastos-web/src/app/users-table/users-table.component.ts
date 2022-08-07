@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { TranslateService } from '@ngx-translate/core';
 import { DialogAddMemberComponent } from '../dialog-add-member/dialog-add-member.component';
 import { DialogMemberDeleteComponent } from '../dialog-member-delete/dialog-member-delete.component';
 import { LocalStorageService } from '../local-storage.service';
@@ -45,6 +46,7 @@ export class UsersTableComponent implements OnInit {
   ];
 
   constructor(
+    private translate: TranslateService,
     breakpointObserver: BreakpointObserver,
     formBuilder: FormBuilder,
     public dialog: MatDialog,
@@ -116,6 +118,16 @@ export class UsersTableComponent implements OnInit {
 
   ngAfterViewInit() {
     this.usersDataSource.paginator = this.paginator;
+    this.usersDataSource.paginator._intl.itemsPerPageLabel =
+      this.translate.instant('Items per page');
+    this.usersDataSource.paginator._intl.previousPageLabel =
+      this.translate.instant('Previous page');
+    this.usersDataSource.paginator._intl.nextPageLabel =
+      this.translate.instant('Next page');
+    this.usersDataSource.paginator._intl.firstPageLabel =
+      this.translate.instant('First page');
+    this.usersDataSource.paginator._intl.lastPageLabel =
+      this.translate.instant('Last page');
   }
 
   addMembers() {

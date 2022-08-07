@@ -40,7 +40,11 @@
       <input aria-label="file" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
       <section class="file-upload">
         <img alt="profile-image" *ngIf="selectedFile" class="preview-img-avatar" [src]="selectedFileSrc">
-        <br>{{selectedFileName || "No file uploaded yet."}}
+        <br>
+        {{selectedFileName}}
+        <span *ngIf="selectedFileName == null">
+          {{"Upload image"|translate}}
+        </span>
         <button mat-mini-fab color="accent" (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
         </button>

@@ -1,5 +1,5 @@
 <mat-tab-group dynamicHeight *ngIf="hasProjects()">
-  <mat-tab label="My Own Projects">
+  <mat-tab label="{{'My Own Projects'|translate}}">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
       <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of ownProjects"
         class="card-grid">
@@ -20,7 +20,7 @@
       </section>
     </section>
   </mat-tab>
-  <mat-tab label="Projects I Manage">
+  <mat-tab label="{{'Projects I Manage'|translate}}">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
       <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of managedProjects"
         class="card-grid">
@@ -36,7 +36,7 @@
       </section>
     </section>
   </mat-tab>
-  <mat-tab label="Projects I Belong">
+  <mat-tab label="{{'Projects I Belong'|translate}}">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
       <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of memberProjects" 
       class="card-grid">

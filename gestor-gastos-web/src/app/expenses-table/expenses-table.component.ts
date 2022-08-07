@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { DialogIncomeDeleteComponent } from '../dialog-income-delete/dialog-income-delete.component';
 import { Expense } from '../expense';
@@ -19,11 +22,12 @@ export class ExpensesTableComponent implements OnChanges {
   @Input() expenses: Expense[] = [];
   @Input() incomes: Expense[] = [];
   @Input() userView: boolean = false;
-  @Input() projectId: any;
+  @Input() projectId: number | null = null;
   project: any = new Project();
   isAuthorized: boolean = false;
   expensesDataSource = new MatTableDataSource<Expense>();
   localStorageService = new LocalStorageService();
+  routeSub: Subscription = new Subscription();
   finalAmount: number = 0;
   finalAmountMoth: number = 0;
   displayedColumns: string[] = [
@@ -40,7 +44,31 @@ export class ExpensesTableComponent implements OnChanges {
   @Output('parentUpdateExpenseList')
   parentUpdateExpenseList: EventEmitter<any> = new EventEmitter();
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private translate: TranslateService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.routeSub = this.route.params.subscribe(
+      (params: { [x: string]: any }) => {
+        this.projectId = params['projectId'];
+      }
+    );
+    if (this.projectId != null)
+      Project.load(this.projectId).then((response) => {
+        if ('project_info' in response) {
+          this.project = Project.jsontoObject(response['project_info']);
+          if (this.project.admin == this.localStorageService.get('username'))
+            this.isAuthorized = true;
+          else
+            this.project.imManager().then((response: any) => {
+              if (response.status == 200) this.isAuthorized = true;
+            });
+        }
+      });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     for (let property in changes) {
@@ -48,18 +76,6 @@ export class ExpensesTableComponent implements OnChanges {
         this.expenses = changes[property].currentValue;
       if (property === 'incomes') this.incomes = changes[property].currentValue;
     }
-
-    Project.load(this.projectId).then((response) => {
-      if ('project_info' in response) {
-        this.project = Project.jsontoObject(response['project_info']);
-        if (this.project.admin == this.localStorageService.get('username')) 
-          this.isAuthorized = true;
-        else
-          this.project.imManager().then((response: any) => {
-            if (response.status == 200) this.isAuthorized = true;
-          });
-      }
-    });
 
     this.updateExpenseList();
   }
@@ -70,6 +86,16 @@ export class ExpensesTableComponent implements OnChanges {
 
   ngAfterViewInit() {
     this.expensesDataSource.paginator = this.paginator;
+    this.expensesDataSource.paginator._intl.itemsPerPageLabel =
+      this.translate.instant('Items per page');
+    this.expensesDataSource.paginator._intl.previousPageLabel =
+      this.translate.instant('Previous page');
+    this.expensesDataSource.paginator._intl.nextPageLabel =
+      this.translate.instant('Next page');
+    this.expensesDataSource.paginator._intl.firstPageLabel =
+      this.translate.instant('First page');
+    this.expensesDataSource.paginator._intl.lastPageLabel =
+      this.translate.instant('Last page');
   }
 
   deleteExpense(expense: Expense) {
