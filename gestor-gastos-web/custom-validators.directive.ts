@@ -21,6 +21,30 @@ export function isProjectAdminValidator(project: Project): ValidatorFn {
 
 export function maxDateValidator(date: Date): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    return date < control.value  ? { maxDate: { value: control.value } } : null;
+    return date < control.value ? { maxDate: { value: control.value } } : null;
+  };
+}
+
+export function passwordMinLength(length: number): ValidatorFn {  
+  return (control: AbstractControl): ValidationErrors | null => {
+    return length > control.value.length
+      ? { minLength: { value: control.value } }
+      : null;
+  };
+}
+
+export function passwordHasChar(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return length > control.value.length
+      ? { minLength: { value: control.value } }
+      : null;
+  };
+}
+
+export function passwordHasNumber(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return length > control.value.length
+      ? { minLength: { value: control.value } }
+      : null;
   };
 }

@@ -4,7 +4,7 @@
     <div>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>{{"Username"|translate}}</mat-label>
-        <input type="text" matInput formControlName="username" />
+        <input aria-label="username" type="text" matInput formControlName="username"/>
         <mat-error>
           {{"Username is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
@@ -14,7 +14,7 @@
     <div>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>{{"First Name"|translate}}</mat-label>
-        <input type="text" matInput formControlName="first_name">
+        <input aria-label="first name" type="text" matInput formControlName="first_name">
         <mat-error *ngIf="formGroup.controls['first_name'].hasError('required')">
           {{"First Name is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
@@ -24,7 +24,7 @@
     <div>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>{{"Last Name"|translate}}</mat-label>
-        <input type="text" matInput formControlName="last_name">
+        <input aria-label="last name" type="text" matInput formControlName="last_name">
         <mat-error *ngIf="formGroup.controls['last_name'].hasError('required')">
           {{"Last Name is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
@@ -34,7 +34,7 @@
     <div>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>{{"Email"|translate}}</mat-label>
-        <input type="email" matInput formControlName="email">
+        <input aria-label="email" type="email" matInput formControlName="email">
         <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
           {{"Email is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
@@ -47,7 +47,7 @@
     <div>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>{{"Password"|translate}}</mat-label>
-        <input type="password" matInput formControlName="password">
+        <input aria-label="password" type="password" matInput formControlName="password">
         <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
           {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
@@ -57,7 +57,7 @@
     <div>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>{{"Repeat"|translate}} {{"Password"|translate}}</mat-label>
-        <input type="password" matInput formControlName="passwordRepeat">
+        <input aria-label="repeat password" type="password" matInput formControlName="passwordRepeat">
         <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
           {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
@@ -68,7 +68,7 @@
     </div>
 
   <mat-card-content class="button-container-space-between">
-    <button [disabled]="formGroup.invalid" mat-raised-button  color="primary">
+    <button type="submit" [disabled]="formGroup.invalid" mat-raised-button  color="primary">
       {{'Register' | translate}}
     </button>
     <a [routerLink]="['/login']" mat-raised-button color="secondary">
