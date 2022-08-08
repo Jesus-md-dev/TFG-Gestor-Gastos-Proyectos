@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { Expense } from '../expense';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { User } from '../user';
-import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-user-expenses-view',
@@ -23,7 +23,12 @@ export class UserExpensesViewComponent implements OnInit {
   username = this.localStorageService.get('username');
   noExpenses: boolean = false;
 
-  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    public translate: TranslateService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(
@@ -42,9 +47,8 @@ export class UserExpensesViewComponent implements OnInit {
               response['project_info']
             );
           } else
-            this.snackBar.open(
-              'Unable to load project ' + key + ' name',
-              'Close',
+            this.snackBar.open(this.translate.instant('loading error'),
+              this.translate.instant('Close'),
               {
                 duration: 3 * 1000,
               }
@@ -73,18 +77,31 @@ export class UserExpensesViewComponent implements OnInit {
 
   loadExpensesByProject() {
     if (this.username != null)
-      return UserService.getUserExpenses(this.username, this.projectId).then(
+      return User.getUserExpenses(this.username, this.projectId).then(
         (response) => {
           if ('expenses_info' in response) {
             let expenses = Expense.jsontoList(response['expenses_info']);
             if (expenses.length === 0) this.noExpenses = true;
             return this.groupExpensesByProject(expenses);
+          } else if ('message' in response) {
+            this.snackBar.open(
+              this.translate.instant(response['message']),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
           } else {
-            this.snackBar.open('Error loading user expenses', 'Close', {
-              duration: 3 * 1000,
-            });
-            return [];
+            this.snackBar.open(
+              this.translate.instant('system error'),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
+            this.router.navigate(['/']);
           }
+          return [];
         }
       );
     else
@@ -92,10 +109,24 @@ export class UserExpensesViewComponent implements OnInit {
         if ('expenses_info' in response) {
           let expenses = Expense.jsontoList(response['expenses_info']);
           return this.groupExpensesByProject(expenses);
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+          return [];
         } else {
-          this.snackBar.open('Error loading user expenses', 'Close', {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+          this.router.navigate(['/']);
           return [];
         }
       });

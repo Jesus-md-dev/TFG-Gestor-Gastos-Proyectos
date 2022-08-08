@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Expense } from '../expense';
-import { ExpenseService } from '../expense.service';
 
 @Component({
   selector: 'app-dialog-expense-delete',
@@ -16,6 +17,8 @@ export class DialogExpenseDeleteComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogExpenseDeleteComponent>,
     private snackBar: MatSnackBar,
+    public translate: TranslateService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.expense = data.expense as Expense;
@@ -26,15 +29,27 @@ export class DialogExpenseDeleteComponent {
   }
 
   onDelete(): void {
-    if(this.expense.id != null) {
-      ExpenseService.delete(this.expense.id).then((response) => {
-        if ('expense_info' in response)
+    if (this.expense.id != null) {
+      this.expense.delete().then((response) => {
+        if ('expense_info' in response) {
           this.onDeleteEmitter.emit();
-        else {
-          if ('message' in response)
-            this.snackBar.open('Unable to delete project', 'Close', {
-              duration: 3 * 1000,
-            });
+          this.snackBar.open(
+            this.translate.instant('Expense') +
+              ' ' +
+              this.translate.instant('deleted'),
+            this.translate.instant('Close'),
+            { duration: 3 * 1000 }
+          );
+        }
+        else if ('message' in response) {
+          this.snackBar.open(this.translate.instant('unable delete'), this.translate.instant('Close'), {
+            duration: 3 * 1000,
+          });
+        } else {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+            duration: 3 * 1000,
+          });
+          this.router.navigate(['/']);
         }
       });
       this.dialogRef.close();

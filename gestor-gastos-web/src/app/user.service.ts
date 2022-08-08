@@ -90,7 +90,7 @@ export class UserService {
           },
         }
       );
-      return User.jsontoObject(response.data['user_info']);
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;
@@ -206,7 +206,7 @@ export class UserService {
           },
         }
       );
-      return response;
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
       return e.response?.data;

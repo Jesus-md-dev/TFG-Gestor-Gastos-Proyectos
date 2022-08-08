@@ -56,13 +56,23 @@ export class Income {
         this.dossier,
         this.date,
         this.concept,
-        this.amount,
+        this.amount
       );
   }
 
   async delete() {
     if (typeof this.id == 'number') return await IncomeService.delete(this.id);
   }
+
+  static async create(
+    projectId: number,
+    dossier: File | null,
+    date: Date,
+    concept: string,
+    amount: number
+  ) {
+    return IncomeService.create(projectId, dossier, date, concept, amount);
+  };
 
   static async load(incomeId: number) {
     return IncomeService.loadIncomeData(incomeId);
@@ -84,7 +94,7 @@ export class Income {
       new Date(income['date']),
       income['concept'],
       income['amount'],
-      income['vatpercentage'],
+      income['vatpercentage']
     );
   }
 }

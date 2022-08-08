@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
@@ -47,7 +48,9 @@ export class ExpensesTableComponent implements OnChanges {
   constructor(
     public dialog: MatDialog,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +68,38 @@ export class ExpensesTableComponent implements OnChanges {
           else
             this.project.imManager().then((response: any) => {
               if (response.status == 200) this.isAuthorized = true;
+              else if ('message' in response) {
+                this.snackBar.open(
+                  this.translate.instant(response['message']),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+              } else {
+                this.snackBar.open(
+                  this.translate.instant('system error'),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+                this.router.navigate(['/']);
+              }
             });
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+            duration: 3 * 1000,
+          });
+          this.router.navigate(['/']);
         }
       });
   }

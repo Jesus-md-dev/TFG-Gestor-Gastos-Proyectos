@@ -12,10 +12,10 @@ export class ProjectService {
 
   constructor() {}
 
-  static async getProjectMembers(projectId: number) {
+  static async getProjectMembers(project: Project) {
     try {
       const response = await axios.get(
-        GlobalComponent.apiUrl + '/api/project_members/' + projectId,
+        GlobalComponent.apiUrl + '/api/project_members/' + project.id,
         {
           headers: {
             Authorization: 'Token ' + this.localStorageService.get('token'),
@@ -136,7 +136,7 @@ export class ProjectService {
     }
   }
 
-  static async expellMember(project_id: number, member_id: number) {
+  static async expellMember(project: Project, member_id: number) {
     try {
       const response = await axios.delete(
         GlobalComponent.apiUrl + '/api/delete_project_member/',
@@ -145,8 +145,25 @@ export class ProjectService {
             Authorization: 'Token ' + this.localStorageService.get('token'),
           },
           data: {
-            project_id,
+            project_id: project.id,
             member_id,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
+    }
+  }
+
+  static async getProjectIncomes(project: Project) {
+    try {
+      const response = await axios.get(
+        GlobalComponent.apiUrl + '/api/incomes/' + project.id,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
           },
         }
       );
@@ -171,6 +188,23 @@ export class ProjectService {
     } catch (error) {
       const e = error as AxiosError;
       return e.response;
+    }
+  }
+
+  static async getProjectExpenses(project: Project) {
+    try {
+      const response = await axios.get(
+        GlobalComponent.apiUrl + '/api/expenses/' + project.id,
+        {
+          headers: {
+            Authorization: 'Token ' + this.localStorageService.get('token'),
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const e = error as AxiosError;
+      return e.response?.data;
     }
   }
 }

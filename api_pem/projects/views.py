@@ -18,7 +18,8 @@ def create_project(request):
         else:
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-            return Response({'message': 'bad request'}, status=400)
+        print(e)
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
 def read_project(request, id):
@@ -28,9 +29,7 @@ def read_project(request, id):
         if user.is_authenticated: 
             if user == project_requested.admin or ProjectMember.objects.filter(project=project_requested, user=user).exists():
                 return Response({'project_info': project_requested.as_json()})
-            return Response({'message': 'unauthorized'}, status=401)
-        else: 
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
         return Response({'message': 'bad request'}, status=400)
@@ -48,6 +47,7 @@ def update_project(request):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -60,11 +60,9 @@ def delete_project(request, id):
                 name = project.name
                 project.delete()
                 return Response({"project_info": "project " + name + " deleted"})
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
-        else:
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -79,6 +77,7 @@ def read_user_projects(request, username):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['POST'])
@@ -102,11 +101,9 @@ def add_project_member(request):
                 for project_member in new_project_members:
                     project_member.save()
                 return Response({'project_member_info': new_project_member_json})
-            else: 
-                return Response({'message': 'unauthorized'}, status=401)
-        else:
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -123,29 +120,26 @@ def read_project_members(request, project_id):
                     user_json['is_manager'] = member.is_manager
                     user_list.append(user_json)
                 return Response({'members_info': user_list})
-            return Response({'message': 'unauthorized'}, status=401)
-        else: 
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
+        print(e)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
 def delete_project_member(request):
-    user = request.user
-    if user.is_authenticated:
-        try:
+    try:
+        user = request.user
+        if user.is_authenticated:
             project = Project.objects.get(id=request.data.get('project_id'))
             member = User.objects.get(id=request.data.get('member_id'))
             project_member = ProjectMember.objects.get(project=project, user=member)
             if user == project.admin:
                 project_member.delete()
                 return Response({"project_member_info": "project_member deleted"})
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
-        except Exception as e:
-            return Response({'message': 'bad request'}, status=400)
-    else:
         return Response({'message': 'unauthorized'}, status=401)
+    except Exception as e:
+        print(e)
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
 def promote_project_member(request):
@@ -159,12 +153,10 @@ def promote_project_member(request):
                 project_member.is_manager = True
                 project_member.save()
                 return Response({"project_member_info": project_member.as_json()})
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
-        else:
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-            return Response({'message': 'bad request'}, status=400)
+        print(e)
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
 def demote_project_member(request):
@@ -178,12 +170,10 @@ def demote_project_member(request):
                 project_member.is_manager = False
                 project_member.save()
                 return Response({"project_member_info": project_member.as_json()})
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
-        else:
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-            return Response({'message': 'bad request'}, status=400)
+        print(e)
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
 def read_user_member_projects(request, username):
@@ -196,10 +186,7 @@ def read_user_member_projects(request, username):
                 projects = [project_member.project.as_json() for project_member 
                     in project_members]
                 return Response({'projects_info': projects})
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
-        else: 
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
         return Response({'message': 'bad request'}, status=400)
@@ -215,10 +202,7 @@ def read_user_managed_projects(request, username):
                 projects = [project_member.project.as_json() for project_member 
                     in project_members]
                 return Response({'projects_info': projects})
-            else:
-                return Response({'message': 'unauthorized'}, status=401)
-        else: 
-            return Response({'message': 'unauthorized'}, status=401)
+        return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
         return Response({'message': 'bad request'}, status=400)

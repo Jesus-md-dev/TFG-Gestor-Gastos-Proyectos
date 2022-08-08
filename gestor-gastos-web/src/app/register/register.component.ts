@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from '../user';
 
 @Component({
@@ -15,7 +16,8 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    public translate: TranslateService
   ) {
     this.formGroup = this.formBuilder.group(
       {
@@ -60,11 +62,19 @@ export class RegisterComponent {
         this.formGroup.controls['password'].value
       ).then((response) => {
         if ('user_info' in response) this.router.navigate(['/login']);
-        else {
-          if ('message' in response)
-            this.snackBar.open('Email or username already used', 'Close', {
+        else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
               duration: 3 * 1000,
-            });
+            }
+          );
+        } else {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+            duration: 3 * 1000,
+          });
+          this.router.navigate(['/']);
         }
       });
     }

@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
 import { FileManagerService } from '../file-manager.service';
-import { IncomeService } from '../income.service';
+import { Income } from '../income';
 
 @Component({
   selector: 'app-dialog-create-income',
@@ -34,8 +36,12 @@ export class DialogCreateIncomeComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogCreateIncomeComponent>,
     private snackBar: MatSnackBar,
+    public translate: TranslateService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { this.projectId = data.projectId; }
+  ) {
+    this.projectId = data.projectId;
+  }
 
   onClose(): void {
     this.dialogRef.close();
@@ -43,26 +49,46 @@ export class DialogCreateIncomeComponent {
 
   createIncome(): void {
     if (this.formGroup.valid) {
-      IncomeService.create(
+      Income.create(
         this.projectId,
         this.selectedFile,
         this.formGroup.controls['date'].value,
         this.formGroup.controls['concept'].value,
-        this.formGroup.controls['amount'].value,
+        this.formGroup.controls['amount'].value
       ).then((response) => {
-        if ('message' in response) {
-          this.snackBar.open('Error', 'Close', {
+        if ('income_info' in response) {
+          this.onCreateEmmiter.emit();
+          this.snackBar.open(
+            this.translate.instant('Income') +
+              ' ' +
+              this.translate.instant('created'),
+            this.translate.instant('Close'),
+            { duration: 3 * 1000 }
+          );
+          this.dialogRef.close();
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,
           });
-        } else {
-          this.onCreateEmmiter.emit();
-          this.dialogRef.close();
+          this.router.navigate(['/']);
         }
       });
     } else {
-      this.snackBar.open('Some fields are not correct', 'Close', {
-        duration: 3 * 1000,
-      });
+      this.snackBar.open(
+        this.translate.instant('some fields not correct'),
+        this.translate.instant('Close'),
+        {
+          duration: 3 * 1000,
+        }
+      );
     }
   }
 

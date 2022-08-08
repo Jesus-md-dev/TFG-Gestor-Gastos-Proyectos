@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { DialogAccountDeleteComponent } from '../dialog-account-delete/dialog-account-delete.component';
 import { FileManagerService } from '../file-manager.service';
 import { LocalStorageService } from '../local-storage.service';
@@ -35,7 +36,8 @@ export class UserProfileComponent implements OnInit {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public translate: TranslateService
   ) {
     this.formGroup = this.formBuilder.group(
       {
@@ -77,13 +79,8 @@ export class UserProfileComponent implements OnInit {
 
     if (this.username != undefined) {
       User.loadUser(this.username).then((response) => {
-        if ('message' in response) {
-          this.snackBar.open(response['message'], 'Close', {
-            duration: 3 * 1000,
-          });
-          this.router.navigate(['/']);
-        } else {
-          this.user = response;
+        if ('user_info' in response) {
+          this.user = User.jsontoObject(response['user_info']);
           this.formGroup.controls['first_name'].setValue(this.user.first_name);
           this.formGroup.controls['last_name'].setValue(this.user.last_name);
           this.formGroup.controls['email'].setValue(this.user.email);
@@ -93,20 +90,87 @@ export class UserProfileComponent implements OnInit {
                 this.ownProjects = Project.jsontoList(
                   response['projects_info']
                 );
+              else if ('message' in response) {
+                this.snackBar.open(
+                  this.translate.instant(response['message']),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+              } else {
+                this.snackBar.open(
+                  this.translate.instant('system error'),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+                this.router.navigate(['/']);
+              }
             });
             this.user.getProjectsManaged().then((response: any) => {
               if ('projects_info' in response)
                 this.managedProjects = Project.jsontoList(
                   response['projects_info']
                 );
+              else if ('message' in response) {
+                this.snackBar.open(
+                  this.translate.instant(response['message']),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+              } else {
+                this.snackBar.open(
+                  this.translate.instant('system error'),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+                this.router.navigate(['/']);
+              }
             });
             this.user.getProjectsMember().then((response: any) => {
               if ('projects_info' in response)
                 this.memberProjects = Project.jsontoList(
                   response['projects_info']
                 );
+              else if ('message' in response) {
+                this.snackBar.open(
+                  this.translate.instant(response['message']),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+              } else {
+                this.snackBar.open(
+                  this.translate.instant('system error'),
+                  this.translate.instant('Close'),
+                  {
+                    duration: 3 * 1000,
+                  }
+                );
+                this.router.navigate(['/']);
+              }
             });
           }
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+            duration: 3 * 1000,
+          });
+          this.router.navigate(['/']);
         }
       });
     }
@@ -123,12 +187,31 @@ export class UserProfileComponent implements OnInit {
         .then((response: any) => {
           if ('user_info' in response) {
             this.user = User.jsontoObject(response['user_info']);
-            this.snackBar.open('Edit success', 'Close', {
-              duration: 3 * 1000,
-            });
+            this.snackBar.open(
+              this.translate.instant('edit success'),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
             this.changeView();
+          } else if ('message' in response) {
+            this.snackBar.open(
+              this.translate.instant(response['message']),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
           } else {
-            this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
+            this.snackBar.open(
+              this.translate.instant('system error'),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
+            this.router.navigate(['/']);
           }
         });
     }
@@ -141,9 +224,13 @@ export class UserProfileComponent implements OnInit {
       },
     });
     ref.componentInstance.onDeleteEmitter.subscribe((data) => {
-      this.snackBar.open('Your account has been deleted', 'Close', {
-        duration: 3 * 1000,
-      });
+      this.snackBar.open(
+        this.translate.instant('Your account has been deleted'),
+        this.translate.instant('Close'),
+        {
+          duration: 3 * 1000,
+        }
+      );
       this.router.navigate(['/']);
     });
   }
@@ -169,9 +256,13 @@ export class UserProfileComponent implements OnInit {
           this.selectedFileSrc = reader.result as string;
         };
       } else
-        this.snackBar.open('Max file size 1 MiB', 'Close', {
-          duration: 3 * 1000,
-        });
+        this.snackBar.open(
+          this.translate.instant('Max file size 1 MiB'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
     }
   }
 }

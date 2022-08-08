@@ -30,14 +30,21 @@ export class AppComponent {
       : 'en';
     translate.setDefaultLang(this.cur_lang);
     this.router.events.subscribe((ev) => {
-      if (ev instanceof NavigationEnd) { 
+      if (ev instanceof NavigationEnd) {
         ApiConnectionService.isApiAlive().then((response) => {
-          if (response != undefined) 
+          if (response != undefined)
             this.localStorageService.set('apiAlive', true);
           else {
+            this.snackBar.open(
+              this.translate.instant('api not alive'),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
             this.localStorageService.set('apiAlive', false);
             this.localStorageService.remove('token');
-            this.localStorageService.remove('username');            
+            this.localStorageService.remove('username');
           }
         });
       }
@@ -51,18 +58,30 @@ export class AppComponent {
   // }
 
   ngOnInit(): void {
-    User.loadUser(this.localStorageService.get('username') as string).then(
-      (response) => {
-        if ('message' in response) {
-          this.snackBar.open(response['message'], 'Close', {
-            duration: 3 * 1000,
-          });
-          this.router.navigate(['/']);
-        } else this.user = response;
-      }
-    );
+    if (this.localStorageService.get('username') != null)
+      User.loadUser(this.localStorageService.get('username') as string).then(
+        (response) => {
+          if ('user_info' in response)
+            this.user = User.jsontoObject(response['user_info']);
+          else if ('message' in response) {
+            this.snackBar.open(
+              this.translate.instant(response['message']),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
+            this.router.navigate(['/']);
+          } else {
+            this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+              duration: 3 * 1000,
+            });
+            this.router.navigate(['/']);
+          }
+        }
+      );
   }
-  
+
   login() {
     this.router.navigate(['/login']);
   }

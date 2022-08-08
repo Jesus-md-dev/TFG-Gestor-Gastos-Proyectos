@@ -2,10 +2,12 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
-import { ExpenseService } from '../expense.service';
+import { Expense } from '../expense';
 import { FileManagerService } from '../file-manager.service';
-import { ProjectService } from '../project.service';
+import { Project } from '../project';
 import { User } from '../user';
 
 @Component({
@@ -15,6 +17,7 @@ import { User } from '../user';
 })
 export class DialogCreateExpenseComponent implements OnInit {
   projectId: number;
+  project: Project = new Project();
   admin: User;
   users: User[] = [];
   fileManagerService = new FileManagerService();
@@ -44,6 +47,8 @@ export class DialogCreateExpenseComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogCreateExpenseComponent>,
     private snackBar: MatSnackBar,
+    private router: Router,
+    public translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.projectId = data.projectId;
@@ -60,7 +65,7 @@ export class DialogCreateExpenseComponent implements OnInit {
 
   createExpense(): void {
     if (this.formGroup.valid) {
-      ExpenseService.create(
+      Expense.create(
         this.projectId,
         this.formGroup.controls['username'].value,
         this.selectedFile,
@@ -69,38 +74,88 @@ export class DialogCreateExpenseComponent implements OnInit {
         this.formGroup.controls['amount'].value,
         this.formGroup.controls['vatpercentage'].value
       ).then((response) => {
-        if ('message' in response) {
-          this.snackBar.open('Error', 'Close', {
-            duration: 3 * 1000,
-          });
-        } else {
+        if ('expense_info' in response) {
           this.onCreateEmmiter.emit();
+          this.snackBar.open(
+            this.translate.instant('Expense') +
+              ' ' +
+              this.translate.instant('created'),
+            this.translate.instant('Close'),
+            { duration: 3 * 1000 }
+          );
           this.dialogRef.close();
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+          this.router.navigate(['/']);
         }
       });
     } else {
-      this.snackBar.open('Some fields are not correct', 'Close', {
-        duration: 3 * 1000,
-      });
+      this.snackBar.open(
+        'Some fields are not correct',
+        this.translate.instant('Close'),
+        {
+          duration: 3 * 1000,
+        }
+      );
     }
   }
 
   loadUserList() {
-    ProjectService.getProjectMembers(this.projectId).then((response) => {
-      if ('members_info' in response) {
-        this.users = User.jsontoList(response['members_info']);
-        this.users.push(this.admin);
-        this.users.sort((a, b) =>
-          a.username.toLowerCase() > b.username.toLowerCase()
-            ? 1
-            : b.username.toLowerCase() > a.username.toLowerCase()
-            ? -1
-            : 0
-        );
-      } else
-        this.snackBar.open('Error loading members', 'Close', {
-          duration: 3 * 1000,
+    Project.load(this.projectId).then((response) => {
+      if ('project_info' in response) {
+        this.project = Project.jsontoObject(response['project_info']);
+        this.project.getMembers().then((response) => {
+          if ('members_info' in response) {
+            this.users = User.jsontoList(response['members_info']);
+            this.users.push(this.admin);
+            this.users.sort((a, b) =>
+              a.username.toLowerCase() > b.username.toLowerCase()
+                ? 1
+                : b.username.toLowerCase() > a.username.toLowerCase()
+                ? -1
+                : 0
+            );
+          } else
+            this.snackBar.open(
+              'Error loading members',
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
         });
+      } else if ('message' in response) {
+        this.snackBar.open(
+          this.translate.instant(response['message']),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+      } else {
+        this.snackBar.open(
+          this.translate.instant('system error'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+        this.router.navigate(['/']);
+      }
     });
   }
 

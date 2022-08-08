@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from '../user';
 
 @Component({
   selector: 'app-dialog-account-delete',
   templateUrl: './dialog-account-delete.component.html',
-  styleUrls: ['./dialog-account-delete.component.css']
+  styleUrls: ['./dialog-account-delete.component.css'],
 })
 export class DialogAccountDeleteComponent {
   user: User;
@@ -15,6 +16,7 @@ export class DialogAccountDeleteComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogAccountDeleteComponent>,
     private snackBar: MatSnackBar,
+    public translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.user = data.user;
@@ -26,14 +28,13 @@ export class DialogAccountDeleteComponent {
 
   onDelete(): void {
     this.user.delete().then((response) => {
-      if ('user_info' in response)
-          this.onDeleteEmitter.emit();
+      if ('user_info' in response) this.onDeleteEmitter.emit();
       else if ('message' in response)
-        this.snackBar.open('Unable to delete this account', 'Close', {
+        this.snackBar.open(this.translate.instant('unable delete'), this.translate.instant('Close'), {
           duration: 3 * 1000,
         });
       else
-        this.snackBar.open('An error has produced during the process', 'Close', {
+        this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
           duration: 3 * 1000,
         });
     });

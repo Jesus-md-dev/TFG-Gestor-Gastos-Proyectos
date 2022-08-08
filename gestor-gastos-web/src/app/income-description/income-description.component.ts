@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
 import { DialogIncomeDeleteComponent } from '../dialog-income-delete/dialog-income-delete.component';
 import { Income } from '../income';
@@ -32,6 +33,7 @@ export class IncomeDescriptionComponent {
   });
 
   constructor(
+    public translate: TranslateService,
     private snackBar: MatSnackBar,
     private router: Router,
     public dialog: MatDialog
@@ -51,13 +53,18 @@ export class IncomeDescriptionComponent {
           this.formGroup.controls['date'].setValue(this.income.date);
           this.formGroup.controls['amount'].setValue(this.income.amount);
         } else if ('message' in response) {
-          this.snackBar.open('Can not load income data', 'Close', {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
         } else {
-          this.snackBar.open('Error', 'Close', {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,
           });
+          this.router.navigate(['/']);
         }
       });
   }
@@ -81,12 +88,31 @@ export class IncomeDescriptionComponent {
       this.income.update().then((response: any) => {
         if ('income_info' in response) {
           this.income = Income.jsontoObject(response['income_info']);
-          this.snackBar.open('Edit success', 'Close', {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('edit success'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.changeView();
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
         } else {
-          this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+          this.router.navigate(['/']);
         }
       });
     } else {

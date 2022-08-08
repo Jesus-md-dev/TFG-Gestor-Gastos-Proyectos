@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import axios, { AxiosError } from 'axios';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
@@ -9,7 +10,7 @@ import { LocalStorageService } from './local-storage.service';
 export class ExpenseService {
   static localStorageService: LocalStorageService = new LocalStorageService();
 
-  constructor() {}
+  constructor(private snackBar: MatSnackBar) {}
 
   static async create(
     projectId: number,
@@ -70,23 +71,6 @@ export class ExpenseService {
     try {
       let response = await axios.get(
         GlobalComponent.apiUrl + '/api/expense/' + expenseId,
-        {
-          headers: {
-            Authorization: 'Token ' + this.localStorageService.get('token'),
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      const e = error as AxiosError;
-      return e.response?.data;
-    }
-  }
-
-  static async getProjectExpenses(projectId: number) {
-    try {
-      const response = await axios.get(
-        GlobalComponent.apiUrl + '/api/expenses/' + projectId,
         {
           headers: {
             Authorization: 'Token ' + this.localStorageService.get('token'),

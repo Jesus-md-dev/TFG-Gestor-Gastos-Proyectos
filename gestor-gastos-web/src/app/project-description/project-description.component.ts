@@ -9,10 +9,8 @@ import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-cr
 import { DialogCreateIncomeComponent } from '../dialog-create-income/dialog-create-income.component';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { Expense } from '../expense';
-import { ExpenseService } from '../expense.service';
 import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
 import { FileManagerService } from '../file-manager.service';
-import { IncomeService } from '../income.service';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { User } from '../user';
@@ -61,18 +59,47 @@ export class ProjectDescriptionComponent implements OnInit {
       Project.load(this.projectId).then((response) => {
         if ('project_info' in response) {
           this.project = Project.jsontoObject(response['project_info']);
+          this.updateExpenseList();
           this.formGroup.controls['name'].setValue(this.project.name);
           this.formGroup.controls['category'].setValue(this.project.category);
           User.loadUser(this.project.admin).then((response) => {
-            this.admin = response;
+            if ('user_info' in response)
+              this.admin = User.jsontoObject(response['user_info']);
+            else if ('message' in response) {
+              this.snackBar.open(
+                this.translate.instant(response['message']),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+              this.router.navigate(['/']);
+            } else {
+              this.snackBar.open(
+                this.translate.instant('system error'),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+              this.router.navigate(['/']);
+            }
           });
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
         } else {
-          this.snackBar.open('Project can not be found', 'Close', {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,
           });
+          this.router.navigate(['/']);
         }
       });
-      this.updateExpenseList();
     } catch (error) {}
   }
 
@@ -83,13 +110,26 @@ export class ProjectDescriptionComponent implements OnInit {
       if (this.selectedFile != null) this.project.img = this.selectedFile;
       this.project.update().then((response) => {
         if ('project_info' in response) {
-          this.snackBar.open('Project updated successfully', 'Close', {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('edit success'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
         } else if ('message' in response) {
-          this.snackBar.open('Error in parameters', 'Close', {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,
           });
+          this.router.navigate(['/']);
         }
       });
     }
@@ -146,7 +186,7 @@ export class ProjectDescriptionComponent implements OnInit {
         };
       } else {
     
-        this.snackBar.open(this.translate.instant('Max file size 1 MiB'), 'Close', {
+        this.snackBar.open(this.translate.instant('Max file size 1 MiB'), this.translate.instant('Close'), {
           duration: 3 * 1000,
         });
       }
@@ -155,29 +195,46 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   updateExpenseList() {
-    ExpenseService.getProjectExpenses(this.projectId).then((response) => {
+    console.log(this.project)
+    this.project.getExpenses().then((response) => {
       if ('expenses_info' in response) {
         this.expenses = Expense.jsontoList(response['expenses_info']);
-        IncomeService.getProjectIncomes(this.projectId).then((response) => {
+        this.project.getIncomes().then((response) => {
           if ('incomes_info' in response) {
             this.incomes = Expense.jsontoList(response['incomes_info']);
-          } else
-            this.snackBar.open('Error loading user incomes', 'Close', {
-              duration: 3 * 1000,
-            });
+          } else if ('message' in response) {
+            this.snackBar.open(
+              this.translate.instant(response['message']),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
+          } else {
+            this.snackBar.open(
+              this.translate.instant('system error'),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
+            this.router.navigate(['/']);
+          }
         });
-      } else if (
-        'message' in response &&
-        response['message'] == 'unauthorized'
-      ) {
-        this.snackBar.open('Not authorized ', 'Close', {
+      } else if ('message' in response) {
+        this.snackBar.open(
+          this.translate.instant(response['message']),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+      } else {
+        this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
           duration: 3 * 1000,
         });
         this.router.navigate(['/']);
-      } else
-        this.snackBar.open('Error loading expenses', 'Close', {
-          duration: 3 * 1000,
-        });
+      }
     });
   }
 }

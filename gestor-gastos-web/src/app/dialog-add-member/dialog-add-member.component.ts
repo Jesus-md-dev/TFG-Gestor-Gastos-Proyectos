@@ -2,11 +2,12 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { existOnListValidator, isProjectAdminValidator } from 'custom-validators.directive';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { Project } from '../project';
-import { ProjectService } from '../project.service';
-import { UserService } from '../user.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-dialog-add-member',
@@ -23,7 +24,9 @@ export class DialogAddMemberComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogProjectDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public translate: TranslateService,
+    private router: Router
   ) {
     this.project = data.project;
     this.projectMembers = data.projectMembers;
@@ -46,14 +49,21 @@ export class DialogAddMemberComponent implements OnInit {
       this.formGroup.get('username')?.value != null
     ) {
       let username = this.formGroup.get('username')?.value;
-      UserService.userExist(username).then((response) => {
-        if ('message' in response) {
-          this.snackBar.open('User ' + username + ' not found', 'Close', {
+      User.exist(username).then((response) => {
+        console.log(response)
+        if ('user_info' in response) this.userlist.push(username);
+        else if ('message' in response)
+          this.snackBar.open(
+            username + ' ' + this.translate.instant('not found'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        else
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,
           });
-        } else {
-          this.userlist.push(username);
-        }
         this.formGroup.reset();
       });
     }
@@ -68,21 +78,31 @@ export class DialogAddMemberComponent implements OnInit {
   }
 
   onSave(): void {
-    ProjectService.addMembers(this.userlist, this.project).then(
-      (response) => {
-        if ('message' in response) {
-          this.snackBar.open(
-            'Some users already belong to the project',
-            'Close',
-            {
-              duration: 3 * 1000,
-            }
-          );
-        } else {
-          this.onSaveEmitter.emit();
-        }
+    this.project.addMembers(this.userlist).then((response) => {
+      if ('project_member_info' in response) {
+        this.onSaveEmitter.emit();
+        this.snackBar.open(
+          this.translate.instant('Members') +
+            ' ' +
+            this.translate.instant('added'),
+          this.translate.instant('Close'),
+          { duration: 3 * 1000 }
+        );
+      } else if ('message' in response)
+        this.snackBar.open(
+          this.translate.instant('users belong to project'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+      else {
+        this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+          duration: 3 * 1000,
+        });
+        this.router.navigate(['/']);
       }
-    );
+    });
     this.dialogRef.close();
   }
 }

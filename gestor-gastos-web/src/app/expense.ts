@@ -26,7 +26,7 @@ export class Expense {
     vatpercentage = 0,
     final_amount = null,
     dossier = null
-  ) {    
+  ) {
     this.id = id;
     this.project = project;
     this.user = user;
@@ -40,8 +40,29 @@ export class Expense {
         : Math.round(
             ((amount * (100 + vatpercentage)) / 100 + Number.EPSILON) * 100
           ) / 100;
-    this._dossierUrl = dossierUrl != null ? GlobalComponent.apiUrl + dossierUrl : null;
+    this._dossierUrl =
+      dossierUrl != null ? GlobalComponent.apiUrl + dossierUrl : null;
     this._dossier = dossier;
+  }
+
+  static async create(
+    projectId: number,
+    username: string,
+    dossier: File | null,
+    date: Date,
+    concept: string,
+    amount: number,
+    vatpercentage: number
+  ) {
+    return ExpenseService.create(
+      projectId,
+      username,
+      dossier,
+      date,
+      concept,
+      amount,
+      vatpercentage
+    );
   }
 
   public get dossier(): any {
@@ -85,11 +106,13 @@ export class Expense {
 
   static jsontoList(json: any) {
     let expenses: any = [];
-    json.forEach((expense: any) => { expenses.push(this.jsontoObject(expense)); });
+    json.forEach((expense: any) => {
+      expenses.push(this.jsontoObject(expense));
+    });
     return expenses;
   }
 
-  static jsontoObject(expense: any) {       
+  static jsontoObject(expense: any) {
     return new Expense(
       expense['id'],
       expense['project'],

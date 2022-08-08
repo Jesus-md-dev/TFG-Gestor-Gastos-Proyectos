@@ -65,12 +65,24 @@ export class Project {
     return ProjectService.addMembers(userlist, this);
   }
 
-  async expellMember(pojetc_id: number, member_id: number) {
-    return ProjectService.expellMember(pojetc_id, member_id);
+  async getMembers() {
+    return ProjectService.getProjectMembers(this);
+  }
+
+  async expellMember(member_id: number) {
+    return ProjectService.expellMember(this, member_id);
   }
 
   async imManager() {
     return ProjectService.imManager(this);
+  }
+
+  async getExpenses() {
+    return ProjectService.getProjectExpenses(this);
+  }
+
+  async getIncomes() {
+    return ProjectService.getProjectIncomes(this);
   }
 
   static load(projectId: number) {
@@ -81,7 +93,7 @@ export class Project {
     let projects: any = [];
     json.forEach((project: any) => {
       projects.push(this.jsontoObject(project));
-    }); 
+    });
     return projects;
   }
 

@@ -52,12 +52,28 @@ export class User {
     return UserService.create(username, first_name, last_name, email, password);
   }
 
+  static async login(username: string, password: string) {
+    return UserService.userLogin(username, password);
+  }
+
+  static async exist(username: string) {
+    return UserService.userExist(username);
+  }
+
   async update(password: string) {
     return await UserService.update(this, this._img, password);
   }
 
   async delete() {
     return await UserService.delete(this.username);
+  }
+
+  static async getUserExpenses(username: string, projectId: number | null = null) {
+    return await UserService.getUserExpenses(username, projectId);
+  }
+
+  async getExpenses(projectId: number | null = null) {
+    return await UserService.getUserExpenses(this.username, projectId);
   }
 
   static jsontoList(json: any) {
@@ -102,9 +118,5 @@ export class User {
 
   async getProjectsMember() {
     return await UserService.getProjectsMember(this.username);
-  }
-
-  async getExpenses(projectId: number | null = null) {
-    return await UserService.getUserExpenses(this.username, projectId);
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { FileManagerService } from '../file-manager.service';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
@@ -17,7 +19,7 @@ export class ProjectManagementComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
   });
-  user: any = new User();
+  user: User = new User();
   projects: Project[] = [];
   managedProjects: Project[] = [];
   memberProjects: Project[] = [];
@@ -28,27 +30,102 @@ export class ProjectManagementComponent implements OnInit {
   selectedFileName: String | null = null;
   expansionPanel: boolean = false;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    public translate: TranslateService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     let username = this.localStorageService.get('username') ?? undefined;
     if (username != undefined) {
       User.loadUser(username).then((response) => {
-        this.user = response;
-        this.user.getOwnedProjects().then((response: any) => {
-          if ('projects_info' in response)
-            this.projects = Project.jsontoList(response['projects_info']);
-        });
-        this.user.getProjectsManaged().then((response: any) => {
-          if ('projects_info' in response)
-            this.managedProjects = Project.jsontoList(
-              response['projects_info']
-            );
-        });
-        this.user.getProjectsMember().then((response: any) => {
-          if ('projects_info' in response)
-            this.memberProjects = Project.jsontoList(response['projects_info']);
-        });
+        if ('user_info' in response) {
+          this.user = User.jsontoObject(response['user_info']);
+          this.user.getOwnedProjects().then((response: any) => {
+            if ('projects_info' in response)
+              this.projects = Project.jsontoList(response['projects_info']);
+            else if ('message' in response) {
+              this.snackBar.open(
+                this.translate.instant(response['message']),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+            } else {
+              this.snackBar.open(
+                this.translate.instant('system error'),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+              this.router.navigate(['/']);
+            }
+          });
+          this.user.getProjectsManaged().then((response: any) => {
+            if ('projects_info' in response)
+              this.managedProjects = Project.jsontoList(
+                response['projects_info']
+              );
+            else if ('message' in response) {
+              this.snackBar.open(
+                this.translate.instant(response['message']),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+            } else {
+              this.snackBar.open(
+                this.translate.instant('system error'),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+              this.router.navigate(['/']);
+            }
+          });
+          this.user.getProjectsMember().then((response: any) => {
+            if ('projects_info' in response)
+              this.memberProjects = Project.jsontoList(
+                response['projects_info']
+              );
+            else if ('message' in response) {
+              this.snackBar.open(
+                this.translate.instant(response['message']),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+            } else {
+              this.snackBar.open(
+                this.translate.instant('system error'),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+              this.router.navigate(['/']);
+            }
+          });
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+            duration: 3 * 1000,
+          });
+          this.router.navigate(['/']);
+        }
       });
     }
   }
@@ -62,18 +139,36 @@ export class ProjectManagementComponent implements OnInit {
       ).then((response) => {
         if ('project_info' in response) {
           this.snackBar.open(
-            'Project ' + response['project_info']['name'] + ' created',
-            'Close',
+            this.translate.instant('Project') +
+              ' ' +
+              response['project_info']['name'] +
+              ' ' +
+              this.translate.instant('created'),
+            this.translate.instant('Close'),
             { duration: 3 * 1000 }
           );
           this.ngOnInit();
           this.formGroup.reset();
           this.resetFile();
           this.expansionPanel = false;
-        } else
-          this.snackBar.open('Project parameters are not correct', 'Close', {
-            duration: 3 * 1000,
-          });
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+          this.router.navigate(['/']);
+        }
       });
     }
   }
@@ -92,9 +187,13 @@ export class ProjectManagementComponent implements OnInit {
           this.selectedFileSrc = reader.result as string;
         };
       } else
-        this.snackBar.open('Max file size 1 MiB', 'Close', {
-          duration: 3 * 1000,
-        });
+        this.snackBar.open(
+          this.translate.instant('Max file size 1 MiB'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
     }
   }
 

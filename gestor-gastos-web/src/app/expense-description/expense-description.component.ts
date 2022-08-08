@@ -3,12 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { Expense } from '../expense';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
-import { ProjectService } from '../project.service';
 import { User } from '../user';
 
 @Component({
@@ -46,8 +46,9 @@ export class ExpenseDescriptionComponent {
   });
 
   constructor(
-    private snackBar: MatSnackBar,
+    public translate: TranslateService,
     private router: Router,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
 
@@ -68,13 +69,18 @@ export class ExpenseDescriptionComponent {
             this.expense.vatpercentage
           );
         } else if ('message' in response) {
-          this.snackBar.open('Can not load expense data', 'Close', {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
         } else {
-          this.snackBar.open('Error', 'Close', {
+          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,
           });
+          this.router.navigate(['/']);
         }
       });
   }
@@ -84,22 +90,73 @@ export class ExpenseDescriptionComponent {
       if ('project_info' in response) {
         this.project = Project.jsontoObject(response['project_info']);
         User.loadUser(this.project.admin).then((response) => {
-          this.admin = User.jsontoObject(response);
+          if ('user_info' in response)
+            this.admin = User.jsontoObject(response['user_info']);
+          else if ('message' in response) {
+            this.snackBar.open(
+              this.translate.instant(response['message']),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
+          } else {
+            this.snackBar.open(
+              this.translate.instant('system error'),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
+            this.router.navigate(['/']);
+          }
         });
         if (this.project.admin == this.localStorageService.get('username'))
           this.isAuthorized = true;
         else
           this.project.imManager().then((response: any) => {
             if (response.status == 200) this.isAuthorized = true;
+            else if ('message' in response) {
+              this.snackBar.open(
+                this.translate.instant(response['message']),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+            } else {
+              this.snackBar.open(
+                this.translate.instant('system error'),
+                this.translate.instant('Close'),
+                {
+                  duration: 3 * 1000,
+                }
+              );
+              this.router.navigate(['/']);
+            }
           });
         this.loadProjectAdmin();
+      } else if ('message' in response) {
+        this.snackBar.open(
+          this.translate.instant(response['message']),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+        this.router.navigate(['/']);
+      } else {
+        this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
+          duration: 3 * 1000,
+        });
+        this.router.navigate(['/']);
       }
     });
   }
 
   loadProjectAdmin() {
     if (this.project.id != null) {
-      ProjectService.getProjectMembers(this.project.id).then((response) => {
+      this.project.getMembers().then((response) => {
         if ('members_info' in response) {
           this.users = User.jsontoList(response['members_info']);
           this.users.push(this.admin);
@@ -113,16 +170,29 @@ export class ExpenseDescriptionComponent {
           let auxUser = this.users.find(
             (user) => user.username == this.expense.user
           );
-
           if (auxUser != undefined) {
             this.expenseUser = auxUser;
             this.expenseUsername = this.expenseUser.username;
             this.formGroup.controls['username'].setValue(this.expenseUsername);
           }
-        } else
-          this.snackBar.open('Error loading members', 'Close', {
-            duration: 3 * 1000,
-          });
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        } else {
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+          this.router.navigate(['/']);
+        }
       });
     }
   }
@@ -142,12 +212,31 @@ export class ExpenseDescriptionComponent {
       this.expense.update().then((response: any) => {
         if ('expense_info' in response) {
           this.expense = Expense.jsontoObject(response['expense_info']);
-          this.snackBar.open('Edit success', 'Close', {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('edit success'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.changeView();
+        } else if ('message' in response) {
+          this.snackBar.open(
+            this.translate.instant(response['message']),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
         } else {
-          this.snackBar.open('Error', 'Close', { duration: 3 * 1000 });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+          this.router.navigate(['/']);
         }
       });
     }

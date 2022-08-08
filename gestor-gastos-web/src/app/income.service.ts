@@ -80,23 +80,6 @@ export class IncomeService {
     }
   }
 
-  static async getProjectIncomes(projectId: number) {
-    try {
-      const response = await axios.get(
-        GlobalComponent.apiUrl + '/api/incomes/' + projectId,
-        {
-          headers: {
-            Authorization: 'Token ' + this.localStorageService.get('token'),
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      const e = error as AxiosError;
-      return e.response?.data;
-    }
-  }
-
   static async update(
     id: number,
     projectId: number,
