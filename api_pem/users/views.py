@@ -9,21 +9,30 @@ from .serializers import RegisterSerializer, UserSerializer
 
 @api_view(['GET'])
 def is_token_available(request):
-    user = request.user
-    if user.is_authenticated:
-        return Response({'token_info': 'token available'})
-    else: 
-        return Response({'message': 'unauthorized'}, status=401)
+    try: 
+        user = request.user
+        if user.is_authenticated:
+            return Response({'token_info': 'token available'})
+        else: 
+            return Response({'message': 'unauthorized'}, status=401)
+    except Exception as e:
+        print(e)
+        return Response({'message': 'bad request'}, status=400)
         
 @api_view(['GET'])
 def is_alive(request):
-    return Response({'message': 'available'})
+    try:
+        return Response({'message': 'available'})
+    except Exception as e:
+        print(e)
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['POST'])
 def create_user(request):
-    serializer = RegisterSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
     try: 
+        user = None
+        serializer = RegisterSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)   
         user = serializer.save()
         if(request.data.get('img') != None):
             user.profile.img = request.data.get('img')
@@ -35,7 +44,12 @@ def create_user(request):
                 })
     except Exception as e:
         print(e)
-        user.delete()
+        if user != None:
+            user.delete()
+        if 'username' in e.args[0]:
+            return Response({'message': 'username exist'}, status=400)
+        if 'email' in e.args[0]:
+            return Response({'message': 'email exist'}, status=400)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -72,6 +86,8 @@ def update_user(request):
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         print(e)
+        if 'email' in e.args[0]:
+            return Response({'message': 'email exist'}, status=400)
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['POST'])

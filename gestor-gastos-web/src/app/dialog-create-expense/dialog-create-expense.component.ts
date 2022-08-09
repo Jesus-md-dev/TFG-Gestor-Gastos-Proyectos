@@ -163,10 +163,26 @@ export class DialogCreateExpenseComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files) {
       this.selectedFile = event.target.files[0];
-      this.selectedFileName = this.fileManagerService.fixFileName(
-        event.target.files[0]['name']
-      );
+      if (this.selectedFile?.type.split('/')[1] === 'pdf') {
+        this.selectedFileName = this.fileManagerService.fixFileName(
+          event.target.files[0]['name']
+        );
+      } else {
+        this.resetFile();
+        this.snackBar.open(
+          this.translate.instant('not image'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+      }
     }
+  }
+
+  resetFile() {
+    this.selectedFile = null;
+    this.selectedFileName = null;
   }
 }
 

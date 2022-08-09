@@ -25,7 +25,18 @@ export function maxDateValidator(date: Date): ValidatorFn {
   };
 }
 
-export function passwordMinLength(length: number): ValidatorFn {  
+export function passwordRegexValidator(minLength: number): ValidatorFn {  
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = new RegExp(
+      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{' + minLength + ',}$'
+    );
+    return !regex.test(control.value)
+      ? { regex: { value: control.value } }
+      : null;
+  };
+}
+
+export function stringHasCharValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     return length > control.value.length
       ? { minLength: { value: control.value } }
@@ -33,15 +44,7 @@ export function passwordMinLength(length: number): ValidatorFn {
   };
 }
 
-export function passwordHasChar(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    return length > control.value.length
-      ? { minLength: { value: control.value } }
-      : null;
-  };
-}
-
-export function passwordHasNumber(): ValidatorFn {
+export function stringHasNumberValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     return length > control.value.length
       ? { minLength: { value: control.value } }

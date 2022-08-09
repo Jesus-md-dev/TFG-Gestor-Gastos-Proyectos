@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { passwordRegexValidator } from 'custom-validators.directive';
 import { User } from '../user';
 
 @Component({
@@ -12,6 +13,8 @@ import { User } from '../user';
 })
 export class RegisterComponent {
   formGroup!: FormGroup;
+  passwordMinLength: number = 8;
+  firLasNameLenghth: number = 3;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -21,12 +24,27 @@ export class RegisterComponent {
   ) {
     this.formGroup = this.formBuilder.group(
       {
-        username: ['', [Validators.required]],
-        first_name: ['', [Validators.required]],
-        last_name: ['', [Validators.required]],
+        username: [
+          '',
+          [Validators.required, Validators.minLength(this.firLasNameLenghth)],
+        ],
+        first_name: [
+          '',
+          [Validators.required, Validators.minLength(this.firLasNameLenghth)],
+        ],
+        last_name: [
+          '',
+          [Validators.required, Validators.minLength(this.firLasNameLenghth)],
+        ],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required]],
-        passwordRepeat: ['', [Validators.required]],
+        password: [
+          '',
+          [Validators.required, passwordRegexValidator(this.passwordMinLength)],
+        ],
+        passwordRepeat: [
+          '',
+          [Validators.required, passwordRegexValidator(this.passwordMinLength)],
+        ],
       },
       {
         validator: this.ConfirmedValidator('password', 'passwordRepeat'),
@@ -61,7 +79,20 @@ export class RegisterComponent {
         this.formGroup.controls['email'].value,
         this.formGroup.controls['password'].value
       ).then((response) => {
-        if ('user_info' in response) this.router.navigate(['/login']);
+        if ('user_info' in response) {
+          this.router.navigate(['/login']);
+          this.snackBar.open(
+            this.translate.instant('User') +
+              ' ' +
+              response['user_info']['username'] +
+              ' ' +
+              this.translate.instant('created'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        }
         else if ('message' in response) {
           this.snackBar.open(
             this.translate.instant(response['message']),
@@ -71,9 +102,13 @@ export class RegisterComponent {
             }
           );
         } else {
-          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.router.navigate(['/']);
         }
       });

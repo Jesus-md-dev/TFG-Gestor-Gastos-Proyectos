@@ -50,7 +50,6 @@ export class DialogAddMemberComponent implements OnInit {
     ) {
       let username = this.formGroup.get('username')?.value;
       User.exist(username).then((response) => {
-        console.log(response)
         if ('user_info' in response) this.userlist.push(username);
         else if ('message' in response)
           this.snackBar.open(

@@ -8,32 +8,38 @@
         <mat-icon>create_new_folder</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+    <input aria-label="image" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
     <section class="file-upload">
-      <img *ngIf="selectedFile" [src]="selectedFileSrc">
-      <br>{{selectedFileName || "Upload image"}}
+      <img alt="project image" *ngIf="selectedFile" [src]="selectedFileSrc">
+      <br>
+      {{selectedFileName}}
+      <span *ngIf="selectedFileName == null">
+        {{"Upload image"|translate}}
+      </span>
       <button mat-mini-fab color="accent" (click)="fileUpload.click()">
         <mat-icon>attach_file</mat-icon>
       </button>
     </section>
     <form class="custom-form" (ngSubmit)="createProject()" [formGroup]="formGroup">
       <section>
-        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>{{"Name"|translate}}</mat-label>
-          <input type="text" matInput formControlName="name" />
+          <input aria-label="name" type="text" matInput formControlName="name" />
           <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
             {{"Name is"|translate}} <strong>{{"required"|translate}}</strong>
           </mat-error>
         </mat-form-field>
+        
       </section>
       <section>
-        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>{{"Category"|translate}}</mat-label>
-          <input type="text" matInput formControlName="category">
+          <input aria-label="category" type="text" matInput formControlName="category">
           <mat-error *ngIf="formGroup.controls['category'].hasError('required')">
             {{"Category is"|translate}} <strong>{{"required"|translate}}</strong>
           </mat-error>
         </mat-form-field>
+        
       </section>
       <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
     </form>

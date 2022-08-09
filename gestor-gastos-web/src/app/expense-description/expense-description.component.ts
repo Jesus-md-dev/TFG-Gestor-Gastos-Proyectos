@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
 import { DialogExpenseDeleteComponent } from '../dialog-expense-delete/dialog-expense-delete.component';
 import { Expense } from '../expense';
+import { FileManagerService } from '../file-manager.service';
 import { LocalStorageService } from '../local-storage.service';
 import { Project } from '../project';
 import { User } from '../user';
@@ -24,6 +25,7 @@ export class ExpenseDescriptionComponent {
   isAuthorized: boolean = false;
   localStorageService = new LocalStorageService();
   expense: Expense = new Expense();
+  fileManagerService = new FileManagerService();
   detailsView: boolean = true;
   expenseUser: User = new User();
   expenseUsername: string = '';
@@ -44,6 +46,8 @@ export class ExpenseDescriptionComponent {
       Validators.min(0),
     ]),
   });
+  selectedFile: File | null = null;
+  selectedFileName: String | null = null;
 
   constructor(
     public translate: TranslateService,
@@ -77,9 +81,13 @@ export class ExpenseDescriptionComponent {
             }
           );
         } else {
-          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.router.navigate(['/']);
         }
       });
@@ -146,9 +154,13 @@ export class ExpenseDescriptionComponent {
         );
         this.router.navigate(['/']);
       } else {
-        this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-          duration: 3 * 1000,
-        });
+        this.snackBar.open(
+          this.translate.instant('system error'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
         this.router.navigate(['/']);
       }
     });
@@ -209,6 +221,7 @@ export class ExpenseDescriptionComponent {
       this.expense.amount = this.formGroup.controls['amount'].value;
       this.expense.vatpercentage =
         this.formGroup.controls['vatpercentage'].value;
+      if (this.selectedFile != null) this.expense.dossier = this.selectedFile;
       this.expense.update().then((response: any) => {
         if ('expense_info' in response) {
           this.expense = Expense.jsontoObject(response['expense_info']);
@@ -251,5 +264,31 @@ export class ExpenseDescriptionComponent {
     ref.componentInstance.onDeleteEmitter.subscribe((data) => {
       this.router.navigate(['/project/' + this.expense.project]);
     });
+  }
+
+  onFileSelected(event: any) {
+    const reader = new FileReader();
+    if (event.target.files) {
+      this.selectedFile = event.target.files[0];
+      if (this.selectedFile?.type.split('/')[1] === 'pdf') {
+        this.selectedFileName = this.fileManagerService.fixFileName(
+          event.target.files[0]['name']
+        );
+      } else {
+        this.resetFile();
+        this.snackBar.open(
+          this.translate.instant('not image'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+      }
+    }
+  }
+
+  resetFile() {
+    this.selectedFile = null;
+    this.selectedFileName = null;
   }
 }

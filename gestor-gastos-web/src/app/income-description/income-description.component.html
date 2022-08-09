@@ -51,11 +51,24 @@
                 </a>
             </section>
         </section>
+        <section>
+            <input aria-label="Dossier" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+            <section class="file-upload">
+                <br>
+                {{selectedFileName}}
+                <span *ngIf="selectedFileName == null">
+                    {{"Upload dossier"|translate}}
+                </span>
+                <button mat-mini-fab color="accent" (click)="fileUpload.click()">
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+            </section>
+        </section>
         <form class="income-details" [formGroup]="formGroup">
             <section>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>{{"Date"|translate}}</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="date">
+                    <input aria-label="date" matInput [matDatepicker]="picker" formControlName="date">
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker">
                     </mat-datepicker-toggle>
@@ -67,31 +80,34 @@
                         {{"The date cannot be in the future"|translate}}
                     </mat-error>
                 </mat-form-field>
+                
             </section>
             <section>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>{{"Concept"|translate}}</mat-label>
-                    <textarea matInput formControlName="concept"></textarea>
+                    <textarea aria-label="concept" matInput formControlName="concept"></textarea>
                     <mat-error *ngIf="formGroup.controls['concept'].hasError('required')">
                         {{"Concept is"|translate}} <strong>{{"required"|translate}}</strong>
                     </mat-error>
                 </mat-form-field>
+                
             </section>
             <section>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>{{"Amount"|translate}}</mat-label>
-                    <input matInput type="number" formControlName="amount">
+                    <input aria-label="amount" matInput type="number" formControlName="amount">
                     <span matSuffix>€&nbsp;</span>
                     <mat-error *ngIf="formGroup.controls['amount'].hasError('required')">
                         {{"Amount is"|translate}} <strong>{{"required"|translate}}</strong>
                     </mat-error>
                 </mat-form-field>
+                
             </section>
             <section class="button-container-space-between" *ngIf="modify">
                 <button mat-raised-button color="accent" type="submit" (click)="updateIncome()">
                     {{"Save"|translate}}
                 </button>
-                <button mat-raised-button color="warn" (click)="changeView()">{{"Cancel"|translate}}</button>
+                <button type="reset" mat-raised-button color="warn" (click)="changeView()">{{"Cancel"|translate}}</button>
             </section>
         </form>
     </section>

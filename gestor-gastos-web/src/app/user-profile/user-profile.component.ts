@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { passwordRegexValidator } from 'custom-validators.directive';
 import { DialogAccountDeleteComponent } from '../dialog-account-delete/dialog-account-delete.component';
 import { FileManagerService } from '../file-manager.service';
 import { LocalStorageService } from '../local-storage.service';
@@ -30,6 +31,8 @@ export class UserProfileComponent implements OnInit {
   selectedFileName: String | null = null;
   fileManagerService = new FileManagerService();
   localStorageService = new LocalStorageService();
+  passwordMinLength: number = 8;
+  firLasNameLenghth: number = 3;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,11 +44,17 @@ export class UserProfileComponent implements OnInit {
   ) {
     this.formGroup = this.formBuilder.group(
       {
-        first_name: ['', [Validators.required]],
-        last_name: ['', [Validators.required]],
-        email: ['', [Validators.required]],
-        password: [''],
-        passwordRepeat: [''],
+        first_name: [
+          '',
+          [Validators.required, Validators.minLength(this.firLasNameLenghth)],
+        ],
+        last_name: [
+          '',
+          [Validators.required, Validators.minLength(this.firLasNameLenghth)],
+        ],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [passwordRegexValidator(this.passwordMinLength)]],
+        passwordRepeat: ['', [passwordRegexValidator(this.passwordMinLength)]],
       },
       {
         validator: this.ConfirmedValidator('password', 'passwordRepeat'),

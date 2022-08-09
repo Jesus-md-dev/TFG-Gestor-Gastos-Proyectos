@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
+import { DialogLoadingComponent } from '../dialog-loading/dialog-loading.component';
 import { FileManagerService } from '../file-manager.service';
 import { Income } from '../income';
 
@@ -38,6 +39,7 @@ export class DialogCreateIncomeComponent {
     private snackBar: MatSnackBar,
     public translate: TranslateService,
     private router: Router,
+    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.projectId = data.projectId;
@@ -47,7 +49,7 @@ export class DialogCreateIncomeComponent {
     this.dialogRef.close();
   }
 
-  createIncome(): void {
+  async createIncome() {
     if (this.formGroup.valid) {
       Income.create(
         this.projectId,
@@ -75,9 +77,13 @@ export class DialogCreateIncomeComponent {
             }
           );
         } else {
-          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.router.navigate(['/']);
         }
       });
@@ -96,9 +102,25 @@ export class DialogCreateIncomeComponent {
     const reader = new FileReader();
     if (event.target.files) {
       this.selectedFile = event.target.files[0];
-      this.selectedFileName = this.fileManagerService.fixFileName(
-        event.target.files[0]['name']
-      );
+      if (this.selectedFile?.type.split('/')[1] === 'pdf') {
+        this.selectedFileName = this.fileManagerService.fixFileName(
+          event.target.files[0]['name']
+        );
+      } else {
+        this.resetFile();
+        this.snackBar.open(
+          this.translate.instant('not image'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+      }
     }
+  }
+
+  resetFile() {
+    this.selectedFile = null;
+    this.selectedFileName = null;
   }
 }

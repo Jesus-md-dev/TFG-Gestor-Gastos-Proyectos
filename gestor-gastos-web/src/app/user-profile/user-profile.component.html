@@ -50,52 +50,72 @@
         </button>
       </section>
       <form class="custom-form" (ngSubmit)="save()" [formGroup]="formGroup">
-          <section>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>{{"First Name"|translate}}</mat-label>
-              <input aria-label="first name" type="text" matInput formControlName="first_name">
-              <mat-error>
-                {{"First Name is"|translate}} <strong>{{"required"|translate}}</strong>
-              </mat-error>
-            </mat-form-field>
-          </section>
-          <section>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>{{"Last Name"|translate}}</mat-label>
-              <input aria-label="last name" type="text" matInput formControlName="last_name">
-              <mat-error>
-                {{"Last Name is"|translate}} <strong>{{"required"|translate}}</strong>
-              </mat-error>
-            </mat-form-field>
-          </section>
-          <section>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>{{"Email"|translate}}</mat-label>
-              <input aria-label="email" type="email" matInput formControlName="email">
-              <mat-error>
-                {{"Email is"|translate}} <strong>{{"required"|translate}}</strong>
-              </mat-error>
-            </mat-form-field>
-          </section>
-
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>{{"Password"|translate}}</mat-label>
-            <input aria-label="password" type="password" matInput formControlName="password">
-            <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
-              {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
+        <section>
+          <mat-form-field appearance="outline">
+            <mat-label>{{"First Name"|translate}}</mat-label>
+            <input aria-label="first name" type="text" matInput formControlName="first_name">
+            <mat-error *ngIf="formGroup.controls['first_name'].hasError('required')">
+              {{"First Name is"|translate}} <strong>{{"required"|translate}}</strong>
+            </mat-error>
+            <mat-error *ngIf="formGroup.controls['first_name'].hasError('minlength')">
+              {{"First Name"|translate}} {{"must be at least"|translate}} {{firLasNameLenghth}} {{"characters long"|translate}}
             </mat-error>
           </mat-form-field>
           
-          <mat-form-field class="example-full-width" appearance="fill">
+        </section>
+        <section>
+          <mat-form-field appearance="outline">
+            <mat-label>{{"Last Name"|translate}}</mat-label>
+            <input aria-label="last name" type="text" matInput formControlName="last_name">
+            <mat-error *ngIf="formGroup.controls['last_name'].hasError('required')">
+              {{"Last Name is"|translate}} <strong>{{"required"|translate}}</strong>
+            </mat-error>
+            <mat-error *ngIf="formGroup.controls['last_name'].hasError('minlength')">
+              {{"Last Name"|translate}} {{"must be at least"|translate}} {{firLasNameLenghth}} {{"characters long"|translate}}
+            </mat-error>
+          </mat-form-field>
+          
+        </section>
+        <section>
+          <mat-form-field appearance="outline">
+            <mat-label>{{"Email"|translate}}</mat-label>
+            <input aria-label="email" type="email" matInput formControlName="email">
+            <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
+              {{"Email is"|translate}} <strong>{{"required"|translate}}</strong>
+            </mat-error>
+            <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
+              {{"This is not a valid email"|translate}}
+            </mat-error>
+          </mat-form-field>
+          
+        </section>
+        <section>
+          <mat-form-field appearance="outline">
+            <mat-label>{{"Password"|translate}}</mat-label>
+            <input aria-label="password" type="password" matInput formControlName="password">
+            <mat-error *ngIf="formGroup.controls['password'].hasError('regex')">
+              {{"Minimum"|translate}} {{passwordMinLength}} {{"characters"|translate}},
+              {{"at least one uppercase letter"|translate}},
+              {{"one lowercase letter and one number"|translate}}
+            </mat-error>
+          </mat-form-field>
+          
+        </section>
+        <section>
+          <mat-form-field appearance="outline">
             <mat-label>{{"Repeat Password"|translate}}</mat-label>
             <input aria-label="password" type="password" matInput formControlName="passwordRepeat">
-            <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('required')">
-              {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
+            <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('regex')">
+              {{"Minimum"|translate}} {{passwordMinLength}} {{"characters"|translate}},
+              {{"at least one uppercase letter"|translate}},
+              {{"one lowercase letter and one number"|translate}}
             </mat-error>
             <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('confirmedValidator')">
               {{"Passwords are not equal"|translate}}
             </mat-error>
           </mat-form-field>
+          
+        </section>
         <section class="button-container-space-between">
           <button mat-raised-button color="accent" type="submit">{{"Save"|translate}}</button>
           <button mat-raised-button color="secondary" type="button" (click)="changeView()">

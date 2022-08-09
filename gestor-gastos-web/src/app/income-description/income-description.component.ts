@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
 import { DialogIncomeDeleteComponent } from '../dialog-income-delete/dialog-income-delete.component';
+import { FileManagerService } from '../file-manager.service';
 import { Income } from '../income';
 import { Project } from '../project';
 
@@ -20,6 +21,7 @@ export class IncomeDescriptionComponent {
   @Input()
   modify: boolean = false;
   income: Income = new Income();
+  fileManagerService = new FileManagerService();
   detailsView: boolean = true;
   incomeUsername: string = '';
   project: Project = new Project();
@@ -31,6 +33,8 @@ export class IncomeDescriptionComponent {
     concept: new FormControl('', [Validators.required]),
     amount: new FormControl('', [Validators.required]),
   });
+  selectedFile: File | null = null;
+  selectedFileName: String | null = null;
 
   constructor(
     public translate: TranslateService,
@@ -61,9 +65,13 @@ export class IncomeDescriptionComponent {
             }
           );
         } else {
-          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.router.navigate(['/']);
         }
       });
@@ -85,8 +93,10 @@ export class IncomeDescriptionComponent {
       this.income.date = this.formGroup.controls['date'].value;
       this.income.concept = this.formGroup.controls['concept'].value;
       this.income.amount = this.formGroup.controls['amount'].value;
+      if (this.selectedFile != null) this.income.dossier = this.selectedFile;
       this.income.update().then((response: any) => {
         if ('income_info' in response) {
+          this.resetFile();
           this.income = Income.jsontoObject(response['income_info']);
           this.snackBar.open(
             this.translate.instant('edit success'),
@@ -128,5 +138,31 @@ export class IncomeDescriptionComponent {
     ref.componentInstance.onDeleteEmitter.subscribe((data) => {
       this.router.navigate(['/project/' + this.income.project]);
     });
+  }
+
+  onFileSelected(event: any) {
+    const reader = new FileReader();
+    if (event.target.files) {
+      this.selectedFile = event.target.files[0];
+      if (this.selectedFile?.type.split('/')[1] === 'pdf') {
+        this.selectedFileName = this.fileManagerService.fixFileName(
+          event.target.files[0]['name']
+        );
+      } else {
+        this.resetFile();
+        this.snackBar.open(
+          this.translate.instant('not image'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
+      }
+    }
+  }
+
+  resetFile() {
+    this.selectedFile = null;
+    this.selectedFileName = null;
   }
 }

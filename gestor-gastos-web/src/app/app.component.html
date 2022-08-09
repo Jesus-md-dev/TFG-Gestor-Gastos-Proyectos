@@ -81,9 +81,10 @@
         </ng-template>
       </mat-menu>
       <span class="spacer-1em"></span>
-      <!-- <button mat-stroked-button (click)="switchLang()">
-        {{cur_lang}}
-      </button> -->
+      <input *ngIf="cur_lang == 'es'" class="language-button" aria-label="change language" type='image'
+        src="assets/images/es.png" (click)="switchLang()" name='aria-label="change language"' value='submit' />
+      <input *ngIf="cur_lang == 'en'" class="language-button" aria-label="change language" type='image'
+        src="assets/images/en.png" (click)="switchLang()" name='aria-label="change language"' value='submit' />
     </mat-toolbar>
     <section class="section-content">
       <router-outlet></router-outlet>

@@ -31,7 +31,7 @@ export class ReportSugestionComponent implements OnInit {
     if (this.formGroup.valid) {
       const formData = new FormData();
       formData.append('email', this.formGroup.controls['email'].value);
-      formData.append('toemail', 'jesusmarquezdelgado@gmail.com');
+      formData.append('toemail', GlobalComponent.companyEmail);
       formData.append('message', this.formGroup.controls['message'].value);
       axios
         .post(GlobalComponent.apiUrl + '/api/send_email/', formData)

@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
 import { DialogCreateIncomeComponent } from '../dialog-create-income/dialog-create-income.component';
+import { DialogLoadingComponent } from '../dialog-loading/dialog-loading.component';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { Expense } from '../expense';
 import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
@@ -94,9 +95,13 @@ export class ProjectDescriptionComponent implements OnInit {
             }
           );
         } else {
-          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.router.navigate(['/']);
         }
       });
@@ -126,9 +131,13 @@ export class ProjectDescriptionComponent implements OnInit {
             }
           );
         } else {
-          this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-            duration: 3 * 1000,
-          });
+          this.snackBar.open(
+            this.translate.instant('system error'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
           this.router.navigate(['/']);
         }
       });
@@ -145,7 +154,7 @@ export class ProjectDescriptionComponent implements OnInit {
     });
   }
 
-  createExpense() {
+  async createExpense() {
     const ref = this.dialog.open(DialogCreateExpenseComponent, {
       data: {
         projectId: this.projectId,
@@ -185,17 +194,18 @@ export class ProjectDescriptionComponent implements OnInit {
           this.selectedFileSrc = reader.result as string;
         };
       } else {
-    
-        this.snackBar.open(this.translate.instant('Max file size 1 MiB'), this.translate.instant('Close'), {
-          duration: 3 * 1000,
-        });
+        this.snackBar.open(
+          this.translate.instant('Max file size 1 MiB'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
       }
-        
     }
   }
 
   updateExpenseList() {
-    console.log(this.project)
     this.project.getExpenses().then((response) => {
       if ('expenses_info' in response) {
         this.expenses = Expense.jsontoList(response['expenses_info']);
@@ -230,9 +240,13 @@ export class ProjectDescriptionComponent implements OnInit {
           }
         );
       } else {
-        this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-          duration: 3 * 1000,
-        });
+        this.snackBar.open(
+          this.translate.instant('system error'),
+          this.translate.instant('Close'),
+          {
+            duration: 3 * 1000,
+          }
+        );
         this.router.navigate(['/']);
       }
     });

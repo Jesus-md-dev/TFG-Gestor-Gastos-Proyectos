@@ -53,7 +53,7 @@ export class Income {
       return await IncomeService.update(
         this.id,
         this.project,
-        this.dossier,
+        this._dossier,
         this.date,
         this.concept,
         this.amount

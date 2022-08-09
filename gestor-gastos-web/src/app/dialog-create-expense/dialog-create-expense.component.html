@@ -1,7 +1,11 @@
 <section>
-  <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+  <input aria-label="dossier" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
   <section class="file-upload">
-    <br>{{selectedFileName || "Upload dossier"}}
+    <br>
+    {{selectedFileName}}
+    <span *ngIf="selectedFileName == null">
+      {{"Upload dossier"|translate}}
+    </span>
     <button mat-mini-fab color="accent" (click)="fileUpload.click()">
       <mat-icon>attach_file</mat-icon>
     </button>
@@ -9,7 +13,7 @@
 </section>
 <form class="custom-form" (ngSubmit)="createExpense()" [formGroup]="formGroup">
   <section>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>{{"Select"|translate}}</mat-label>
       <mat-select formControlName="username">
         <mat-option *ngFor="let user of users"
@@ -21,11 +25,12 @@
         {{"Select an user is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
+    
   </section>
   <section>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>{{"Date"|translate}}</mat-label>
-      <input matInput
+      <input aria-label="date" matInput
         [matDatepicker]="picker" formControlName="date">
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -37,38 +42,42 @@
         {{"The date cannot be in the future"|translate}}
       </mat-error>
     </mat-form-field>
+    
   </section>
   <section>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>{{"Concept"|translate}}</mat-label>
-      <textarea matInput formControlName="concept"></textarea>
+      <textarea aria-label="concept" matInput formControlName="concept"></textarea>
       <mat-error *ngIf="formGroup.controls['concept'].hasError('required')">
         {{"Concept is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
+    
   </section>
   <section>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>{{"Amount"|translate}}</mat-label>
-      <input matInput type="number" formControlName="amount">
+      <input aria-label="amount" matInput type="number" formControlName="amount">
       <span matSuffix>€&nbsp;</span>
       <mat-error *ngIf="formGroup.controls['amount'].hasError('required')">
         {{"Amount is"|translate}} <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
+    
   </section>
   <section>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>{{"VAT"|translate}}</mat-label>
-      <input type="number" matInput formControlName="vatpercentage">
+      <input aria-label="VAT" type="number" matInput formControlName="vatpercentage">
       <span matSuffix>%&nbsp;</span>
       <mat-error *ngIf="formGroup.controls['vatpercentage'].hasError('required')">
         {{"VAT"|translate}} % <strong>{{"required"|translate}}</strong>
       </mat-error>
     </mat-form-field>
+    
   </section>
   <section class="button-container-space-between">
     <button type="submit" mat-raised-button color="accent">{{"Create" | translate}}</button>
-    <button mat-raised-button (click)="onClose()">{{"Close"|translate}}</button>
+    <button type="reset" mat-raised-button (click)="onClose()">{{"Close"|translate}}</button>
   </section>
 </form>

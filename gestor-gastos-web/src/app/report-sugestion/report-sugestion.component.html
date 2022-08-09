@@ -1,7 +1,7 @@
 <h1>{{"REPORTS & SUGESTIONS"|translate}}</h1>
 <form (ngSubmit)="onSend()" [formGroup]="formGroup">
     <div>
-        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>{{"Email"|translate}}</mat-label>
             <input type="email" aria-label="Email" matInput formControlName="email">
             <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
@@ -11,15 +11,18 @@
                 {{"This is not a valid email"|translate}}
             </mat-error>
         </mat-form-field>
+        <div *ngIf="formGroup.controls['email'].errors" class="error-spacer">
+        </div>
     </div>
     <div>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>{{"Message"|translate}}</mat-label>
             <textarea aria-label="Message" matInput formControlName="message"></textarea>
             <mat-error *ngIf="formGroup.controls['message'].hasError('required')">
                 {{"Message is"|translate}} <strong>{{"required"|translate}}</strong>
             </mat-error>
         </mat-form-field>
+        
     </div>
     <div>
         <button type="button" [disabled]="formGroup.invalid" (click)="onSend()" 

@@ -31,9 +31,7 @@ export class DialogIncomeDeleteComponent {
 
   onDelete(): void {
     if (this.income.id != null) {
-      console.log(this.income)
       IncomeService.delete(this.income.id).then((response) => {
-        console.log(response)
         if ('income_info' in response) {
           this.onDeleteEmitter.emit();
           this.snackBar.open(

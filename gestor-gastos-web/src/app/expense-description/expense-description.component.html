@@ -1,29 +1,29 @@
 <section class="expense-card" *ngIf="detailsView; else elseTemplate">
-    <div class="expense-details expense-sections">
+    <section class="expense-details expense-sections">
         <h1>{{"Expense"|translate}}: </h1>
         <mat-divider>
         </mat-divider>
-        <div>
+        <section>
             <strong>{{"Project"|translate}}: </strong>
             <a mat-button href="/project/{{project.id}}">
                 {{project.name}} - {{project.category}}
             </a>
-        </div>
-        <div>
+        </section>
+        <section>
             <strong>{{"User"|translate}}: </strong>
             <a mat-button href="/user/{{expense.user}}">{{expense.user}} - 
                 {{expenseUser.first_name}} {{expenseUser.last_name}}</a>
-        </div>
-        <div>
+        </section>
+        <section>
             <strong>{{"Dossier"|translate}}: </strong>
             <a *ngIf="expense.dossier" mat-stroked-button [href]="expense.dossier">
                 {{"Open dossier"|translate}}
             </a>
-        </div>
-        <div>
+        </section>
+        <section>
             <strong>{{"Date"|translate}}: </strong>{{expense.formmatedDate}}
-        </div>
-        <div>
+        </section>
+        <section>
             <mat-accordion>
                 <mat-expansion-panel hideToggle>
                     <mat-expansion-panel-header>
@@ -32,24 +32,24 @@
                     <p>{{expense.concept}}</p>
                 </mat-expansion-panel>
             </mat-accordion>
-        </div>
-        <div>
+        </section>
+        <section>
             <strong>{{"Amount"|translate}}: </strong>{{expense.amount | number: '.2-2'}}€
-        </div>
-        <div>
+        </section>
+        <section>
             <strong>{{"VAT"|translate}} %: </strong>{{expense.vatpercentage | number: '.2-2'}}%
-        </div>
-        <div>
+        </section>
+        <section>
             <strong>{{"Final Amount"|translate}}: </strong>{{expense.final_amount | number: '.2-2'}}€
-        </div>
-    </div>
-    <div *ngIf="isAuthorized">
-        <div class="button-container-space-between" *ngIf="modify">
+        </section>
+    </section>
+    <section *ngIf="isAuthorized">
+        <section class="button-container-space-between" *ngIf="modify">
             <button mat-raised-button color="accent" (click)="changeView()">{{"Edit"|translate}}</button>
             <button mat-raised-button color="warn" (click)="deleteExpense(expense)">{{"Delete"|translate}}
             </button>
-        </div>
-    </div>
+        </section>
+    </section>
 </section>
 
 <ng-template #elseTemplate>
@@ -65,9 +65,22 @@
                 </a>
             </section>
         </section>
+        <section>
+            <input aria-label="Dossier" type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload />
+            <section class="file-upload">
+                <br>
+                {{selectedFileName}}
+                <span *ngIf="selectedFileName == null">
+                    {{"Upload dossier"|translate}}
+                </span>
+                <button mat-mini-fab color="accent" (click)="fileUpload.click()">
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+            </section>
+        </section>
         <form class="expense-details" [formGroup]="formGroup">
-            <div>
-                <mat-form-field appearance="fill">
+            <section>
+                <mat-form-field appearance="outline">
                     <mat-label>{{"User"|translate}}</mat-label>
                     <mat-select [(value)]="expenseUsername" formControlName="username">
                         <mat-option *ngFor="let user of users" value="{{user.username}}">
@@ -78,9 +91,10 @@
                         {{"Select an user is"|translate}} <strong>{{"required"|translate}}</strong>
                     </mat-error>
                 </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
+                
+            </section>
+            <section>
+                <mat-form-field appearance="outline">
                     <mat-label>{{"Date"|translate}}</mat-label>
                     <input aria-label="Date" matInput [matDatepicker]="picker" formControlName="date">
                     <mat-hint>MM/DD/YYYY</mat-hint>
@@ -94,18 +108,20 @@
                         {{"The date cannot be in the future"|translate}}
                     </mat-error>
                 </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
+                
+            </section>
+            <section>
+                <mat-form-field appearance="outline">
                     <mat-label>{{"Concept"|translate}}</mat-label>
                     <textarea aria-label="Concept" matInput formControlName="concept"></textarea>
                     <mat-error *ngIf="formGroup.controls['concept'].hasError('required')">
                         {{"Concept is"|translate}} <strong>{{"required"|translate}}</strong>
                     </mat-error>
                 </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
+                
+            </section>
+            <section>
+                <mat-form-field appearance="outline">
                     <mat-label>{{"VAT"|translate}}</mat-label>
                     <input aria-label="VAT" type="number" matInput formControlName="vatpercentage">
                     <span matSuffix>%&nbsp;</span>
@@ -113,9 +129,10 @@
                         {{"VAT"|translate}} <strong>{{"required"|translate}}</strong>
                     </mat-error>
                 </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
+                
+            </section>
+            <section>
+                <mat-form-field appearance="outline">
                     <mat-label>{{"Amount"|translate}}</mat-label>
                     <input aria-label="Amount" matInput type="number" formControlName="amount">
                     <span matSuffix>€&nbsp;</span>
@@ -123,15 +140,16 @@
                         {{"Amount is"|translate}} <strong>{{"required"|translate}}</strong>
                     </mat-error>
                 </mat-form-field>
-            </div>
-            <div *ngIf="isAuthorized">
-                <div class="button-container-space-between" *ngIf="modify">
+                
+            </section>
+            <section *ngIf="isAuthorized">
+                <section class="button-container-space-between" *ngIf="modify">
                     <button mat-raised-button color="accent" type="submit" 
                     (click)="updateExpense()">{{"Save"|translate}}</button>
                     <button type="reset" mat-raised-button color="warn" 
                     (click)="changeView()">{{"Cancel"|translate}}</button>
-                </div>
-            </div>
+                </section>
+            </section>
         </form>
     </section>
 </ng-template>

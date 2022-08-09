@@ -178,14 +178,26 @@ export class ProjectManagementComponent implements OnInit {
     if (event.target.files) {
       if (event.target.files[0].size <= 1048576) {
         this.selectedFile = event.target.files[0];
-        this.selectedFileName = this.fileManagerService.fixFileName(
-          event.target.files[0]['name']
-        );
-        const [file] = event.target.files;
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.selectedFileSrc = reader.result as string;
-        };
+        if (this.selectedFile?.type.split('/')[0] === 'image') {
+           this.selectedFileName = this.fileManagerService.fixFileName(
+             event.target.files[0]['name']
+           );
+           const [file] = event.target.files;
+           reader.readAsDataURL(file);
+           reader.onload = () => {
+             this.selectedFileSrc = reader.result as string;
+           };
+        }
+        else {
+          this.resetFile();
+          this.snackBar.open(
+            this.translate.instant('not image'),
+            this.translate.instant('Close'),
+            {
+              duration: 3 * 1000,
+            }
+          );
+        }
       } else
         this.snackBar.open(
           this.translate.instant('Max file size 1 MiB'),

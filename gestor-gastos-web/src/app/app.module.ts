@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
@@ -43,6 +44,7 @@ import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-cre
 import { DialogCreateIncomeComponent } from './dialog-create-income/dialog-create-income.component';
 import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
 import { DialogIncomeDeleteComponent } from './dialog-income-delete/dialog-income-delete.component';
+import { DialogLoadingComponent } from './dialog-loading/dialog-loading.component';
 import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
 import { DialogProjectDeleteComponent } from './dialog-project-delete/dialog-project-delete.component';
 import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
@@ -61,6 +63,8 @@ import { ReportSugestionComponent } from './report-sugestion/report-sugestion.co
 import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
+
+
 
 @NgModule({
   declarations: [
@@ -90,6 +94,7 @@ import { UsersTableComponent } from './users-table/users-table.component';
     DialogIncomeDeleteComponent,
     IncomeDescriptionComponent,
     IncomeViewComponent,
+    DialogLoadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -116,6 +121,7 @@ import { UsersTableComponent } from './users-table/users-table.component';
     MatNativeDateModule,
     MatRippleModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatSnackBarModule,
     MatTabsModule,

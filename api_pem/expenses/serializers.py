@@ -27,8 +27,8 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data): 
         instance.user=self.context.get('user')
-        # TODO
-        # instance.dossier=self.context.get('dossier') if 'dossier' in self.context else None
+        if 'dossier' in self.context:
+            instance.dossier=self.context.get('dossier') 
         instance.date=validated_data['date']
         instance.concept=validated_data['concept']
         instance.amount=validated_data['amount']

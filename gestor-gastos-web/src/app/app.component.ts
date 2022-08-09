@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import axios from 'axios';
 import { ApiConnectionService } from './api-connection.service';
+import { DialogLoadingComponent } from './dialog-loading/dialog-loading.component';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
 import { User } from './user';
@@ -20,14 +22,20 @@ export class AppComponent {
   currentYear = new Date().getFullYear();
 
   constructor(
+    public dialog: MatDialog,
     public translate: TranslateService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {
     translate.addLangs(['en', 'es']);
-    this.cur_lang = translate.langs.some((lang) => lang == navigator.language)
-      ? navigator.language
-      : 'en';
+    let aux_lang = this.localStorageService.get('language');
+    if (aux_lang != null) this.cur_lang = aux_lang;
+    else {
+      this.cur_lang = translate.langs.some((lang) => lang == navigator.language)
+        ? navigator.language
+        : 'en';
+      this.localStorageService.set('language', this.cur_lang);
+    }
     translate.setDefaultLang(this.cur_lang);
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
@@ -51,14 +59,16 @@ export class AppComponent {
     });
   }
 
-  // switchLang() {
-  //   if (this.cur_lang === 'es') this.cur_lang = 'en';
-  //   else this.cur_lang = 'es';
-  //   this.translate.use(this.cur_lang);
-  // }
+  switchLang() {
+    if (this.cur_lang === 'es') {
+      this.cur_lang = 'en';
+    } else this.cur_lang = 'es';
+    this.localStorageService.set('language', this.cur_lang);
+    this.translate.use(this.cur_lang);
+  }
 
   ngOnInit(): void {
-    if (this.localStorageService.get('username') != null)
+    if (this.localStorageService.get('username') != null) {
       User.loadUser(this.localStorageService.get('username') as string).then(
         (response) => {
           if ('user_info' in response)
@@ -73,13 +83,18 @@ export class AppComponent {
             );
             this.router.navigate(['/']);
           } else {
-            this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
-              duration: 3 * 1000,
-            });
+            this.snackBar.open(
+              this.translate.instant('system error'),
+              this.translate.instant('Close'),
+              {
+                duration: 3 * 1000,
+              }
+            );
             this.router.navigate(['/']);
           }
         }
       );
+    }
   }
 
   login() {

@@ -88,7 +88,7 @@ export class Expense {
         this.id,
         this.project,
         this.user,
-        this.dossier,
+        this._dossier,
         this.date,
         this.concept,
         this.amount,
