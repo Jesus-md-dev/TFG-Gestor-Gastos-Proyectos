@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'gestor-gastos-web'`, () => {
+  it(`should have as title 'project-expenses-manager'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('gestor-gastos-web');
+    expect(app.title).toEqual('project-expenses-manager');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('gestor-gastos-web app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('project-expenses-manager app is running!');
   });
 });

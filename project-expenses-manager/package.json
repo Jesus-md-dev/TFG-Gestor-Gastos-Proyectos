@@ -1,5 +1,5 @@
 {
-  "name": "gestor-gastos-web",
+  "name": "project-expenses-manager",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
