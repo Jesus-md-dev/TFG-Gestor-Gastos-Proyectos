@@ -14,7 +14,7 @@
   
   <button type="submit" mat-button>{{"Add"|translate}}</button>
 </form>
-<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
+<cdk-virtual-scroll-viewport appendOnly itemSize="50">
   <section *ngFor="let username of userlist">
     <mat-card>
       {{username}}

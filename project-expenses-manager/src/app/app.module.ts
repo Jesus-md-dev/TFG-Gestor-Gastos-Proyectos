@@ -63,6 +63,7 @@ import { ReportSugestionComponent } from './report-sugestion/report-sugestion.co
 import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-view.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
+import { ImageTextComponent } from './image-text/image-text.component';
 
 
 
@@ -95,6 +96,7 @@ import { UsersTableComponent } from './users-table/users-table.component';
     IncomeDescriptionComponent,
     IncomeViewComponent,
     DialogLoadingComponent,
+    ImageTextComponent,
   ],
   imports: [
     BrowserModule,

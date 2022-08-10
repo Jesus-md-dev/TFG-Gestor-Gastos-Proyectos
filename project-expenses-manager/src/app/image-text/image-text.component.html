@@ -1,0 +1,10 @@
+<section>
+    <div class="text" [ngClass]="{'right': imageTextOrder, 'left': !imageTextOrder} "> 
+        <p [translate]="text"></p>
+    </div>
+    <div class="img" [ngClass]="{'left': imageTextOrder, 'right': !imageTextOrder}">
+        <div class="img-center">
+            <img src='{{"assets/images/" + imageSrc}}' alt="image-text-img">
+        </div>
+    </div>
+</section>

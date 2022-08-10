@@ -1,0 +1,35 @@
+.cdk-virtual-scroll-viewport{
+  margin: 1em auto;
+  height: 50em;
+  width: 98%;
+  border: solid 0.1px rgb(209, 208, 208);
+}
+
+.logo {
+  height: 15em;
+  margin: 0 auto 1em auto
+}
+
+.guide-section {
+  margin-top: 3em;
+}
+
+.guide-section h1 {
+  text-decoration: underline;
+}
+
+.cdk-virtual-scroll-viewport section {
+  margin: 1em auto 1em auto;
+  border-radius: 3%;
+  box-shadow: 1em black ;
+  width: 98%;
+  background-color: rgb(208, 241, 181);
+}
+
+@media screen and (max-width: 768px) { 
+  .cdk-virtual-scroll-viewport {
+    margin: 0 auto 0 auto;
+    width: 98%;
+    background-color: rgb(208, 241, 181);
+  }
+}

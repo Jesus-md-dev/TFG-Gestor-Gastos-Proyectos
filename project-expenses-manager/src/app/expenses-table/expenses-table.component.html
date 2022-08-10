@@ -1,9 +1,9 @@
 <section class="expended-section">
   <div class="block-content-center">
-    <strong>{{"Monthly balance"|translate}}</strong> <br> {{finalAmount | number: '.2-2'}} €
+    <strong>{{"This Monthly balance"|translate}}</strong> <br> {{finalAmountMoth | number: '.2-2'}} €
   </div>
   <div class="block-content-center">
-    <strong>{{"Project balance"|translate}}</strong> <br> {{finalAmountMoth | number: '.2-2'}} €
+    <strong>{{"Project balance"|translate}}</strong> <br> {{finalAmount | number: '.2-2'}} €
   </div>
 </section>
 
@@ -28,7 +28,7 @@
 
 <section class="section-table expense-table">
   <table mat-table [dataSource]="expensesDataSource" matSort mdbTableScroll
-    scrollX="true" scrollY="True">
+    scrollX="true" scrollY="true">
     <ng-container matColumnDef="user">
       <th mat-header-cell [hidden]="userView" *matHeaderCellDef mat-sort-header>
         {{'User' | translate}}

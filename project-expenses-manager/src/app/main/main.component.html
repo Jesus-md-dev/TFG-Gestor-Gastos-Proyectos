@@ -1,2 +1,23 @@
-<h1>main works!</h1>
-{{ url }}
+<h1>{{"Welcome to:"|translate}}</h1>
+<img class="logo" src="assets/images/android-chrome-512x512.png" alt="logo">
+<p>You are inside Project Expenses Manager, a Web App that provide a place in which you can storage and manage the
+different expenses and incomes that your proyects has produced. In addition, we will display all the data stored in a
+simple way, making easier to know the status of your projects.</p>
+
+<p>Also you could use our API if you want to use this service in an advanced way: <a [href]="url"> {{url}} </a></p>
+
+<p>Here you have an explanation about how this Web App works:</p>
+<section class="guide-section">
+    <h1>Web App Guide:</h1>
+    <cdk-virtual-scroll-viewport [itemSize]="1">
+        <section *cdkVirtualFor="let imageText of imageTexts; 
+        let even = even; 
+        let last = last;
+        let first = first;
+        ">
+            <h2 [translate]="imageText.title"></h2>
+            <app-image-text [imageTextOrder]=even [imageSrc]=imageText.imageSrc [text]=imageText.text>
+            </app-image-text>
+        </section>
+    </cdk-virtual-scroll-viewport>
+</section>
