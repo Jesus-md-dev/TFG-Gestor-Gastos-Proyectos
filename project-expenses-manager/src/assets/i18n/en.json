@@ -120,7 +120,9 @@
   "expelled": "expelled",
   "expense": "expense",
   "income": "income",
+  "language text": "This Web has been provided with two differents languages, Spanish and English. This language is first selected by taking the default language of user navigator. However, it can be change with the button in the corner.",
   "loading error": "Loading error",
+  "loginregister text": "First, if you want to user our system, you will need to register if you don't have an accout or indentify yourself using the Login page.",
   "must be at least": "must be at least",
   "not found": "not found",
   "not image": "This file is not an image",
@@ -135,5 +137,16 @@
   "username exist": "Username already registered",
   "username password incorrect": "Username or password is not correct",
   "users belong to project": "Some users already belong to the project",
-  "language text": "This Web has been provided with two differents languages, Spanish and English. This language is first selected by taking the default language of user navigator. However, it can be change with the button in the corner."
+  "profile text": "This is the Profile page, inside this page, an user can modify the data provided in register and also can delete the actual account used.",
+  "createproject text": "This is the Projects page, inside this page an user can create new projects filling the following formulary.",
+  "projectcreated text": "projectcreated text",
+  "incomeexpenses1 text": "incomeexpenses1 text",
+  "incomeexpenses2 text": "incomeexpenses2 text",
+  "members text": "members text",
+  "projectconfig text": "projectconfig text",
+  "myexpenses text": "myexpenses text",
+  "must be at most": "must be at most",
+  "must be alphanumeric": "must be alphanumeric",
+  "Leave": "Leave",
+  "Leave Advise": "You are going to leave this project"
 }

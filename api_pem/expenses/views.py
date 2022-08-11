@@ -13,7 +13,7 @@ def create_expense(request):
         user = request.user
         if user.is_authenticated:
             project_requested = Project.objects.get(id = request.data['project_id'])
-            user_requested = User.objects.get(username = request.data['username'])
+            user_requested = User.objects.get(username__exact = request.data['username'])
             if project_requested.admin == user or ProjectMember.objects.filter(project=project_requested, user=user, is_manager=True).exists():
                 serializer = ExpenseSerializer(data=request.data, context={
                     'user': user_requested, 
@@ -48,7 +48,7 @@ def update_expense(request):
         user = request.user
         if user.is_authenticated:
             if user == expense_requested.project.admin or ProjectMember.objects.filter(project=expense_requested.project, user=user, is_manager=True).exists():
-                user_requested = User.objects.get(username = request.data['username'])
+                user_requested = User.objects.get(username__exact = request.data['username'])
                 serializer = ExpenseSerializer(expense_requested, data=request.data, context={
                     'user': user_requested, 
                     'dossier': request.data['dossier'] if 'dossier' in request.data else None
@@ -99,7 +99,7 @@ def get_user_expenses(request):
                 project = Project.objects.get(id=request.query_params.get('project_id'))
                 if request.query_params.get('username') != user.username:
                     if user == project.admin or ProjectMember.objects.filter(project=project, user=user, is_manager=True).exists():
-                        user_requested = User.objects.get(username=request.query_params.get('username'))
+                        user_requested = User.objects.get(username__exact=request.query_params.get('username'))
                         expenses = Expense.objects.filter(user=user_requested, project=project)
                         expenses = [expense.as_json() for expense in expenses]
                         return Response({'expenses_info': expenses})

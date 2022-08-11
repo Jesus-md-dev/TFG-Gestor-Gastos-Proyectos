@@ -9,7 +9,13 @@
           {{"Username is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
         <mat-error *ngIf="formGroup.controls['username'].hasError('minlength')">
-          {{"Username"|translate}} {{"must be at least"|translate}} {{firLasNameLenghth}} {{"characters long"|translate}}
+          {{"Username"|translate}} {{"must be at least"|translate}} 8 {{"characters long"|translate}}
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls['username'].hasError('maxlength')">
+          {{"Username"|translate}} {{"must be at most"|translate}} 30 {{"characters long"|translate}}
+        </mat-error>
+        <mat-error *ngIf="formGroup.controls['username'].hasError('usernameRegex')">
+          {{"Username is"|translate}} {{"must be alphanumeric"|translate}}
         </mat-error>
       </mat-form-field>
     </div>
@@ -63,7 +69,7 @@
         <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
           {{"Password is"|translate}} <strong>{{"required"|translate}}</strong>
         </mat-error>
-        <mat-error *ngIf="formGroup.controls['password'].hasError('regex')">
+        <mat-error *ngIf="formGroup.controls['password'].hasError('passRegex')">
           {{"Minimum"|translate}} {{passwordMinLength}} {{"characters"|translate}},
           {{"at least one uppercase letter"|translate}},
           {{"one lowercase letter and one number"|translate}}
@@ -82,7 +88,7 @@
         <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('confirmedValidator')">
           {{"Passwords are not equal"|translate}}
         </mat-error>
-        <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('regex')">
+        <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('passRegex')">
           {{"Minimum"|translate}} {{passwordMinLength}} {{"characters"|translate}},
           {{"at least one uppercase letter"|translate}},
           {{"one lowercase letter and one number"|translate}}

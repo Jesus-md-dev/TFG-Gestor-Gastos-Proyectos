@@ -2,7 +2,6 @@ import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogLoadingComponent } from '../dialog-loading/dialog-loading.component';
 import { User } from '../user';
 
 @Component({

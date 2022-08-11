@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import axios from 'axios';
 import { ApiConnectionService } from './api-connection.service';
-import { DialogLoadingComponent } from './dialog-loading/dialog-loading.component';
 import { GlobalComponent } from './global-component';
 import { LocalStorageService } from './local-storage.service';
 import { User } from './user';

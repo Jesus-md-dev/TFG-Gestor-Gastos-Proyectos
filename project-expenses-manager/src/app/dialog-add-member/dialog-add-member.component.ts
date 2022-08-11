@@ -50,7 +50,16 @@ export class DialogAddMemberComponent implements OnInit {
     ) {
       let username = this.formGroup.get('username')?.value;
       User.exist(username).then((response) => {
-        if ('user_info' in response) this.userlist.push(username);
+        if ('user_info' in response) {
+          this.userlist.push(username);
+          this.formGroup
+            .get('username')
+            ?.setValidators([
+              existOnListValidator(this.userlist, 'isOnList'),
+              existOnListValidator(this.projectMembers, 'isOnProject'),
+              isProjectAdminValidator(this.project),
+            ]);
+        }
         else if ('message' in response)
           this.snackBar.open(
             username + ' ' + this.translate.instant('not found'),

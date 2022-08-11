@@ -93,7 +93,7 @@
           <mat-form-field appearance="outline">
             <mat-label>{{"Password"|translate}}</mat-label>
             <input aria-label="password" type="password" matInput formControlName="password">
-            <mat-error *ngIf="formGroup.controls['password'].hasError('regex')">
+            <mat-error *ngIf="formGroup.controls['password'].hasError('passRegex')">
               {{"Minimum"|translate}} {{passwordMinLength}} {{"characters"|translate}},
               {{"at least one uppercase letter"|translate}},
               {{"one lowercase letter and one number"|translate}}
@@ -105,7 +105,7 @@
           <mat-form-field appearance="outline">
             <mat-label>{{"Repeat Password"|translate}}</mat-label>
             <input aria-label="password" type="password" matInput formControlName="passwordRepeat">
-            <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('regex')">
+            <mat-error *ngIf="formGroup.controls['passwordRepeat'].hasError('passRegex')">
               {{"Minimum"|translate}} {{passwordMinLength}} {{"characters"|translate}},
               {{"at least one uppercase letter"|translate}},
               {{"one lowercase letter and one number"|translate}}

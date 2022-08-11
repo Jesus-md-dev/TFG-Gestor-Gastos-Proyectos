@@ -6,7 +6,11 @@ export function existOnListValidator(
   validatorId: string
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const exist = stringList.includes(control.value);
+    if (control.value == null) return null;
+    stringList = stringList.map(string => {return string.toLowerCase()})
+    let controlString = control.value.toLowerCase();
+
+    const exist = stringList.includes(controlString);
     return exist ? { [validatorId]: { value: control.value } } : null;
   };
 }
@@ -30,8 +34,18 @@ export function passwordRegexValidator(minLength: number): ValidatorFn {
     let regex = new RegExp(
       '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{' + minLength + ',}$'
     );
+    if (control.value == null || control.value == "") return null;
     return !regex.test(control.value)
-      ? { regex: { value: control.value } }
+      ? { passRegex: { value: control.value } }
+      : null;
+  };
+}
+
+export function usernameRegexValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let regex = new RegExp('^[A-Za-z][A-Za-z0-9]*$');
+    return !regex.test(control.value)
+      ? { usernameRegex: { value: control.value } }
       : null;
   };
 }

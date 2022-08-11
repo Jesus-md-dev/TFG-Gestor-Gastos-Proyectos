@@ -69,7 +69,7 @@ def delete_project(request, id):
 def read_user_projects(request, username):
     try:
         user = request.user
-        user_requested = User.objects.get(username=username)
+        user_requested = User.objects.get(username__exact=username)
         if user.is_authenticated and user.id == user_requested.id:
                 user_projects = Project.objects.filter(admin=user_requested)
                 projects = [project.as_json() for project in user_projects]
@@ -90,7 +90,7 @@ def add_project_member(request):
                 username_list = request.data.get('usernames')['usernames']
                 new_project_members = []
                 for username in username_list:
-                    user = User.objects.get(username=username)
+                    user = User.objects.get(username__exact=username)
                     if len(ProjectMember.objects.filter(project=project_requested, user=user)) == 0:
                         project_member = ProjectMember(project=project_requested, user=user, is_manager=False)
                         new_project_members.append(project_member)
@@ -133,7 +133,7 @@ def delete_project_member(request):
             project = Project.objects.get(id=request.data.get('project_id'))
             member = User.objects.get(id=request.data.get('member_id'))
             project_member = ProjectMember.objects.get(project=project, user=member)
-            if user == project.admin:
+            if user == project.admin or user == member:
                 project_member.delete()
                 return Response({"project_member_info": "project_member deleted"})
         return Response({'message': 'unauthorized'}, status=401)
@@ -147,7 +147,7 @@ def promote_project_member(request):
         user = request.user
         if user.is_authenticated:
             project = Project.objects.get(id=request.data.get('project_id'))
-            member = User.objects.get(username=request.data.get('member_id'))
+            member = User.objects.get(username__exact=request.data.get('member_id'))
             project_member = ProjectMember.objects.get(project=project, user=member)
             if user == project.admin:
                 project_member.is_manager = True
@@ -164,7 +164,7 @@ def demote_project_member(request):
         user = request.user
         if user.is_authenticated:
             project = Project.objects.get(id=request.data.get('project_id'))
-            member = User.objects.get(username=request.data.get('member_id'))
+            member = User.objects.get(username__exact=request.data.get('member_id'))
             project_member = ProjectMember.objects.get(project=project, user=member)
             if user == project.admin:
                 project_member.is_manager = False
@@ -179,7 +179,7 @@ def demote_project_member(request):
 def read_user_member_projects(request, username):
     try:
         user = request.user
-        user_requested = User.objects.get(username=username)
+        user_requested = User.objects.get(username__exact=username)
         if user.is_authenticated:
             if user.id == user_requested.id:
                 project_members = ProjectMember.objects.filter(user=user_requested, is_manager=False)
@@ -195,7 +195,7 @@ def read_user_member_projects(request, username):
 def read_user_managed_projects(request, username):
     try:
         user = request.user
-        user_requested = User.objects.get(username=username)
+        user_requested = User.objects.get(username__exact=username)
         if user.is_authenticated:
             if user.id == user_requested.id:
                 project_members = ProjectMember.objects.filter(user=user_requested, is_manager=True)

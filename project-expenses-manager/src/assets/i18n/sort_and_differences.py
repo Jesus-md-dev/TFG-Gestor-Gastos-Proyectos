@@ -24,7 +24,7 @@ if data_es_minus_en:
 
 data_en_sorted = json.dumps(data_en, sort_keys=True)
 with open('en.json', 'w', encoding='utf8') as file:
-    json.dump(json.loads(data_en_sorted), file, ensure_ascii=False, indent=4)
+    json.dump(json.loads(data_en_sorted), file, ensure_ascii=False, indent=2)
 data_es_sorted = json.dumps(data_es, sort_keys=True)
 with open('es.json', 'w', encoding='utf8') as file:
-    json.dump(json.loads(data_es_sorted), file, ensure_ascii=False, indent=4)
+    json.dump(json.loads(data_es_sorted), file, ensure_ascii=False, indent=2)

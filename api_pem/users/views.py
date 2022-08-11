@@ -56,7 +56,7 @@ def create_user(request):
 def read_user(request, username):
     try:
         user = request.user
-        user_requested = User.objects.get(username=username)
+        user_requested = User.objects.get(username__exact=username)
         if user.is_authenticated:
             return Response({'user_info': user_requested.profile.as_json()})
         else: 
@@ -68,7 +68,7 @@ def read_user(request, username):
 @api_view(['PUT'])
 def update_user(request):
     try:
-        user_requested = User.objects.get(username=request.data['username'])
+        user_requested = User.objects.get(username__exact=request.data['username'])
         user = request.user
         context = {}
         if user.is_authenticated and user.id == user_requested.id:
@@ -105,7 +105,7 @@ def login_api(request):
 @api_view(['DELETE'])
 def delete_user(request, username):
     try:
-        user_requested = User.objects.get(username=username)
+        user_requested = User.objects.get(username__exact=username)
         user = request.user
         if user.is_authenticated and user.username == user_requested.username:
             username = user_requested.username

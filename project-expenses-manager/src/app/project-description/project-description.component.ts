@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DialogCreateExpenseComponent } from '../dialog-create-expense/dialog-create-expense.component';
 import { DialogCreateIncomeComponent } from '../dialog-create-income/dialog-create-income.component';
-import { DialogLoadingComponent } from '../dialog-loading/dialog-loading.component';
 import { DialogProjectDeleteComponent } from '../dialog-project-delete/dialog-project-delete.component';
 import { Expense } from '../expense';
 import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';

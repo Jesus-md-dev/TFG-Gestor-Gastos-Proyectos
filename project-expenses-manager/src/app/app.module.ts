@@ -64,6 +64,7 @@ import { UserExpensesViewComponent } from './user-expenses-view/user-expenses-vi
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { ImageTextComponent } from './image-text/image-text.component';
+import { DialogLeaveProjectComponent } from './dialog-leave-project/dialog-leave-project.component';
 
 
 
@@ -97,6 +98,7 @@ import { ImageTextComponent } from './image-text/image-text.component';
     IncomeViewComponent,
     DialogLoadingComponent,
     ImageTextComponent,
+    DialogLeaveProjectComponent,
   ],
   imports: [
     BrowserModule,

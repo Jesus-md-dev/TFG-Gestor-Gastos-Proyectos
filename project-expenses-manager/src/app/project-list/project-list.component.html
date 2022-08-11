@@ -10,7 +10,8 @@
             <h2>{{project.category}}</h2>
             <section class="button-container-space-between">
               <a mat-raised-button [routerLink]="['/project/' + project.id]"
-                color="accent">{{"Show" | translate}}</a>
+                color="accent">{{"Show" | translate}}
+              </a>
               <button mat-raised-button color="warn" (click)="deleteProject(project)">
                 {{"Delete" | translate}}
               </button>
@@ -29,8 +30,14 @@
           <section class="project-name-card">{{project.name}}</section>
           <mat-card-content>
             <h2>{{project.category}}</h2>
-            <a mat-raised-button [routerLink]="['/project/' + project.id]"
-                color="accent">{{"Show" | translate}}</a>
+            <section class="button-container-space-between">
+              <a mat-raised-button [routerLink]="['/project/' + project.id]"
+                color="accent">{{"Show" | translate}}
+              </a>
+              <button mat-raised-button color="warn" (click)="leaveProject(project)">
+                {{"Leave" | translate}}
+              </button>
+            </section>
           </mat-card-content>
         </mat-card>
       </section>
@@ -45,8 +52,15 @@
           <section class="project-name-card">{{project.name}}</section>
           <mat-card-content>
             <h2>{{project.category}}</h2>
-            <a mat-raised-button [routerLink]="['/expenses/' + localStorageService.get('username') + '/' + 
-            project.id]" color="accent">{{"My Expenses" | translate}}</a>
+            <section class="button-container-space-between">
+              <a mat-raised-button [routerLink]="['/expenses/' + localStorageService.get('username') + '/' + 
+              project.id]" color="accent">
+                {{"My Expenses" | translate}}
+              </a>
+              <button mat-raised-button color="warn" (click)="leaveProject(project)">
+                {{"Leave" | translate}}
+              </button>
+            </section>
           </mat-card-content>
         </mat-card>
       </section>

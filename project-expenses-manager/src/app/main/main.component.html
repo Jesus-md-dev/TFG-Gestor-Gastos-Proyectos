@@ -11,12 +11,11 @@ simple way, making easier to know the status of your projects.</p>
     <h1>Web App Guide:</h1>
     <cdk-virtual-scroll-viewport [itemSize]="1">
         <section *cdkVirtualFor="let imageText of imageTexts; 
-        let even = even; 
-        let last = last;
-        let first = first;
-        ">
+            let even = even;">
             <h2 [translate]="imageText.title"></h2>
-            <app-image-text [imageTextOrder]=even [imageSrc]=imageText.imageSrc [text]=imageText.text>
+            <app-image-text [imageTextOrder]=even 
+                [imageSrc]=imageText.imageSrc 
+                [text]=imageText.text>
             </app-image-text>
         </section>
     </cdk-virtual-scroll-viewport>

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { passwordRegexValidator } from 'custom-validators.directive';
+import { passwordRegexValidator, usernameRegexValidator } from 'custom-validators.directive';
 import { User } from '../user';
 
 @Component({
@@ -26,7 +26,12 @@ export class RegisterComponent {
       {
         username: [
           '',
-          [Validators.required, Validators.minLength(this.firLasNameLenghth)],
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(30),
+            usernameRegexValidator()
+          ],
         ],
         first_name: [
           '',

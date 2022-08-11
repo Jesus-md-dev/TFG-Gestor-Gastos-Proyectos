@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { maxDateValidator } from 'custom-validators.directive';
-import { DialogLoadingComponent } from '../dialog-loading/dialog-loading.component';
 import { FileManagerService } from '../file-manager.service';
 import { Income } from '../income';
 
