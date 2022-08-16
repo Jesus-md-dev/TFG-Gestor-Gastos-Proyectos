@@ -113,6 +113,11 @@ mat-form-field{
   width: 100%;
 }
 
+.language-button {
+    width: 2em;
+    border-radius: 20%;
+}
+
 .loading-dialog {
   background-color: transparent;
 }
