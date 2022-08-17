@@ -184,10 +184,10 @@ export class ProjectService {
           },
         }
       );
-      return response;
+      return response.data;
     } catch (error) {
       const e = error as AxiosError;
-      return e.response;
+      return e.response?.data;
     }
   }
 
