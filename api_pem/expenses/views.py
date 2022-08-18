@@ -109,7 +109,7 @@ def get_user_expenses(request):
         if user.is_authenticated:
             if request.query_params.get('project_id') != None:
                 project = Project.objects.get(id=request.query_params.get('project_id'))
-                if request.query_params.get('username') != user.username:
+                if request.query_params.get('username') != None and request.query_params.get('username') != user.username:
                     if user == project.admin or ProjectMember.objects.filter(project=project, user=user, is_manager=True).exists():
                         user_requested = User.objects.get(username__exact=request.query_params.get('username'))
                         expenses = Expense.objects.filter(user=user_requested, project=project)

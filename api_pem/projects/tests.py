@@ -6,7 +6,7 @@ from rest_framework.test import APIClient
 from projects.models import Project
 
 
-class UserTestCase(TestCase):
+class ProjectTestCase(TestCase):
     def setUp(self):
         user = User(
             email='testUserDjango@mail.com',
