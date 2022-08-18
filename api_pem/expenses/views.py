@@ -1,3 +1,6 @@
+from datetime import datetime
+from sqlite3 import Date
+
 from django.contrib.auth.models import User
 from projects.models import Project, ProjectMember
 from rest_framework.decorators import api_view
@@ -25,7 +28,8 @@ def create_expense(request):
                 return Response({'expense_info': expense.as_json()})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e: 
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -38,7 +42,9 @@ def read_expense(request, id):
                 return Response({'expense_info': expense_requested.as_json()})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
@@ -57,7 +63,9 @@ def update_expense(request):
                 expense_requested = serializer.save()
                 return Response({'expense_info': expense_requested.as_json()})
         return Response({'message': 'unauthorized'}, status=401)
-    except Exception as e:
+    except Exception as e: 
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -72,7 +80,9 @@ def delete_expense(request, id):
                 return Response({"expense_info": "expense " + str(id) + " deleted"})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -87,7 +97,9 @@ def get_project_expenses(request, project_id):
                 return Response({'expenses_info': expenses})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -113,5 +125,7 @@ def get_user_expenses(request):
                 return Response({'expenses_info': expenses})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)

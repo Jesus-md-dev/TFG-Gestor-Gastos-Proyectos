@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from knox.auth import AuthToken
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -16,7 +18,9 @@ def is_token_available(request):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
         
 @api_view(['GET'])
@@ -24,7 +28,9 @@ def is_alive(request):
     try:
         return Response({'message': 'available'})
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['POST'])
@@ -43,7 +49,9 @@ def create_user(request):
                 'token': token
                 })
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         if user != None:
             user.delete()
         if 'username' in e.args[0]:
@@ -62,7 +70,9 @@ def read_user(request, username):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
         
 @api_view(['PUT'])
@@ -81,11 +91,13 @@ def update_user(request):
             serializer.is_valid(raise_exception=True)
             user_requested = serializer.save()
             user_requested.save()
-            return Response({'user_info': user.profile.as_json()})
+            return Response({'user_info': user_requested.profile.as_json()})
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         if 'email' in e.args[0]:
             return Response({'message': 'email exist'}, status=400)
         return Response({'message': 'bad request'}, status=400)
@@ -99,7 +111,9 @@ def login_api(request):
         _, token = AuthToken.objects.create(user)
         return Response({'user_info': user.profile.as_json(),'token': token})
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -116,6 +130,8 @@ def delete_user(request, username):
         else: 
             return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 

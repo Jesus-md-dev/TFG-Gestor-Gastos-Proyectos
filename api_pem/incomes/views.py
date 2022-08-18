@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from projects.models import Project, ProjectMember
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -22,7 +24,9 @@ def create_income(request):
                 return Response({'income_info': income.as_json()})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e: 
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -35,7 +39,9 @@ def read_income(request, id):
                 return Response({'income_info': income_requested.as_json()})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
@@ -52,7 +58,9 @@ def update_income(request):
                 income_requested = serializer.save()
                 return Response({'income_info': income_requested.as_json()})
         return Response({'message': 'unauthorized'}, status=401)
-    except Exception as e:
+    except Exception as e: 
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['DELETE'])
@@ -66,8 +74,10 @@ def delete_income(request, id):
                 income.delete()
                 return Response({"income_info": "income " + str(id) + " deleted"})
         return Response({'message': 'unauthorized'}, status=401)
-    except Project.DoesNotExist:
-            return Response({'message': 'bad request'}, status=400)
+    except Exception as e: 
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+        return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
 def get_project_incomes(request, project_id):
@@ -81,5 +91,7 @@ def get_project_incomes(request, project_id):
                 return Response({'incomes_info': incomes})
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
-        print(e)
+        with open('debug.log', 'a') as f:
+            f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
+
         return Response({'message': 'bad request'}, status=400)

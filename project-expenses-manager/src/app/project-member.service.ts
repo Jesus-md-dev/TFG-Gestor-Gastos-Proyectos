@@ -15,7 +15,7 @@ export class ProjectMemberService {
     try {
       const formData = new FormData();
       formData.append('project_id', projectId.toString());
-      formData.append('member_id', username);
+      formData.append('username', username);
       const response = await axios.put(
         GlobalComponent.apiUrl + '/api/promote_project_member/',
         formData,
@@ -36,7 +36,7 @@ export class ProjectMemberService {
     try {
       const formData = new FormData();
       formData.append('project_id', projectId.toString());
-      formData.append('member_id', username);
+      formData.append('username', username);
       const response = await axios.put(
         GlobalComponent.apiUrl + '/api/demote_project_member/',
         formData,
