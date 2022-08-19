@@ -11,52 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `projectmanager`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `auth_group`
---
-
-CREATE TABLE `auth_group` (
-  `id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `auth_group_permissions`
---
-
-CREATE TABLE `auth_group_permissions` (
-  `id` bigint(20) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `auth_permission`
---
-
-CREATE TABLE `auth_permission` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `content_type_id` int(11) NOT NULL,
-  `codename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 --
 -- Volcado de datos para la tabla `auth_permission`
 --
@@ -146,24 +100,6 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `auth_user`
---
-
-CREATE TABLE `auth_user` (
-  `id` int(11) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `last_login` datetime(6) DEFAULT NULL,
-  `is_superuser` tinyint(1) NOT NULL,
-  `username` varchar(150) NOT NULL,
-  `first_name` varchar(150) NOT NULL,
-  `last_name` varchar(150) NOT NULL,
-  `email` varchar(254) NOT NULL,
-  `is_staff` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
 -- Volcado de datos para la tabla `auth_user`
 --
 
@@ -192,45 +128,6 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 (71, 'pbkdf2_sha256$320000$4kcQFnE33aCHsxVpPa8IKk$PZibrdiXqPK/qBcS7CL8VHwZNOCJRdw38aaRpZ/FJhA=', NULL, 0, 'TestMiembro', 'TestMiembro', 'TestMiembro', 'TestMiembro@gmail.com', 0, 1, '2022-08-19 16:07:08.557941');
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `auth_user_groups`
---
-
-CREATE TABLE `auth_user_groups` (
-  `id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `auth_user_user_permissions`
---
-
-CREATE TABLE `auth_user_user_permissions` (
-  `id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `django_admin_log`
---
-
-CREATE TABLE `django_admin_log` (
-  `id` int(11) NOT NULL,
-  `action_time` datetime(6) NOT NULL,
-  `object_id` longtext DEFAULT NULL,
-  `object_repr` varchar(200) NOT NULL,
-  `action_flag` smallint(5) UNSIGNED NOT NULL CHECK (`action_flag` >= 0),
-  `change_message` longtext NOT NULL,
-  `content_type_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `django_admin_log`
@@ -322,16 +219,6 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `django_content_type`
---
-
-CREATE TABLE `django_content_type` (
-  `id` int(11) NOT NULL,
-  `app_label` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
 -- Volcado de datos para la tabla `django_content_type`
 --
 
@@ -358,17 +245,6 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (16, 'users', 'projectmember');
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `django_migrations`
---
-
-CREATE TABLE `django_migrations` (
-  `id` bigint(20) NOT NULL,
-  `app` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `applied` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `django_migrations`
@@ -437,16 +313,6 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `django_session`
---
-
-CREATE TABLE `django_session` (
-  `session_key` varchar(40) NOT NULL,
-  `session_data` longtext NOT NULL,
-  `expire_date` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
 -- Volcado de datos para la tabla `django_session`
 --
 
@@ -463,22 +329,6 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('z2u50x6mdbnp2ky4t34ta3yuoa95ojp2', '.eJxVjEEOwiAQRe_C2pAWOgO4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtHdmEE0Ia2ARGjDwocpQVWY3OgDI2TIiQkXVEQACdAQkhxuRgzOL9Ad2TN5s:1nnf3U:n3O-8EXCxerQwDgaYn4sWdpicRotwEfqFiumZ8v5RNk', '2022-05-22 11:26:28.091193');
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `expenses_expense`
---
-
-CREATE TABLE `expenses_expense` (
-  `id` bigint(20) NOT NULL,
-  `dossier` varchar(100) NOT NULL,
-  `date` date NOT NULL,
-  `concept` varchar(100) NOT NULL,
-  `amount` double NOT NULL,
-  `vatpercentage` double NOT NULL,
-  `final_amount` double NOT NULL,
-  `project_id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `expenses_expense`
@@ -532,19 +382,6 @@ INSERT INTO `expenses_expense` (`id`, `dossier`, `date`, `concept`, `amount`, `v
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `incomes_income`
---
-
-CREATE TABLE `incomes_income` (
-  `id` bigint(20) NOT NULL,
-  `dossier` varchar(100) NOT NULL,
-  `date` date NOT NULL,
-  `concept` varchar(100) NOT NULL,
-  `amount` double NOT NULL,
-  `project_id` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
 -- Volcado de datos para la tabla `incomes_income`
 --
 
@@ -569,18 +406,6 @@ INSERT INTO `incomes_income` (`id`, `dossier`, `date`, `concept`, `amount`, `pro
 (31, 'documents/PDF_lZGP2fN.pdf', '2022-08-09', 'dfvbdfbgvb', 2000, 25);
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `knox_authtoken`
---
-
-CREATE TABLE `knox_authtoken` (
-  `digest` varchar(128) NOT NULL,
-  `created` datetime(6) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `expiry` datetime(6) DEFAULT NULL,
-  `token_key` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `knox_authtoken`
@@ -614,18 +439,6 @@ INSERT INTO `knox_authtoken` (`digest`, `created`, `user_id`, `expiry`, `token_k
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `projects_project`
---
-
-CREATE TABLE `projects_project` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `category` varchar(100) NOT NULL,
-  `img` varchar(100) NOT NULL,
-  `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
 -- Volcado de datos para la tabla `projects_project`
 --
 
@@ -636,17 +449,6 @@ INSERT INTO `projects_project` (`id`, `name`, `category`, `img`, `admin_id`) VAL
 (25, 'TestProject', 'TestCategory', 'project/Captura_de_pantalla_2022-08-01_190843_RXgC04p.jpg', 69);
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `projects_projectmember`
---
-
-CREATE TABLE `projects_projectmember` (
-  `id` bigint(20) NOT NULL,
-  `is_manager` tinyint(1) NOT NULL,
-  `project_id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `projects_projectmember`
@@ -669,16 +471,6 @@ INSERT INTO `projects_projectmember` (`id`, `is_manager`, `project_id`, `user_id
 (44, 1, 25, 70);
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `users_profile`
---
-
-CREATE TABLE `users_profile` (
-  `id` bigint(20) NOT NULL,
-  `img` varchar(100) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `users_profile`
