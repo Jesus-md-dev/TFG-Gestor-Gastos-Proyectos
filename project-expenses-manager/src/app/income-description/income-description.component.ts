@@ -64,6 +64,7 @@ export class IncomeDescriptionComponent {
               duration: 3 * 1000,
             }
           );
+          this.router.navigate(['/']);
         } else {
           this.snackBar.open(
             this.translate.instant('system error'),
@@ -114,6 +115,7 @@ export class IncomeDescriptionComponent {
               duration: 3 * 1000,
             }
           );
+          this.router.navigate(['/']);
         } else {
           this.snackBar.open(
             this.translate.instant('system error'),

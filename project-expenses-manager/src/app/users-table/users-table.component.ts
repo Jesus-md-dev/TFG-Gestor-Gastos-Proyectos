@@ -93,6 +93,7 @@ export class UsersTableComponent implements OnInit {
             duration: 3 * 1000,
           }
         );
+        this.router.navigate(['/']);
       } else {
         this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
           duration: 3 * 1000,
@@ -166,6 +167,7 @@ export class UsersTableComponent implements OnInit {
             duration: 3 * 1000,
           }
         );
+        this.router.navigate(['/']);
       } else {
         this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
           duration: 3 * 1000,
@@ -200,6 +202,7 @@ export class UsersTableComponent implements OnInit {
               duration: 3 * 1000,
             }
           );
+          this.router.navigate(['/']);
         } else {
           this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,
@@ -230,6 +233,7 @@ export class UsersTableComponent implements OnInit {
               duration: 3 * 1000,
             }
           );
+          this.router.navigate(['/']);
         } else {
           this.snackBar.open(this.translate.instant('system error'), this.translate.instant('Close'), {
             duration: 3 * 1000,

@@ -65,6 +65,8 @@ export class ProjectListComponent implements OnInit {
       if (this.ownProjects.length != 0) return true;
     if (Array.isArray(this.managedProjects))
       if (this.managedProjects.length != 0) return true;
+    if (Array.isArray(this.memberProjects))
+      if (this.memberProjects.length != 0) return true;
     return false;
   }
 

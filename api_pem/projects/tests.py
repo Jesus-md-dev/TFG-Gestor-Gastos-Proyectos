@@ -134,27 +134,6 @@ class ProjectTestCase(TestCase):
         self.assertEqual(response.data['projects_info'][0]['category'], "testCategory")
         self.assertEqual(response.data['projects_info'][0]['admin'], "testUser")
 
-    def test_delete_project(self):
-
-        client = APIClient()
-        token = client.post('/api/login/',
-            {
-                'password': 'TestPassword123',
-                'username': 'testUser'
-            }
-        )
-
-        client.credentials(HTTP_AUTHORIZATION='Token ' + token.data['token'])
-        response = client.delete('/api/delete_project/'+str(self.project_id),
-            {
-                'id': self.project_id,
-                'name': 'updatedProject',
-                'category': 'updatedCategory'
-            }
-        )
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_add_member_project(self):
 
         client = APIClient()
@@ -476,7 +455,8 @@ class ProjectTestCase(TestCase):
         )
         client.credentials(HTTP_AUTHORIZATION='Token ' + user.data['token'])
         response = client.get('/api/is_manager/'+str(self.project_id))
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertIn('is_manager', response.data)
+        self.assertFalse(response.data['is_manager'])
 
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.data['token'])
         client.put('/api/promote_project_member/', {

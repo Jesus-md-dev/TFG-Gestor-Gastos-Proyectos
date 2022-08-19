@@ -244,6 +244,8 @@ def user_is_manager(request, project_id):
             project_requested = Project.objects.get(id = project_id)
             if(ProjectMember.objects.filter(project=project_requested, user=user, is_manager=True).exists()):
                 return Response({'is_manager': True}, status=200)
+            else:
+                return Response({'is_manager': False}, status=200)
         return Response({'message': 'unauthorized'}, status=401)
     except Exception as e:
         with open('debug.log', 'a') as f:

@@ -91,6 +91,7 @@ export class UserExpensesViewComponent implements OnInit {
                 duration: 3 * 1000,
               }
             );
+            this.router.navigate(['/']);
           } else {
             this.snackBar.open(
               this.translate.instant('system error'),

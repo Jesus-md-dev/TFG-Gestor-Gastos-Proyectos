@@ -80,6 +80,7 @@ export class ExpenseDescriptionComponent {
               duration: 3 * 1000,
             }
           );
+          this.router.navigate(['/']);
         } else {
           this.snackBar.open(
             this.translate.instant('system error'),
@@ -108,6 +109,7 @@ export class ExpenseDescriptionComponent {
                 duration: 3 * 1000,
               }
             );
+            this.router.navigate(['/']);
           } else {
             this.snackBar.open(
               this.translate.instant('system error'),
@@ -123,7 +125,8 @@ export class ExpenseDescriptionComponent {
           this.isAuthorized = true;
         else
           this.project.imManager().then((response: any) => {
-            if (response.status == 200) this.isAuthorized = true;
+            if ('is_manager' in response)
+              this.isAuthorized = response['is_manager'];
             else if ('message' in response) {
               this.snackBar.open(
                 this.translate.instant(response['message']),
@@ -132,6 +135,7 @@ export class ExpenseDescriptionComponent {
                   duration: 3 * 1000,
                 }
               );
+              this.router.navigate(['/']);
             } else {
               this.snackBar.open(
                 this.translate.instant('system error'),
@@ -195,6 +199,7 @@ export class ExpenseDescriptionComponent {
               duration: 3 * 1000,
             }
           );
+          this.router.navigate(['/']);
         } else {
           this.snackBar.open(
             this.translate.instant('system error'),
@@ -241,6 +246,7 @@ export class ExpenseDescriptionComponent {
               duration: 3 * 1000,
             }
           );
+          this.router.navigate(['/']);
         } else {
           this.snackBar.open(
             this.translate.instant('system error'),
