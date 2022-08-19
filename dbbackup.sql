@@ -1,19 +1,13 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 19-08-2022 a las 20:05:27
--- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 8.1.2
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
---
--- Volcado de datos para la tabla `auth_permission`
---
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+CREATE DATABASE IF NOT EXISTS `projectmanager` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `projectmanager`;
 
 INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
 (1, 'Can add log entry', 1, 'add_logentry'),
@@ -97,12 +91,6 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (79, 'Can delete income', 20, 'delete_income'),
 (80, 'Can view income', 20, 'view_income');
 
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `auth_user`
---
-
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
 (1, 'pbkdf2_sha256$320000$y4z0ScV61JZA5s70yB11Gx$BgfzjS9hKaC9yXsEXSAm7Fx3Oz6NS7OT3FEN0fF6fWM=', '2022-08-18 07:06:14.037947', 1, 'admin', 'jezusd', 'marquez', 'aaadmin@gmail.com', 1, 1, '2022-03-24 16:48:39.636063'),
 (21, 'pbkdf2_sha256$320000$gozQbZ2nerypicJPDMatvT$YSjKAcjyfstFIlqV439/clJnSHHJeAi3CBO/p0h/+co=', NULL, 0, 'pepito', 'Pepe', 'Garcia', 'pepito@email.com', 0, 1, '2022-03-30 16:54:50.776503'),
@@ -126,12 +114,6 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 (69, 'pbkdf2_sha256$320000$xo61lJiwWu3LcYzB8TBwZ2$JXWWPsoa+ah2bjl5EzqRbm/ZhptNRNB2IIej5uyQZ7s=', NULL, 0, 'TestAdministrador', 'TestAdministrador', 'TestAdministrador', 'TestAdministrador@gmail.com', 0, 1, '2022-08-19 16:05:12.760441'),
 (70, 'pbkdf2_sha256$320000$3Q79oV0kIzSgFVPUkLyfuE$Fc3I0Q2vWlSOqp/yAYLX4rffrJtvIdeeDfCfhNMpwKk=', NULL, 0, 'TestGestor', 'TestGestor', 'TestGestor', 'TestGestor@gmail.com', 0, 1, '2022-08-19 16:06:24.037941'),
 (71, 'pbkdf2_sha256$320000$4kcQFnE33aCHsxVpPa8IKk$PZibrdiXqPK/qBcS7CL8VHwZNOCJRdw38aaRpZ/FJhA=', NULL, 0, 'TestMiembro', 'TestMiembro', 'TestMiembro', 'TestMiembro@gmail.com', 0, 1, '2022-08-19 16:07:08.557941');
-
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `django_admin_log`
---
 
 INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`, `action_flag`, `change_message`, `content_type_id`, `user_id`) VALUES
 (1, '2022-04-23 16:10:36.342974', '23', 'aaa', 3, '', 4, 1),
@@ -216,12 +198,6 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (80, '2022-08-19 17:49:07.671283', '5', 'Project object (5)', 3, '', 19, 1),
 (81, '2022-08-19 17:49:07.674782', '4', 'Project object (4)', 3, '', 19, 1);
 
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `django_content_type`
---
-
 INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (1, 'admin', 'logentry'),
 (3, 'auth', 'group'),
@@ -243,12 +219,6 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (13, 'users', 'project'),
 (15, 'users', 'projectip'),
 (16, 'users', 'projectmember');
-
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `django_migrations`
---
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (1, 'contenttypes', '0001_initial', '2022-03-24 16:48:14.906496'),
@@ -310,12 +280,6 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (58, 'incomes', '0001_initial', '2022-07-29 17:21:56.317428'),
 (59, 'projects', '0004_rename_is_ip_projectmember_is_manager', '2022-07-30 23:41:39.313734');
 
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `django_session`
---
-
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('45i5jed3ons04547fg11zbd02g4r70p6', '.eJxVjEEOwiAQRe_C2pAWOgO4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtHdmEE0Ia2ARGjDwocpQVWY3OgDI2TIiQkXVEQACdAQkhxuRgzOL9Ad2TN5s:1nyFTK:FE3rVcNq0YhCPgEp74aBRoz4_29InwUk9G1o3Zs5UXg', '2022-06-20 16:20:54.632395'),
 ('4qud1z776kvt74ufbxpu82pnw8d8z3kr', '.eJxVjEEOwiAQRe_C2pAWOgO4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtHdmEE0Ia2ARGjDwocpQVWY3OgDI2TIiQkXVEQACdAQkhxuRgzOL9Ad2TN5s:1nsnA4:gKZLvrybIJNuQzzkofp83_PBsyMdEjq4UF0nvhR7W_s', '2022-06-05 15:06:28.793424'),
@@ -327,12 +291,6 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('y2qs3m8czefaurvtrv2qt7p7uzmhq4d0', '.eJxVjEEOwiAQRe_C2pAWOgO4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtHdmEE0Ia2ARGjDwocpQVWY3OgDI2TIiQkXVEQACdAQkhxuRgzOL9Ad2TN5s:1niIFC:cozlzkDyd1UL3QjVkD-yQDphDicQMBOXg8703v3on9Q', '2022-05-07 16:04:22.249517'),
 ('ywqa9kvpuhv3wc9z3e27s25w55kpp0xc', '.eJxVjEEOwiAQRe_C2pAWOgO4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtHdmEE0Ia2ARGjDwocpQVWY3OgDI2TIiQkXVEQACdAQkhxuRgzOL9Ad2TN5s:1nbl6u:oMdHvX_Qo3zvkz3U8ZnOHojeVoygruSn3bDynXiDkF4', '2022-04-19 15:28:48.999497'),
 ('z2u50x6mdbnp2ky4t34ta3yuoa95ojp2', '.eJxVjEEOwiAQRe_C2pAWOgO4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtHdmEE0Ia2ARGjDwocpQVWY3OgDI2TIiQkXVEQACdAQkhxuRgzOL9Ad2TN5s:1nnf3U:n3O-8EXCxerQwDgaYn4sWdpicRotwEfqFiumZ8v5RNk', '2022-05-22 11:26:28.091193');
-
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `expenses_expense`
---
 
 INSERT INTO `expenses_expense` (`id`, `dossier`, `date`, `concept`, `amount`, `vatpercentage`, `final_amount`, `project_id`, `user_id`) VALUES
 (23, '', '2022-06-13', 'GNMA', 22, 10, 24.2, 8, 38),
@@ -379,12 +337,6 @@ INSERT INTO `expenses_expense` (`id`, `dossier`, `date`, `concept`, `amount`, `v
 (80, '', '2022-08-12', 'fsdfda', 242, 26, 304.92, 25, 71),
 (81, 'documents/PDF_LrrK6Og.pdf', '2022-08-04', 'gkhjk', 22, 31, 28.82, 25, 69);
 
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `incomes_income`
---
-
 INSERT INTO `incomes_income` (`id`, `dossier`, `date`, `concept`, `amount`, `project_id`) VALUES
 (2, '', '2022-04-04', 'conceptUpdated', 200.25, 8),
 (3, '', '2022-05-20', 'income concept', 100.5, 8),
@@ -405,54 +357,27 @@ INSERT INTO `incomes_income` (`id`, `dossier`, `date`, `concept`, `amount`, `pro
 (30, 'documents/PDF_VU3g0dz.pdf', '2022-08-02', 'eee', 2000, 23),
 (31, 'documents/PDF_lZGP2fN.pdf', '2022-08-09', 'dfvbdfbgvb', 2000, 25);
 
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `knox_authtoken`
---
-
 INSERT INTO `knox_authtoken` (`digest`, `created`, `user_id`, `expiry`, `token_key`) VALUES
-('2345cd940016305f7475b1c363a12ea452f0271b650f6c37673bb579eae062c013c0fe064dfd57055e34a3f7641ec82e70ac07c8044b9e96dd9f35fbc7ce58ce', '2022-08-18 04:59:23.188447', 43, '2022-08-18 14:59:23.187447', '320058ba'),
-('28e2998ff1ae55bc3785e1c584be0b9cdb7dcf92cb83fcd41186b06cf3da2be0bf28e550e7ca48c8e1231b056a9d26b752decb17539ed15acdbbd56634b1b170', '2022-08-18 04:59:18.200448', 43, '2022-08-18 14:59:18.199947', '0144ddb7'),
-('29316ea92bc39817416128d858ee36ddbce1e2556458b1aee167b103cd3c27730f8942a69afb2d7f23a114c19fdf3034d86c053dcef16028110a913114342604', '2022-08-18 04:59:36.216448', 43, '2022-08-18 14:59:36.215948', '3a0e1ce4'),
 ('2a0d9d6121433c26663cee79c02d5cdc485e39b6e1666048c0b579d248d7a4d8966ad9353cbea2653903e37174e38ec874ecc4ac7da4c6a70578041101b8ba18', '2022-08-19 16:06:24.171441', 70, '2022-08-20 02:06:24.170941', '3bc278b8'),
-('36aed65aa14c34827cec2145fa603ffe73e4a8238b09e2aef08cf029d682dc3aa6584f3d1fbda4547ad6262bc633fad35f5a245e2c84abe0b9e96237bdd3e977', '2022-08-18 06:58:34.620447', 43, '2022-08-18 16:58:34.619447', '9ad1a5db'),
-('53b000522a855f25f0b0ab1b948fc3d8743f2b925a569d8fdd9cc81629f6ad2603e1a993ff6345b0b42aeb47c4b6ac4c82abd3f8aac085058edf7f0d35936802', '2022-08-18 06:12:41.427947', 43, '2022-08-18 16:12:41.426947', '1fe35d15'),
 ('5a922d41f0ed0fd3bb8b058631a1e1b014ef328028e71521f04d1d98aad07e2fdc4409ef880db09957d9d78ed3154336b61341609fafd87b3b3bd3efed62a0a0', '2022-08-09 18:05:07.434967', 64, '2022-08-10 04:05:07.434466', '1e90a3e4'),
 ('5b3a993d01a3ffaeb91b0760e7363b5fb7eb808ee668e22b7ed7163da48efaa9375967ccc89cfa84be85b54a2fe601bdba3189d9c6712a2c3444265a25918c61', '2022-08-19 17:28:14.445281', 69, '2022-08-20 03:28:14.444782', '07f5645b'),
-('702a260fe00d19ff6dbeaf07dae3def5327a40c63be77ce28606371a7979c0e5f9471396ae91b368132c51080d125f4d0b13000db736c914f75c6c48cd2bc85d', '2022-08-18 05:00:23.155446', 43, '2022-08-18 15:00:23.154447', '0124942e'),
 ('7bd00923d808bbff6541f56c8b2891bbc43ff9a429e9fe96599762c88ab402f98480b98026be5b1cd41f0ba497848cd7563de16f778a29985b5682dbb584f5ba', '2022-08-19 17:47:42.099783', 71, '2022-08-20 03:47:42.098781', '2b710ccf'),
 ('8a57f7207e8e9a302ab9b475dd03e8d8aab6b8a26ffee55a95b8083b6320549fd2b0a986d0bc558edd998614f43423918673ca72663fe22b5fe1da64a3dd7b03', '2022-08-11 00:53:24.508285', 68, '2022-08-11 10:53:24.507784', '0d550344'),
 ('8e8b85a29d3aea1c1b67904549cb218a185fc3975bb9aa02f7add6fdeb6e2d9b91419985822257d4c347d85e0153e8d7f80ea090506776dec3fba34e307bcc48', '2022-08-19 16:07:08.682441', 71, '2022-08-20 02:07:08.681942', 'ebdcc10f'),
-('a596b4fdafc0a570e271449277d89a458f983827526c36e1c224f7db84c3879f7f0690b695b6dac7120e7debcb493b053b61aea9b9693556dcf208890459ecfa', '2022-08-18 04:58:34.674448', 43, '2022-08-18 14:58:34.673448', 'bfd96c9c'),
+('90acec440bb9142214a479077d537d4c4eb012c4676f0ee3e1883bce7b0326d2640d640d78f32847c1495c98465607dbdbda6fe85619459da59c2354b8a145a6', '2022-08-19 18:08:47.107783', 43, '2022-08-20 04:08:47.106783', '40b37953'),
 ('adba0d4a1aed6465ef57c12815d595a073f1de91f78bd86a8e23e532dbea65d8d780715ce0c838a60bd0fc495ca2ea14a35514a0d4b72834bccef9b5a3222e37', '2022-08-19 16:06:28.305941', 70, '2022-08-20 02:06:28.305441', '66362a05'),
 ('b17adbd3a53710f9b93fc7cc0a00932af9f8a0fb339f0701276f1c5b3aa87b7f9c17ea67d7d37451237b21ca0d349e83b8d78eac1b09fb168c9078b6afce2d3c', '2022-08-19 16:05:12.964941', 69, '2022-08-20 02:05:12.964441', 'f9a1e5e4'),
-('b3dd4da9bc5660b48af5f9c15ee4c076c83d99a79b05d188604c61d6bbc5b17bdd14b37adf1432a59d00cb4c58a6ed38f6d6f5e97f0fc0c35538f01d68d1d97c', '2022-08-18 04:59:06.326947', 43, '2022-08-18 14:59:06.325947', '4f3d99f5'),
 ('be01740c50c357ebfe65ff1a85f2964047001a54549cf4a0c2877f65c87c4b54ffa1edcbb219b0f26a10f5b27fc88ac53161d3738c4d450986095ead328cc772', '2022-08-09 18:01:50.989419', 63, '2022-08-10 04:01:50.988919', 'b1b0c7c1'),
 ('d770ca9e4510c4c7417a1e08db3dce4b6987d23d246e955f10d1287582681de4456ee6fba7350d076acebbe03ce3cded6b81e36c30a4d865211ac33065853f73', '2022-08-11 01:14:10.140515', 67, '2022-08-11 11:14:10.140015', 'cf282701'),
-('e850e436bd3ffb2ffc180c5fabbc6024fbb3c0b7ce3f7f102796b7be136ddaacba5c0f89195cec2e5b47c40e70b52ae17b85ad3d9063c165def6f514ebd5b718', '2022-08-18 04:56:29.008948', 43, '2022-08-18 14:56:29.007948', 'c4d13865'),
-('f55053494d5c5369f66b6aa49a10f5d08c404f49a0b2675e0402f4d936dec34f1f28dd92a30c6e258ed5bd63521b39b6daa415808653188d7eb9f6d5f1c85b38', '2022-08-18 05:00:00.116948', 43, '2022-08-18 15:00:00.115946', 'a19c6a70'),
 ('f5ef0b731f2d313a1c1aa2a8ba7af004bf911b8bf96722d73702fb543bc3ba19297bd1f5c95ba509f859338b4e2aff525e989ca9d14c4b81ef47d399e7dfe232', '2022-08-09 18:06:22.169587', 65, '2022-08-10 04:06:22.169587', 'efe84cdf'),
 ('fd228dbcd5bf58943c8702223c10571c77cc274268c2ea81da8c3fa1456a199c146db7eee8072b2a83f4ddb81570cc45ab70a1619cbf68d69e6e80931e598bc0', '2022-08-09 17:51:26.207868', 62, '2022-08-10 03:51:26.207368', '67dc7536'),
 ('fdcb849aea1d21f10d2e19693a403057fac77d0f19213983b9de6fd0556bcd796b2f1ccb35baf2e8aa309c015624a86c4f452d77d1ce9bf01e423bbc97975167', '2022-08-09 18:05:59.014221', 65, '2022-08-10 04:05:59.014221', '8e136228');
-
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `projects_project`
---
 
 INSERT INTO `projects_project` (`id`, `name`, `category`, `img`, `admin_id`) VALUES
 (8, 'PC master race', 'pc building', 'project/Captura_de_pantalla_2022-08-01_190843.jpg', 1),
 (16, 'Projecto test 2', 'test 2', 'project/Captura_de_pantalla_2022-08-01_190843_VIJGkFi.jpg', 60),
 (23, 'ProjectTest', 'TestCategory', 'project/projectdefault.jpg', 67),
 (25, 'TestProject', 'TestCategory', 'project/Captura_de_pantalla_2022-08-01_190843_RXgC04p.jpg', 69);
-
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `projects_projectmember`
---
 
 INSERT INTO `projects_projectmember` (`id`, `is_manager`, `project_id`, `user_id`) VALUES
 (8, 0, 8, 38),
@@ -469,12 +394,6 @@ INSERT INTO `projects_projectmember` (`id`, `is_manager`, `project_id`, `user_id
 (42, 0, 16, 21),
 (43, 0, 25, 71),
 (44, 1, 25, 70);
-
--- --------------------------------------------------------
-
---
--- Volcado de datos para la tabla `users_profile`
---
 
 INSERT INTO `users_profile` (`id`, `img`, `user_id`) VALUES
 (3, 'user/Captura_de_pantalla_2022-08-01_190759.png', 1),
@@ -499,293 +418,6 @@ INSERT INTO `users_profile` (`id`, `img`, `user_id`) VALUES
 (59, 'userdefault.jpg', 69),
 (60, 'userdefault.jpg', 70),
 (61, 'userdefault.jpg', 71);
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `auth_group`
---
-ALTER TABLE `auth_group`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indices de la tabla `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
-  ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
-
---
--- Indices de la tabla `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
-
---
--- Indices de la tabla `auth_user`
---
-ALTER TABLE `auth_user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
-
---
--- Indices de la tabla `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
-  ADD KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`);
-
---
--- Indices de la tabla `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
-  ADD KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`);
-
---
--- Indices de la tabla `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
-  ADD KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`);
-
---
--- Indices de la tabla `django_content_type`
---
-ALTER TABLE `django_content_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
-
---
--- Indices de la tabla `django_migrations`
---
-ALTER TABLE `django_migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `django_session`
---
-ALTER TABLE `django_session`
-  ADD PRIMARY KEY (`session_key`),
-  ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
-
---
--- Indices de la tabla `expenses_expense`
---
-ALTER TABLE `expenses_expense`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `expenses_expense_user_id_ab1aae2b_fk_auth_user_id` (`user_id`),
-  ADD KEY `expenses_expense_project_id_055a15c4_fk_projects_project_id` (`project_id`);
-
---
--- Indices de la tabla `incomes_income`
---
-ALTER TABLE `incomes_income`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `incomes_income_project_id_871457c9_fk_projects_project_id` (`project_id`);
-
---
--- Indices de la tabla `knox_authtoken`
---
-ALTER TABLE `knox_authtoken`
-  ADD PRIMARY KEY (`digest`),
-  ADD KEY `knox_authtoken_user_id_e5a5d899_fk_auth_user_id` (`user_id`),
-  ADD KEY `knox_authtoken_token_key_8f4f7d47` (`token_key`);
-
---
--- Indices de la tabla `projects_project`
---
-ALTER TABLE `projects_project`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `projects_project_admin_id_978c4bac_fk_auth_user_id` (`admin_id`);
-
---
--- Indices de la tabla `projects_projectmember`
---
-ALTER TABLE `projects_projectmember`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `projects_projectmemb_project_id_e589ddea_fk_projects_` (`project_id`),
-  ADD KEY `projects_projectmember_user_id_a475bbd8_fk_auth_user_id` (`user_id`);
-
---
--- Indices de la tabla `users_profile`
---
-ALTER TABLE `users_profile`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `auth_group`
---
-ALTER TABLE `auth_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `auth_permission`
---
-ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
-
---
--- AUTO_INCREMENT de la tabla `auth_user`
---
-ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
-
---
--- AUTO_INCREMENT de la tabla `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
-
---
--- AUTO_INCREMENT de la tabla `django_content_type`
---
-ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
--- AUTO_INCREMENT de la tabla `django_migrations`
---
-ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
-
---
--- AUTO_INCREMENT de la tabla `expenses_expense`
---
-ALTER TABLE `expenses_expense`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
-
---
--- AUTO_INCREMENT de la tabla `incomes_income`
---
-ALTER TABLE `incomes_income`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
---
--- AUTO_INCREMENT de la tabla `projects_project`
---
-ALTER TABLE `projects_project`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- AUTO_INCREMENT de la tabla `projects_projectmember`
---
-ALTER TABLE `projects_projectmember`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
-
---
--- AUTO_INCREMENT de la tabla `users_profile`
---
-ALTER TABLE `users_profile`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);
-
---
--- Filtros para la tabla `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Filtros para la tabla `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  ADD CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  ADD CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `expenses_expense`
---
-ALTER TABLE `expenses_expense`
-  ADD CONSTRAINT `expenses_expense_project_id_055a15c4_fk_projects_project_id` FOREIGN KEY (`project_id`) REFERENCES `projects_project` (`id`),
-  ADD CONSTRAINT `expenses_expense_user_id_ab1aae2b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `incomes_income`
---
-ALTER TABLE `incomes_income`
-  ADD CONSTRAINT `incomes_income_project_id_871457c9_fk_projects_project_id` FOREIGN KEY (`project_id`) REFERENCES `projects_project` (`id`);
-
---
--- Filtros para la tabla `knox_authtoken`
---
-ALTER TABLE `knox_authtoken`
-  ADD CONSTRAINT `knox_authtoken_user_id_e5a5d899_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `projects_project`
---
-ALTER TABLE `projects_project`
-  ADD CONSTRAINT `projects_project_admin_id_978c4bac_fk_auth_user_id` FOREIGN KEY (`admin_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `projects_projectmember`
---
-ALTER TABLE `projects_projectmember`
-  ADD CONSTRAINT `projects_projectmemb_project_id_e589ddea_fk_projects_` FOREIGN KEY (`project_id`) REFERENCES `projects_project` (`id`),
-  ADD CONSTRAINT `projects_projectmember_user_id_a475bbd8_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `users_profile`
---
-ALTER TABLE `users_profile`
-  ADD CONSTRAINT `users_profile_user_id_2112e78d_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
