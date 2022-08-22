@@ -1,5 +1,5 @@
 <section class="img-project">
-  <img class="img-project" [src]=[project.img] alt="">
+  <img class="img-project" [src]="project.img" onError="this.src='assets/images/projectdefault.jpg'" alt="">
   <section class="project-name">
     <h1> {{project.name}} </h1>
     <h2> {{"Category"|translate}}: {{project.category}}</h2>
@@ -25,7 +25,7 @@
     <ng-container>
       <section class="profile-card">
         <mat-card>
-          <img class="profile-card-img" alt="" matCardImage src={{admin.img}}>
+          <img class="profile-card-img" alt="" matCardImage [src]="admin.img" onError="this.src='assets/images/userdefault.jpg'">
           <mat-card-content>
             <h2>
                 <strong>{{"Username"|translate}}: </strong> {{ admin.username }}

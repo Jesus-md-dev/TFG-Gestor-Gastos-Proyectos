@@ -4,7 +4,7 @@
       <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of ownProjects"
         class="card-grid">
         <mat-card class="project-item">
-          <img class="project-img-card" alt="" matCardImage src={{project.img}}>
+          <img class="project-img-card" alt="" matCardImage [src]="project.img" onError="this.src='assets/images/projectdefault.jpg'">
           <section class="project-name-card">{{project.name}}</section>
           <mat-card-content >
             <h2>{{project.category}}</h2>
@@ -26,7 +26,7 @@
       <section *ngFor="let project of managedProjects"
         class="card-grid">
         <mat-card>
-          <img class="project-img-card" alt="" matCardImage src={{project.img}}>
+          <img class="project-img-card" alt="" matCardImage [src]="project.img" onError="this.src='assets/images/projectdefault.jpg'">
           <section class="project-name-card">{{project.name}}</section>
           <mat-card-content>
             <h2>{{project.category}}</h2>
@@ -48,7 +48,7 @@
       <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of memberProjects" 
       class="card-grid">
         <mat-card>
-          <img class="project-img-card" alt="" matCardImage src={{project.img}}>
+          <img class="project-img-card" alt="" matCardImage [src]="project.img" onError="this.src='assets/images/projectdefault.jpg'">
           <section class="project-name-card">{{project.name}}</section>
           <mat-card-content>
             <h2>{{project.category}}</h2>

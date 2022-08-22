@@ -59,7 +59,7 @@
       <span class="spacer"></span>
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <ng-container *ngIf="isLogged(); else elseIcon">
-          <img alt="Avatar Image" class="img-avatar" src={{user.img}} height="100%" width="100%">
+          <img alt="Avatar Image" class="img-avatar" [src]="user.img" onError="this.src='assets/images/userdefault.jpg'" height="100%" width="100%">
         </ng-container>
         <ng-template #elseIcon>
           <mat-icon>account_circle</mat-icon>

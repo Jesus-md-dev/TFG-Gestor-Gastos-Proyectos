@@ -13,7 +13,7 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <section class="img-project">
-                <img class="img-project" [src]="expensesByProject[$any(item.key)]['project_info'].img" alt="">
+                <img class="img-project" [src]="expensesByProject[$any(item.key)]['project_info'].img" onError="this.src='assets/images/projectdefault.jpg'" alt="">
                 <section class="project-name">
                     <h1> {{expensesByProject[$any(item.key)]['project_info'].name}} </h1>
                     <h2> {{"Category"|translate}}: {{expensesByProject[$any(item.key)]['project_info'].category}}</h2>

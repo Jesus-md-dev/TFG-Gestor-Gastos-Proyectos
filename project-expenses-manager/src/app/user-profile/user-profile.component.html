@@ -1,7 +1,7 @@
 <ng-container *ngIf="!editView;else editCard">
   <section class="profile-card">
     <mat-card>
-      <img class="profile-card-img" alt="" matCardImage src={{user.img}}>
+      <img class="profile-card-img" alt="" matCardImage [src]="user.img" onError="this.src='assets/images/userdefault.jpg'">
       <h1 class="align-left">
         {{ user.username }}:
       </h1>
@@ -33,7 +33,7 @@
 <ng-template #editCard>
   <section class="profile-card">
     <mat-card>
-      <img class="profile-card-img" alt="" matCardImage src={{user.img}}>
+      <img class="profile-card-img" alt="" matCardImage [src]="user.img" onError="this.src='assets/images/userdefault.jpg'">
       <h1 class="align-left">
         {{ user.username }}:
       </h1>

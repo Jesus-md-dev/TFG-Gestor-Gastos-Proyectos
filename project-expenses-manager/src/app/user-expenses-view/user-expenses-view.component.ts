@@ -21,7 +21,7 @@ export class UserExpensesViewComponent implements OnInit {
   projectId: number | null = null;
   routeSub: Subscription = new Subscription();
   username = this.localStorageService.get('username');
-  noExpenses: boolean = false;
+  noExpenses: boolean = true;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -39,6 +39,8 @@ export class UserExpensesViewComponent implements OnInit {
     );
     this.loadExpensesByProject().then((response) => {
       this.expensesByProject = response;
+      if (Object.keys(this.expensesByProject).length > 0)
+        this.noExpenses = false;
       this.firstKey = Object.keys(response)[0];
       for (const key in this.expensesByProject) {
         Project.load(Number(key)).then((response) => {
@@ -81,7 +83,6 @@ export class UserExpensesViewComponent implements OnInit {
         (response) => {
           if ('expenses_info' in response) {
             let expenses = Expense.jsontoList(response['expenses_info']);
-            if (expenses.length === 0) this.noExpenses = true;
             return this.groupExpensesByProject(expenses);
           } else if ('message' in response) {
             this.snackBar.open(
