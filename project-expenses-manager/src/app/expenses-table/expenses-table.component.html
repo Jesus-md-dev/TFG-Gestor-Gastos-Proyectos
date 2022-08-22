@@ -22,7 +22,9 @@
         {{'Top member expenses' | translate}}:
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-horizontal-chart [expenses]="expenses"></app-horizontal-chart>
+    <cdk-virtual-scroll-viewport appendOnly itemSize="50">
+      <app-horizontal-chart [expenses]="expenses" class="top-list"></app-horizontal-chart>
+    </cdk-virtual-scroll-viewport>
   </mat-expansion-panel>
 </mat-accordion>
 

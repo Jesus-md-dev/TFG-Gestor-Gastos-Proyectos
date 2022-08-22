@@ -7,12 +7,15 @@ import requests
 
 exec(open('delete_data.py').read())
 
+url='http://13.37.212.41'
 porject_id = 25
-n_users = 20
-n_incomes = 51
-n_expenses = 201
+n_users = 30
+n_incomes = 151
+n_expenses = 501
+start_date = datetime.date(2018, 1, 1)
+end_date = datetime.date.today()
 
-response = requests.post('http://13.37.212.41/api/login/',
+response = requests.post(url+'/api/login/',
     {
         'username': 'TestAdministrador',
         'password': 'TestAdministrador123'
@@ -21,9 +24,6 @@ response = requests.post('http://13.37.212.41/api/login/',
 if response.status_code == 200:
     token = response.json()['token']
 
-start_date = datetime.date(2020, 1, 1)
-end_date = datetime.date.today()
-
 time_between_dates = end_date - start_date
 days_between_dates = time_between_dates.days
 
@@ -31,7 +31,7 @@ days_between_dates = time_between_dates.days
 usernames = []
 
 for i in range(1,n_users):
-    r=requests.post('http://13.37.212.41/api/register/',
+    r=requests.post(url+'/api/register/',
             {
                 'email': 'UserTest'+str(i)+'@mail.com',
                 'password': 'TestPassword12345',
@@ -45,7 +45,7 @@ for i in range(1,n_users):
     usernames.append('UserTest'+str(i))
 
 for username in usernames:
-    response = requests.post('http://13.37.212.41/api/add_member_project/',
+    response = requests.post(url+'/api/add_member_project/',
             {
                 'project_id': porject_id,
                 'usernames': username,
@@ -55,7 +55,7 @@ for username in usernames:
     if r.status_code == 200:
         print("User "+username+" added to project")
 
-response = requests.get('http://13.37.212.41/api/project_members/'+str(porject_id),
+response = requests.get(url+'/api/project_members/'+str(porject_id),
     headers={'Authorization': 'Token '+token})
 
 usernames = []
@@ -80,7 +80,7 @@ for i in range(1,n_expenses):
             })
 
 for expense in expenses:
-    r=requests.post('http://13.37.212.41/api/create_expense/', expense, 
+    r=requests.post(url+'/api/create_expense/', expense, 
         headers={'Authorization': 'Token '+token})
     if r.status_code == 200:
         print("Expense created")
@@ -100,7 +100,7 @@ for i in range(1,n_incomes):
             })
 
 for income in incomes:
-    r=requests.post('http://13.37.212.41/api/create_income/', income, 
+    r=requests.post(url+'/api/create_income/', income, 
         headers={'Authorization': 'Token '+token})
     if r.status_code == 200:
         print("Income created")
