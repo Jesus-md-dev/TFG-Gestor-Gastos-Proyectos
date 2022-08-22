@@ -1,5 +1,5 @@
 .income-card {
-    width: 25em;
+    max-width: 25em;
     padding: 1em 1em 1em 1em;
     margin: 2% auto 0 auto;
     margin-bottom: 2%;

@@ -243,7 +243,7 @@ mat-form-field{
 }
 
 .profile-card {
-  width: 25em;
+  max-width: 25em;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;
@@ -304,7 +304,7 @@ mat-form-field{
 }
 
 .project-form mat-expansion-panel {
-  width: 20em;
+  max-width: 20em;
   text-align: center;
   margin: 0 auto 0 auto;
 }
@@ -315,7 +315,7 @@ mat-form-field{
 
 .project-form form {
   margin: 0 auto 0 auto;
-  width: 15em;
+  max-width: 15em;
 }
 
 .expended-section {
@@ -354,19 +354,13 @@ mat-form-field{
   display: none;
 }
 
-@media screen and (max-width: 960px) {
-  .section-content {
-    width: 90%;
-  }
-}
-
 @media screen and (max-width: 768px) {
   table {
     text-align: center;
   }
 
   mat-card {
-    width: 100%;
+    width: 90%;
   }
 
   .main-menu-section-text {

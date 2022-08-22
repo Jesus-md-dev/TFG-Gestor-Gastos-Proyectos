@@ -5,7 +5,7 @@
 
 .config-card { 
   margin: 0 auto 1em auto;
-  width: 20em;
+  max-width: 20em;
 }
 
 .add-button {

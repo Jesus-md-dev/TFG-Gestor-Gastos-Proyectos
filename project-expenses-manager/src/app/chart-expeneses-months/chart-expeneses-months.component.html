@@ -1,6 +1,6 @@
-<section class="year-selector">
+<div class="year-selector">
     <button mat-stroked-button (click)="yearSelect.open()">{{yearSelected}}</button>
-</section>
+</div>
 <mat-form-field>
     <mat-select [(value)]="yearSelected" placeholder="Year" (selectionChange)="selectYear($event.value)" #yearSelect>
         <mat-option *ngFor="let year of years" value="{{year}}">{{ year }}</mat-option>
