@@ -44,7 +44,6 @@ import { DialogCreateExpenseComponent } from './dialog-create-expense/dialog-cre
 import { DialogCreateIncomeComponent } from './dialog-create-income/dialog-create-income.component';
 import { DialogExpenseDeleteComponent } from './dialog-expense-delete/dialog-expense-delete.component';
 import { DialogIncomeDeleteComponent } from './dialog-income-delete/dialog-income-delete.component';
-import { DialogLoadingComponent } from './dialog-loading/dialog-loading.component';
 import { DialogMemberDeleteComponent } from './dialog-member-delete/dialog-member-delete.component';
 import { DialogProjectDeleteComponent } from './dialog-project-delete/dialog-project-delete.component';
 import { ExpenseDescriptionComponent } from './expense-description/expense-description.component';
@@ -96,7 +95,6 @@ import { DialogLeaveProjectComponent } from './dialog-leave-project/dialog-leave
     DialogIncomeDeleteComponent,
     IncomeDescriptionComponent,
     IncomeViewComponent,
-    DialogLoadingComponent,
     ImageTextComponent,
     DialogLeaveProjectComponent,
   ],

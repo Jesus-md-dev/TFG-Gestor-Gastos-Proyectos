@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Expense } from '../expense';
+import { LocalStorageService } from '../local-storage.service';
 
 interface ExpensesMonth {
   name: string;
@@ -14,6 +15,7 @@ interface ExpensesMonth {
 export class ChartExpenesesMonthsComponent implements OnInit {
   @Input()
   expenses: Expense[] = [];
+  localStorageService = new LocalStorageService();
   expensesByMonth: ExpensesMonth[] = this.initializeMonths();
   yearSelected = new Date().getFullYear();
   years: number[] = [];
@@ -27,7 +29,7 @@ export class ChartExpenesesMonthsComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.expenses = changes['expenses'].currentValue;
-    this.ngOnInit()
+    this.ngOnInit();
   }
 
   formatEuros(val: number) {
@@ -49,7 +51,9 @@ export class ChartExpenesesMonthsComponent implements OnInit {
     let date = new Date();
     for (let index = 0; index < 12; index++) {
       date.setMonth(index);
-      let monthStr: String = date.toLocaleString('default', {
+      let lang = this.localStorageService.get('language');
+      if (lang == null) lang = 'default'
+      let monthStr: String = date.toLocaleString(lang, {
         month: 'long',
       });
       monthStr = monthStr.charAt(0).toUpperCase() + monthStr.slice(1);

@@ -1,4 +1,7 @@
 .horizontal-chart {
-    max-height: 50em;
+    min-height: 20em;
+    max-height: 100em;
     width: 100%;
+    max-width: 50em;
+    margin: auto;
 }

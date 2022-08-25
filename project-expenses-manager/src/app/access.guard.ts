@@ -21,8 +21,7 @@ export class AccessGuard implements CanActivate {
       else {
         this.localStorageService.remove('token');
         this.localStorageService.remove('username');
-        if (requiresLogin) return false;
-        else return true;
+        return true;
       }
     });
     

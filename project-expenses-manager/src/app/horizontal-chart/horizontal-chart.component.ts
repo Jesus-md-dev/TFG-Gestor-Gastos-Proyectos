@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Expense } from '../expense';
 
 interface ExpensesUser {
@@ -34,9 +35,11 @@ export class HorizontalChartComponent {
   showYAxis = true;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Amount expensed';
+  xAxisLabel = this.translate.instant('Amount expended');
   showYAxisLabel = true;
-  yAxisLabel = 'Members';
+  yAxisLabel = this.translate.instant('Members');
+
+  constructor(public translate: TranslateService){};
 
   ngOnInit(): void {
     this.expenses.sort((a, b) => (a.user < b.user ? 1 : -1));

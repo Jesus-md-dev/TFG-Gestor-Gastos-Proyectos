@@ -81,6 +81,9 @@ export class AppComponent {
               }
             );
             this.router.navigate(['/']);
+          } else if ('detail' in response) {
+            this.localStorageService.remove('username');
+            this.localStorageService.remove('token');
           } else {
             this.snackBar.open(
               this.translate.instant('system error'),
@@ -115,7 +118,5 @@ export class AppComponent {
     this.router.navigate(['/login']);
   }
 
-  isLogged() {
-    return this.localStorageService.get('token') != null;
-  }
+  isLogged() { return this.localStorageService.get('token') != null; }
 }
