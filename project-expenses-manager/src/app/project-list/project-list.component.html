@@ -1,7 +1,7 @@
 <mat-tab-group dynamicHeight *ngIf="hasProjects()">
   <mat-tab label="{{'My Own Projects'|translate}}">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
-      <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of ownProjects"
+      <section fxFlex="50%" fxFlex.md="50%" fxFlex.sm="100%" fxFlex.xs="100%" *ngFor="let project of ownProjects"
         class="card-grid">
         <mat-card class="project-item">
           <img class="project-img-card" alt="" matCardImage [src]="project.img" onError="this.src='assets/images/projectdefault.jpg'">
@@ -23,7 +23,7 @@
   </mat-tab>
   <mat-tab label="{{'Projects I Manage'|translate}}">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
-      <section *ngFor="let project of managedProjects"
+      <section fxFlex="50%" fxFlex.md="50%" fxFlex.sm="100%" fxFlex.xs="100%" *ngFor="let project of managedProjects"
         class="card-grid">
         <mat-card>
           <img class="project-img-card" alt="" matCardImage [src]="project.img" onError="this.src='assets/images/projectdefault.jpg'">
@@ -45,7 +45,7 @@
   </mat-tab>
   <mat-tab label="{{'Projects I Belong'|translate}}">
     <section fxLayout="row wrap" fxLayoutGap="1em grid">
-      <section fxFlex="30%" fxFlex.xs="100%" fxFlex.sm="50%" *ngFor="let project of memberProjects" 
+      <section fxFlex="50%" fxFlex.md="50%" fxFlex.sm="100%" fxFlex.xs="100%" *ngFor="let project of memberProjects" 
       class="card-grid">
         <mat-card>
           <img class="project-img-card" alt="" matCardImage [src]="project.img" onError="this.src='assets/images/projectdefault.jpg'">
