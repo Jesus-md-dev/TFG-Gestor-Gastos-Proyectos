@@ -212,7 +212,7 @@ mat-form-field{
   display: flex;
   justify-content: space-between;
   width: 80%;
-  min-width: 10em;
+  min-width: 15em;
   max-width: 30em;
 }
 
