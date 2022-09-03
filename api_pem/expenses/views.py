@@ -44,7 +44,6 @@ def read_expense(request, id):
     except Exception as e:
         with open('debug.log', 'a') as f:
             f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
-
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['PUT'])
@@ -82,7 +81,6 @@ def delete_expense(request, id):
     except Exception as e:
         with open('debug.log', 'a') as f:
             f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
-
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -99,7 +97,6 @@ def get_project_expenses(request, project_id):
     except Exception as e:
         with open('debug.log', 'a') as f:
             f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
-
         return Response({'message': 'bad request'}, status=400)
 
 @api_view(['GET'])
@@ -127,5 +124,4 @@ def get_user_expenses(request):
     except Exception as e:
         with open('debug.log', 'a') as f:
             f.write("\n[\""+datetime.now().strftime("%d/%m/%Y %H:%M:%S")+"\"]"+" Request: "+request.path+" Error: "+str(e)+"\n")
-
         return Response({'message': 'bad request'}, status=400)
